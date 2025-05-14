@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexus Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #121827; color: #e0f2f7; /* Un tono di azzurro chiaro per il testo */ }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        html { scroll-behavior: smooth; }
+
+        /* Stili per l'immagine con overlay */
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            max-width: 200px; /* Leggermente più piccolo */
+            height: 200px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombra più scura */
+            border: 2px solid #37474f; /* Bordo scuro */
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-container .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(38, 50, 56, 0.8); /* Grigio scuro semitrasparente */
+            color: #e0f2f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 16px; /* Testo overlay più piccolo */
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 50%; /* Mantiene la forma circolare */
+        }
+
+        .image-container:hover img {
+            transform: scale(1.05); /* Zoom meno accentuato */
+        }
+
+        .image-container:hover .overlay {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="">
+<header class="fixed top-0 left-0 w-full bg-[#1e293b]/90 backdrop-blur z-50 shadow">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+        <h1 class="text-xl font-bold flex items-center text-cyan-400">
+            Nexus Network
+            <img src="logo.png" alt="Logo" class="w-10 h-10 rounded-full ml-3">
+        </h1>
+        <nav class="space-x-6 hidden md:block">
+            <a href="#about" class="hover:text-cyan-300 transition">Chi siamo</a>
+            <a href="#creators" class="hover:text-cyan-300 transition">Creator</a>
+            <a href="#join" class="hover:text-cyan-300 transition">Unisciti</a>
+        </nav>
+    </div>
+</header>
+
+
+<section class="h-screen flex flex-col justify-center items-center text-center px-4 bg-[#121827]">
+    <h1 class="text-4xl md:text-5xl font-bold mb-2 fade-in text-cyan-400">Nexus Network</h1>
+    <a href="https://www.instagram.com/nexus_network_twitch?igsh=cGdvZXlwaWRwbDY0" target="_blank" class="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-xl transition duration-300 mb-4 fade-in">
+        <i class="fab fa-instagram mr-2"></i> Instagram
+    </a>
+    <p class="text-lg md:text-xl max-w-xl fade-in text-gray-400">🌐 𝑁𝐸𝑇𝑊𝑂𝑅𝐾 𝑈𝐹𝐹𝐼𝐶𝐼𝐴𝐿𝐸 — 🎥 Nexus Streamers</p>
+</section>
+
+<section id="about" class="py-24 px-6 bg-[#1e293b] text-center">
+    <h2 class="text-3xl font-semibold mb-4 text-cyan-400" data-aos="fade-up">Chi Siamo</h2>
+    <p class="max-w-3xl mx-auto text-gray-400" data-aos="fade-up" data-aos-delay="100">
+        Nexus Streamers è un network esclusivo fondato da @TheRealSamTV, pensato per unire streamer motivati, creativi e pronti a crescere insieme.
+        L’obiettivo principale è costruire una squadra unita che si supporti a vicenda
+
+        Nexus non è solo un gruppo: è una famiglia di content creator.
+        Ogni membro è selezionato con cura e si impegna a rispettare valori come rispetto, presenza, attività e collaborazione.
+
+        💡 Qui si cresce insieme.
+        Se entri nel Nexus, non sei più solo nel tuo percorso da streamer: sei parte di un progetto vero, in costante evoluzione.</p>
+</section>
+
+<section id="creators" class="py-24 px-6 bg-[#121827]">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-semibold text-cyan-400" data-aos="fade-up">I Nostri Creator</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="bg-[#1e293b] p-6 rounded-lg text-center shadow hover:scale-105 transition border border-gray-700" data-aos="zoom-in">
+            <div class="image-container">
+                <img src="Streamer/TheRealSam.png" alt="SavyUltras">
+                <div class="overlay">Il creatore</div>
+            </div>
+            <h3 class="text-xl font-semibold mt-4 text-gray-300">TheRealSam</h3>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="https://www.twitch.tv/therealsamtv" target="_blank" class="text-gray-400 hover:text-cyan-300"><i class="fab fa-twitch text-lg"></i></a>
+            </div>
+        </div>
+
+        <div class="bg-[#1e293b] p-6 rounded-lg text-center shadow hover:scale-105 transition border border-gray-700" data-aos="zoom-in">
+            <div class="image-container">
+                <img src="Streamer/Shadowstrike.gif" alt="SavyUltras">
+                <div class="overlay">Developer</div>
+            </div>
+            <h3 class="text-xl font-semibold mt-4 text-gray-300">ShadowStrike</h3>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="https://github.com/Alexandercasadei" target="_blank" class="text-gray-400 hover:text-cyan-300"><i class="fab fa-github text-lg"></i></a>
+            </div>
+        </div>
+
+        <div class="bg-[#1e293b] p-6 rounded-lg text-center shadow hover:scale-105 transition border border-gray-700" data-aos="zoom-in" data-aos-delay="100" >
+            <div class="image-container">
+                <img src="Streamer/Marcus.png" alt="David Rubino">
+                <div class="overlay">Streamer</div>
+            </div>
+            <h3 class="text-xl font-semibold mt-4 text-gray-300">Marcus</h3>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="https://www.twitch.tv/marcus_ilninjaditwitch" target="_blank" class="text-gray-400 hover:text-cyan-300"><i class="fab fa-twitch text-lg"></i></a>
+            </div>
+        </div>
+
+        <div class="bg-[#1e293b] p-6 rounded-lg text-center shadow hover:scale-105 transition border border-gray-700" data-aos="zoom-in" data-aos-delay="200">
+            <div class="image-container">
+                <img src="Streamer/blaikotv.png" alt="Berlino">
+                <div class="overlay">Streamer</div>
+            </div>
+            <h3 class="text-xl font-semibold mt-4 text-gray-300">BlaikoTV</h3>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="https://www.twitch.tv/blaikotv" target="_blank" class="text-gray-400 hover:text-cyan-300"><i class="fab fa-twitch text-lg"></i></a>
+            </div>
+        </div>
+
+        <div class="bg-[#1e293b] p-6 rounded-lg text-center shadow hover:scale-105 transition border border-gray-700" data-aos="zoom-in">
+            <div class="image-container">
+                <img src="Streamer/tommuz.png" alt="SavyUltras">
+                <div class="overlay">Streamer</div>
+            </div>
+            <h3 class="text-xl font-semibold mt-4 text-gray-300">t0mmuz</h3>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="https://www.twitch.tv/t0mmuz_" target="_blank" class="text-gray-400 hover:text-cyan-300"><i class="fab fa-twitch text-lg"></i></a>
+            </div>
+        </div>
+
+        <div class="bg-[#1e293b] p-6 rounded-lg text-center shadow hover:scale-105 transition border border-gray-700" data-aos="zoom-in">
+            <div class="image-container">
+                <img src="Streamer/erwinbera.png" alt="Erwinbera">
+                <div class="overlay">Steamer</div>
+            </div>
+            <h3 class="text-xl font-semibold mt-4 text-gray-300">Erwinbera</h3>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="https://www.twitch.tv/erwinbera_" target="_blank" class="text-gray-400 hover:text-cyan-300"><i class="fab fa-twitch text-lg"></i></a>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<section id="join" class="py-24 px-6 bg-[#1e293b] text-center">
+    <h2 class="text-3xl font-bold mb-6 text-cyan-400" data-aos="zoom-in">Entra anche tu nel network</h2>
+    <p class="mb-6 text-lg text-gray-400" data-aos="zoom-in" data-aos-delay="100">Compila la candidatura per diventare parte della nostra rete di creator.</p>
+    <button onclick="openModal()" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-xl transition duration-300">
+        Candidati ora
+    </button>
+    <button onclick="openRegulation()" class="mt-4 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-xl transition duration-300">
+        Regolamento
+    </button>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-900 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-lg relative p-4 animate-fade-in">
+
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-300 text-xl font-bold">
+                &times;
+            </button>
+
+            <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSeKVj-NgP5Oz3YAuXhUxAyOFsbFncNsrI6k6X_DzQFlCBqgjw/viewform?embedded=true"
+                    width="100%"
+                    height="800"
+                    frameborder="0"
+                    marginheight="0"
+                    marginwidth="0"
+                    class="rounded-xl"
+            >
+                Caricamento…
+            </iframe>
+
+        </div>
+    </div>
+
+    <div id="regulationModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-900 w-full h-full rounded-2xl shadow-lg relative p-4 animate-fade-in">
+
+            <button onclick="closeRegulation()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-300 text-xl font-bold">
+                &times;
+            </button>
+
+            <iframe
+                    src="https://docs.google.com/document/d/1xQuyFzVMAmvrV71SUPeP7-MwM_va89TCSKWN5uKxMIw/edit?usp=sharing"
+                    width="100%"
+                    height="100%"
+                    frameborder="0"
+                    marginheight="0"
+                    marginwidth="0"
+                    class="rounded-xl"
+            >
+                Caricamento…
+            </iframe>
+
+        </div>
+    </div>
+
+    <style>
+        @keyframes fade-in {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.3s ease-out;
+        }
+    </style>
+
+    <script>
+        function openModal() {
+            document.getElementById("modal").classList.remove("hidden");
+        }
+
+        function closeModal() {
+            document.getElementById("modal").classList.add("hidden");
+        }
+
+        function openRegulation() {
+            document.getElementById("regulationModal").classList.remove("hidden");
+        }
+
+        function closeRegulation() {
+            document.getElementById("regulationModal").classList.add("hidden");
+        }
+
+        // Chiudi modal cliccando fuori
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById("modal");
+            if (event.target === modal) {
+                closeModal();
+            }
+            const regulationModal = document.getElementById("regulationModal");
+            if (event.target === regulationModal) {
+                closeRegulation();
+            }
+        });
+    </script>
+
+</section>
+
+<footer class="bg-[#1e293b] text-gray-400 text-center py-6">
+    <p>&copy; 2025 Nexus Network - Creato da ShadowStrike</p>
+</footer>
+
+<script>
+    AOS.init({ duration: 1000 });
+</script>
+</body>
+</html>
