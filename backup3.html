@@ -1,0 +1,71 @@
+<!-- HERO -->
+<section class="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden scroll-animate" style="padding-top:4rem; padding-bottom:3rem;">
+    <!-- sfere decorative neon -->
+    <div class="absolute top-10 left-10 w-24 h-24 rounded-full bg-cyan-400/30 blur-3xl animate-pulse"></div>
+    <div class="absolute top-20 right-16 w-32 h-32 rounded-full bg-purple-400/30 blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 left-1/2 w-40 h-40 rounded-full bg-pink-400/20 blur-3xl animate-pulse"></div>
+
+    <h1 class="text-6xl md:text-7xl font-extrabold text-cyan-400 neon mb-6">
+        NEXUS NETWORK
+    </h1>
+
+    <p class="max-w-xl text-gray-300 text-lg mb-10">
+        Network ufficiale di streamer, creator e sviluppatori.  
+        Qui non giochi da solo. Qui cresci davvero.
+    </p>
+
+    <div class="flex gap-4">
+        <a href="#join" class="px-8 py-4 rounded-xl bg-cyan-400 text-black font-bold glow button-glow">
+            Candidati ora
+        </a>
+        <a href="https://discord.gg/hJTvAUwKAC" target="_blank"
+           class="px-8 py-4 rounded-xl glass button-glow">
+            Discord
+        </a>
+    </div>
+</section>
+
+<!-- ...altre sezioni rimangono uguali... -->
+
+<!-- CREATORS -->
+<section class="py-16 px-6"> <!-- ridotto il padding da 28 a 16 -->
+<h2 class="text-4xl font-bold text-center text-cyan-400 mb-12 scroll-animate">
+    I Creator Nexus
+</h2>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto"> <!-- gap ridotto da 10 a 6 -->
+
+    <div class="creator glass glow rounded-2xl h-[420px] scroll-animate"
+    onclick="openCreator({
+        name:'TheRealSam',
+        role:'Founder',
+        desc:'Founder di Nexus Network. Streamer focalizzato su community, intrattenimento e crescita del progetto.',
+        img:'Streamer/TheRealSam.png',
+        twitch:'https://twitch.tv/therealsamtv'
+    })">
+        <img src="Streamer/TheRealSam.png" alt="TheRealSam">
+        <div class="absolute bottom-0 p-5 z-10">
+            <h3 class="text-xl font-bold">TheRealSam</h3>
+            <p class="text-cyan-400 text-sm">Founder</p>
+            <i class="fab fa-twitch text-xl"></i>
+        </div>
+    </div>
+
+    <div class="creator glass glow rounded-2xl h-[420px] scroll-animate"
+    onclick="openCreator({
+        name:'ShadowStrike',
+        role:'Developer',
+        desc:'Sviluppatore del network. Cura bot, sito e infrastruttura tecnica.',
+        img:'Streamer/shadowstrike.PNG',
+        github:'https://github.com/Alexandercasadei'
+    })">
+        <img src="Streamer/shadowstrike.PNG" alt="ShadowStrike">
+        <div class="absolute bottom-0 p-5 z-10">
+            <h3 class="text-xl font-bold">ShadowStrike</h3>
+            <p class="text-cyan-400 text-sm">Developer</p>
+            <i class="fab fa-github text-xl"></i>
+        </div>
+    </div>
+
+</div>
+</section>
