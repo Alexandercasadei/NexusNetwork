@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus Network</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+body{
+    font-family:'Poppins',sans-serif;
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    color:#e5e7eb;
+    scroll-behavior:smooth;
+}
+
+/* Glass */
+.glass{
+    background: rgba(30,41,59,.6);
+    backdrop-filter: blur(14px);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+/* Glow */
+.glow{
+    box-shadow:0 0 30px rgba(34,211,238,.35);
+}
+
+/* Neon text */
+.neon{
+    text-shadow:0 0 20px rgba(34,211,238,.6);
+}
+
+/* Creator card */
+.creator{
+    position:relative;
+    overflow:hidden;
+    transition:.45s;
+}
+.creator:hover{
+    transform:translateY(-12px) scale(1.05);
+}
+.creator img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.45s;
+}
+.creator:hover img{
+    transform:scale(1.18);
+}
+.creator::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg,transparent,rgba(0,0,0,.9));
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,_#22d3ee33,_transparent_70%)]"></div>
+
+    <h1 class="text-6xl md:text-7xl font-extrabold text-cyan-400 neon mb-6">
+        NEXUS NETWORK
+    </h1>
+
+    <p class="max-w-xl text-gray-300 text-lg mb-10">
+        Network ufficiale di streamer, creator e sviluppatori.  
+        Qui non giochi da solo. Qui cresci davvero.
+    </p>
+
+    <div class="flex gap-4">
+        <a href="#join" class="px-8 py-4 rounded-xl bg-cyan-400 text-black font-bold glow hover:scale-110 transition">
+            Candidati ora
+        </a>
+        <a href="https://discord.gg/hJTvAUwKAC" target="_blank" class="px-8 py-4 rounded-xl glass hover:scale-110 transition">
+            Discord
+        </a>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="py-28 px-6 text-center">
+    <h2 class="text-4xl font-bold text-cyan-400 mb-6">Chi siamo</h2>
+    <p class="max-w-3xl mx-auto text-gray-400 text-lg leading-relaxed">
+        Nexus Streamers è un network selettivo fondato da <b>TheRealSam</b>.  
+        Nasce per unire creator motivati, pronti a crescere insieme.
+        <br><br>
+        Qui contano presenza, rispetto e collaborazione.  
+        Non un gruppo casuale.  
+        <span class="text-cyan-400 font-semibold">Un progetto serio.</span>
+    </p>
+</section>
+
+<!-- PERCHÉ NEXUS -->
+<section class="py-24 px-6">
+    <h2 class="text-4xl font-bold text-center text-cyan-400 mb-14">Perché Nexus?</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+
+        <div class="glass glow rounded-2xl p-8 text-center hover:scale-105 transition">
+            <i class="fas fa-rocket text-4xl text-cyan-400 mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">Crescita reale</h3>
+            <p class="text-gray-400">Collaborazioni, supporto e visibilità concreta.</p>
+        </div>
+
+        <div class="glass glow rounded-2xl p-8 text-center hover:scale-105 transition">
+            <i class="fas fa-users text-4xl text-cyan-400 mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">Team unito</h3>
+            <p class="text-gray-400">Una vera community, non sei mai solo.</p>
+        </div>
+
+        <div class="glass glow rounded-2xl p-8 text-center hover:scale-105 transition">
+            <i class="fas fa-star text-4xl text-cyan-400 mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">Selezione</h3>
+            <p class="text-gray-400">Pochi ma motivati. Qualità prima di tutto.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- STATS -->
+<section class="py-24 px-6 bg-[#020617]">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+
+        <div>
+            <h3 class="text-5xl font-extrabold text-cyan-400 neon">+20</h3>
+            <p class="text-gray-400 mt-2">Creator</p>
+        </div>
+
+        <div>
+            <h3 class="text-5xl font-extrabold text-cyan-400 neon">+1M</h3>
+            <p class="text-gray-400 mt-2">Views</p>
+        </div>
+
+        <div>
+            <h3 class="text-5xl font-extrabold text-cyan-400 neon">365</h3>
+            <p class="text-gray-400 mt-2">Giorni attivi</p>
+        </div>
+
+        <div>
+            <h3 class="text-5xl font-extrabold text-cyan-400 neon">100%</h3>
+            <p class="text-gray-400 mt-2">Passione</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CREATORS -->
+<section class="py-28 px-6">
+    <h2 class="text-4xl font-bold text-center text-cyan-400 mb-16">
+        I Creator Nexus
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
+
+        <!-- CREATOR -->
+        <div class="creator glass glow rounded-2xl h-[420px]">
+            <img src="Streamer/TheRealSam.png">
+            <div class="absolute bottom-0 p-5 z-10">
+                <h3 class="text-xl font-bold">TheRealSam</h3>
+                <p class="text-cyan-400 text-sm">Founder</p>
+                <a href="https://twitch.tv/therealsamtv" target="_blank" class="text-xl hover:text-cyan-400">
+                    <i class="fab fa-twitch"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="creator glass glow rounded-2xl h-[420px]">
+            <img src="Streamer/shadowstrike.PNG">
+            <div class="absolute bottom-0 p-5 z-10">
+                <h3 class="text-xl font-bold">ShadowStrike</h3>
+                <p class="text-cyan-400 text-sm">Developer</p>
+                <a href="https://github.com/Alexandercasadei" target="_blank" class="text-xl hover:text-cyan-400">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- TEMPLATE NUOVO CREATOR -->
+        <!--
+        <div class="creator glass glow rounded-2xl h-[420px]">
+            <img src="Streamer/streamer.png">
+            <div class="absolute bottom-0 p-5 z-10">
+                <h3 class="text-xl font-bold">Streamer</h3>
+                <p class="text-cyan-400 text-sm">Streamer</p>
+                <a href="#" class="text-xl hover:text-cyan-400">
+                    <i class="fab fa-twitch"></i>
+                </a>
+            </div>
+        </div>
+        -->
+
+    </div>
+</section>
+
+<!-- JOIN -->
+<section id="join" class="py-32 px-6 text-center bg-[#020617]">
+    <h2 class="text-6xl font-extrabold text-cyan-400 neon mb-6">
+        Vuoi entrare?
+    </h2>
+    <p class="text-gray-400 text-lg mb-10">
+        Nexus non è per tutti.  
+        Ma forse è per te.
+    </p>
+
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeKVj-NgP5Oz3YAuXhUxAyOFsbFncNsrI6k6X_DzQFlCBqgjw/viewform"
+       target="_blank"
+       class="px-14 py-5 rounded-2xl bg-cyan-400 text-black font-extrabold text-xl glow hover:scale-110 transition">
+        Invia candidatura
+    </a>
+</section>
+
+<footer class="py-6 text-center text-gray-500">
+    © 2025 Nexus Network — Creato da ShadowStrike
+</footer>
+
+</body>
+</html>
