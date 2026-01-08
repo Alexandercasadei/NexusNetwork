@@ -64,13 +64,15 @@ body{
 
 <body>
 
-<!-- ===== IL TUO SITO (INVARIATO) ===== -->
-<!-- HERO / ABOUT / FEATURES / STATS -->
-<!-- (TUTTO IDENTICO, NON LO RISCRIVO QUI PERCHÉ È UGUALE) -->
+<!-- ===== TUTTO SOPRA INVARIATO ===== -->
+<!-- HERO / ABOUT / PERCHÉ / STATS -->
+<!-- (identici al tuo codice, non toccati) -->
 
 <!-- CREATORS -->
 <section class="py-28 px-6">
-<h2 class="text-4xl font-bold text-center text-cyan-400 mb-16">I Creator Nexus</h2>
+<h2 class="text-4xl font-bold text-center text-cyan-400 mb-16">
+    I Creator Nexus
+</h2>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
 
@@ -110,9 +112,12 @@ github:'https://github.com/Alexandercasadei'
 </div>
 </section>
 
-<!-- ===== MODAL CREATOR ===== -->
-<div id="creatorModal" class="fixed inset-0 hidden items-center justify-center modal-bg z-50">
-<div class="glass glow rounded-2xl max-w-lg w-full p-6 relative">
+<!-- MODAL CREATOR -->
+<div id="creatorModal" class="fixed inset-0 hidden items-center justify-center modal-bg z-50"
+onclick="closeCreator()">
+
+<div class="glass glow rounded-2xl max-w-lg w-full p-6 relative"
+onclick="event.stopPropagation()">
 
 <button onclick="closeCreator()" class="absolute top-4 right-4 text-2xl">&times;</button>
 
@@ -127,16 +132,22 @@ github:'https://github.com/Alexandercasadei'
 <p id="mDesc" class="text-gray-400 mb-6"></p>
 
 <div class="flex gap-4">
-<a id="mTwitch" target="_blank" class="hidden px-4 py-2 bg-purple-600 rounded-lg font-semibold">
+<a id="mTwitch" target="_blank"
+class="hidden px-4 py-2 bg-purple-600 rounded-lg font-semibold">
 <i class="fab fa-twitch mr-2"></i>Segui su Twitch
 </a>
-<a id="mGithub" target="_blank" class="hidden px-4 py-2 bg-gray-700 rounded-lg font-semibold">
+
+<a id="mGithub" target="_blank"
+class="hidden px-4 py-2 bg-gray-700 rounded-lg font-semibold">
 <i class="fab fa-github mr-2"></i>GitHub
 </a>
 </div>
 
 </div>
 </div>
+
+<!-- ===== TUTTO SOTTO INVARIATO ===== -->
+<!-- JOIN / FOOTER -->
 
 <script>
 function openCreator(data){
