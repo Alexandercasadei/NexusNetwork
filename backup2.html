@@ -55,18 +55,32 @@ body{
     inset:0;
     background:linear-gradient(180deg,transparent,rgba(0,0,0,.9));
 }
-
-.modal-bg{
-    background:rgba(0,0,0,.75);
-}
 </style>
 </head>
 
 <body>
 
-<!-- ===== TUTTO SOPRA INVARIATO ===== -->
-<!-- HERO / ABOUT / PERCHÉ / STATS -->
-<!-- (identici al tuo codice, non toccati) -->
+<!-- HERO -->
+<section class="min-h-screen flex flex-col justify-center items-center text-center px-6">
+    <h1 class="text-6xl md:text-7xl font-extrabold text-cyan-400 neon mb-6">
+        NEXUS NETWORK
+    </h1>
+
+    <p class="max-w-xl text-gray-300 text-lg mb-10">
+        Network ufficiale di streamer, creator e sviluppatori.  
+        Qui non giochi da solo. Qui cresci davvero.
+    </p>
+
+    <div class="flex gap-4">
+        <a href="#join" class="px-8 py-4 rounded-xl bg-cyan-400 text-black font-bold glow hover:scale-110 transition">
+            Candidati ora
+        </a>
+        <a href="https://discord.gg/hJTvAUwKAC" target="_blank"
+           class="px-8 py-4 rounded-xl glass hover:scale-110 transition">
+            Discord
+        </a>
+    </div>
+</section>
 
 <!-- CREATORS -->
 <section class="py-28 px-6">
@@ -76,110 +90,124 @@ body{
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
 
-<!-- CREATOR -->
-<div class="creator glass glow rounded-2xl h-[420px]"
-onclick="openCreator({
-name:'TheRealSam',
-role:'Founder',
-desc:'Founder di Nexus Network. Streamer focalizzato su community, intrattenimento e crescita del progetto.',
-img:'Streamer/TheRealSam.png',
-twitch:'https://twitch.tv/therealsamtv'
-})">
-<img src="Streamer/TheRealSam.png">
-<div class="absolute bottom-0 p-5 z-10">
-<h3 class="text-xl font-bold">TheRealSam</h3>
-<p class="text-cyan-400 text-sm">Founder</p>
-<i class="fab fa-twitch text-xl"></i>
-</div>
-</div>
+    <!-- CREATOR -->
+    <div class="creator glass glow rounded-2xl h-[420px]"
+    onclick="openCreator({
+        name:'TheRealSam',
+        role:'Founder',
+        desc:'Founder di Nexus Network. Streamer focalizzato su community, intrattenimento e crescita del progetto.',
+        img:'Streamer/TheRealSam.png',
+        twitch:'https://twitch.tv/therealsamtv'
+    })">
+        <img src="Streamer/TheRealSam.png" alt="TheRealSam">
+        <div class="absolute bottom-0 p-5 z-10">
+            <h3 class="text-xl font-bold">TheRealSam</h3>
+            <p class="text-cyan-400 text-sm">Founder</p>
+            <i class="fab fa-twitch text-xl"></i>
+        </div>
+    </div>
 
-<div class="creator glass glow rounded-2xl h-[420px]"
-onclick="openCreator({
-name:'ShadowStrike',
-role:'Developer',
-desc:'Sviluppatore del network. Cura bot, sito e infrastruttura tecnica.',
-img:'Streamer/shadowstrike.PNG',
-github:'https://github.com/Alexandercasadei'
-})">
-<img src="Streamer/shadowstrike.PNG">
-<div class="absolute bottom-0 p-5 z-10">
-<h3 class="text-xl font-bold">ShadowStrike</h3>
-<p class="text-cyan-400 text-sm">Developer</p>
-<i class="fab fa-github text-xl"></i>
-</div>
-</div>
+    <div class="creator glass glow rounded-2xl h-[420px]"
+    onclick="openCreator({
+        name:'ShadowStrike',
+        role:'Developer',
+        desc:'Sviluppatore del network. Cura bot, sito e infrastruttura tecnica.',
+        img:'Streamer/shadowstrike.PNG',
+        github:'https://github.com/Alexandercasadei'
+    })">
+        <img src="Streamer/shadowstrike.PNG" alt="ShadowStrike">
+        <div class="absolute bottom-0 p-5 z-10">
+            <h3 class="text-xl font-bold">ShadowStrike</h3>
+            <p class="text-cyan-400 text-sm">Developer</p>
+            <i class="fab fa-github text-xl"></i>
+        </div>
+    </div>
 
 </div>
 </section>
 
-<!-- MODAL CREATOR -->
-<div id="creatorModal" class="fixed inset-0 hidden items-center justify-center modal-bg z-50"
-onclick="closeCreator()">
+<!-- JOIN -->
+<section id="join" class="py-32 px-6 text-center bg-[#020617]">
+    <h2 class="text-6xl font-extrabold text-cyan-400 neon mb-6">
+        Vuoi entrare?
+    </h2>
+    <p class="text-gray-400 text-lg mb-10">
+        Nexus non è per tutti.  
+        Ma forse è per te.
+    </p>
 
-<div class="glass glow rounded-2xl max-w-lg w-full p-6 relative"
-onclick="event.stopPropagation()">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeKVj-NgP5Oz3YAuXhUxAyOFsbFncNsrI6k6X_DzQFlCBqgjw/viewform"
+       target="_blank"
+       class="px-14 py-5 rounded-2xl bg-cyan-400 text-black font-extrabold text-xl glow hover:scale-110 transition">
+        Invia candidatura
+    </a>
+</section>
 
-<button onclick="closeCreator()" class="absolute top-4 right-4 text-2xl">&times;</button>
+<!-- MODAL -->
+<div id="creatorModal"
+class="fixed inset-0 hidden items-center justify-center bg-black/75 z-50">
 
-<div class="flex gap-4 items-center mb-4">
-<img id="mImg" class="w-24 h-24 rounded-xl object-cover">
-<div>
-<h3 id="mName" class="text-2xl font-bold"></h3>
-<p id="mRole" class="text-cyan-400"></p>
+<div class="glass glow rounded-2xl max-w-lg w-full p-6 relative">
+    <button onclick="closeCreator()"
+            class="absolute top-4 right-4 text-2xl">&times;</button>
+
+    <div class="flex gap-4 items-center mb-4">
+        <img id="mImg" class="w-24 h-24 rounded-xl object-cover">
+        <div>
+            <h3 id="mName" class="text-2xl font-bold"></h3>
+            <p id="mRole" class="text-cyan-400"></p>
+        </div>
+    </div>
+
+    <p id="mDesc" class="text-gray-400 mb-6"></p>
+
+    <div class="flex gap-4">
+        <a id="mTwitch" target="_blank"
+           class="hidden px-4 py-2 bg-purple-600 rounded-lg font-semibold">
+           <i class="fab fa-twitch mr-2"></i>Twitch
+        </a>
+
+        <a id="mGithub" target="_blank"
+           class="hidden px-4 py-2 bg-gray-700 rounded-lg font-semibold">
+           <i class="fab fa-github mr-2"></i>GitHub
+        </a>
+    </div>
 </div>
 </div>
-
-<p id="mDesc" class="text-gray-400 mb-6"></p>
-
-<div class="flex gap-4">
-<a id="mTwitch" target="_blank"
-class="hidden px-4 py-2 bg-purple-600 rounded-lg font-semibold">
-<i class="fab fa-twitch mr-2"></i>Segui su Twitch
-</a>
-
-<a id="mGithub" target="_blank"
-class="hidden px-4 py-2 bg-gray-700 rounded-lg font-semibold">
-<i class="fab fa-github mr-2"></i>GitHub
-</a>
-</div>
-
-</div>
-</div>
-
-<!-- ===== TUTTO SOTTO INVARIATO ===== -->
-<!-- JOIN / FOOTER -->
 
 <script>
+const creatorModal = document.getElementById("creatorModal");
+
 function openCreator(data){
-creatorModal.classList.remove("hidden");
-creatorModal.classList.add("flex");
+    creatorModal.classList.remove("hidden");
+    creatorModal.classList.add("flex");
 
-mImg.src = data.img;
-mName.innerText = data.name;
-mRole.innerText = data.role;
-mDesc.innerText = data.desc;
+    mImg.src = data.img;
+    mName.innerText = data.name;
+    mRole.innerText = data.role;
+    mDesc.innerText = data.desc;
 
-toggleLink("mTwitch", data.twitch);
-toggleLink("mGithub", data.github);
+    toggleLink("mTwitch", data.twitch);
+    toggleLink("mGithub", data.github);
 }
 
 function toggleLink(id, link){
-const el = document.getElementById(id);
-if(link){
-el.href = link;
-el.classList.remove("hidden");
-}else{
-el.classList.add("hidden");
-}
+    const el = document.getElementById(id);
+    if(link){
+        el.href = link;
+        el.classList.remove("hidden");
+    } else {
+        el.classList.add("hidden");
+    }
 }
 
 function closeCreator(){
-creatorModal.classList.add("hidden");
+    creatorModal.classList.add("hidden");
 }
 </script>
 
 <footer class="py-6 text-center text-gray-500">
-© 2025 Nexus Network — Creato da ShadowStrike
+    © 2025 Nexus Network — Creato da ShadowStrike
 </footer>
 
 </body>
