@@ -85,7 +85,7 @@ body{
 <body>
 
 <!-- HERO -->
-<section class="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden scroll-animate">
+<section class="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden scroll-animate visible">
     <div class="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,_#22d3ee33,_transparent_70%)]"></div>
 
     <h1 class="text-6xl md:text-7xl font-extrabold text-cyan-400 neon mb-6">
@@ -98,11 +98,11 @@ body{
     </p>
 
     <div class="flex gap-4">
-        <a href="#join" class="px-8 py-4 rounded-xl bg-cyan-400 text-black font-bold glow button-glow">
+        <a href="#join" class="px-8 py-4 rounded-xl bg-cyan-400 text-black font-bold glow button-glow scroll-animate visible">
             Candidati ora
         </a>
         <a href="https://discord.gg/hJTvAUwKAC" target="_blank"
-           class="px-8 py-4 rounded-xl glass button-glow">
+           class="px-8 py-4 rounded-xl glass button-glow scroll-animate">
             Discord
         </a>
     </div>
@@ -208,8 +208,9 @@ body{
 
 </div>
 </section>
+
 <!-- CANDIDATI STAFF -->
-<section id="join" class="py-32 px-6 text-center bg-[#020617] scroll-animate">
+<section id="join" class="py-32 px-6 text-center bg-[#020617] scroll-animate visible">
     <h2 class="text-6xl font-extrabold text-cyan-400 neon mb-6">
         Vuoi entrare?
     </h2>
@@ -224,6 +225,7 @@ body{
         Invia candidatura
     </a>
 </section>
+
 <!-- MODAL -->
 <div id="creatorModal"
 class="fixed inset-0 hidden items-center justify-center bg-black/75 z-50">
@@ -297,6 +299,7 @@ const observer = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.scroll-animate, .creator').forEach(el => observer.observe(el));
 </script>
+
 <footer class="py-6 text-center text-gray-500">
     © 2025 Nexus Network — Creato da ShadowStrike
 </footer>
