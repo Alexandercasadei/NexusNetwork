@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Live - Nexus Network</title>
 
-    <!-- Politica di Sicurezza del Contenuto (CSP) -->
-    <!-- Nota: Aggiunto player.twitch.tv e www.twitch.tv per l'embed -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self' https:;"
-    />
+    <!-- Content Security Policy rimossa per massimizzare la compatibilità con Twitch Embed su GitHub Pages -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script>
@@ -187,19 +182,18 @@
           return;
         }
 
-        // Costruiamo la lista dei parent in modo robusto
-        // Includiamo l'hostname dinamico e quello specifico di GitHub Pages indicato dall'errore
-        const pArray = [hostname, "localhost", "127.0.0.1", "alexandercasadei.github.io"];
+        // Costruiamo la lista dei parent in modo robusto includendo il dominio ufficiale
+        const pArray = [hostname, "nexus-network.it", "www.nexus-network.it", "localhost", "alexandercasadei.github.io"];
         // Rimuoviamo duplicati e valori vuoti
         const uniqueParents = [...new Set(pArray)].filter(p => p && p.length > 0);
         const parentParams = uniqueParents.map(p => `&parent=${p}`).join('');
-
+        
         const streamer = "doppiavisione"; 
 
         embedContainer.innerHTML = `
           <div class="relative w-full h-full bg-slate-900">
             <iframe
-              src="https://player.twitch.tv/?channel=${streamer}&autoplay=true&muted=false${parentParams}"
+              src="https://player.twitch.tv/?channel=${streamer}${parentParams}&autoplay=true&muted=true"
               height="100%"
               width="100%"
               allowfullscreen="true"
@@ -208,7 +202,6 @@
               class="w-full h-full">
             </iframe>
             
-            <!-- Fallback assistito in caso di blocco persistente del browser -->
             <div id="embed-fallback" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/90 p-6 text-center opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
               <p class="text-sm text-gray-400 mb-4">Problemi con il caricamento?</p>
               <a href="https://twitch.tv/${streamer}" target="_blank" class="pointer-events-auto px-6 py-2 bg-purple-600 text-white rounded-lg font-bold hover:bg-purple-700 transition">
@@ -219,10 +212,8 @@
         `;
       }
 
-      // Avvia inizializzazione
       document.addEventListener('DOMContentLoaded', initLive);
       
-      // Controllo stato live per l'indicatore
       async function updateIndicator() {
         const indicator = document.getElementById("live-indicator");
         if (!indicator) return;
