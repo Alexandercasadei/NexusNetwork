@@ -1,4 +1,5 @@
 tsParticles.load("tsparticles", {
+  fullScreen: { enable: false },
   fpsLimit: 60,
   particles: {
     number: {
@@ -19,13 +20,13 @@ tsParticles.load("tsparticles", {
         },
         image: [
           {
-            // Mini Twitch Glitch Logo (SVG Path equivalent)
+            // Mini Logo Twitch Glitch (equivalente SVG Path)
             src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik00MCAwSDYuN0wwIDYuN1YzMy4zSDEwVjQwTDE2LjcgMzMuM0gyNi43TDQwIDIwVjBaTTM2LjcgMTguM0wzMCAyNUgyMEwxNSAzMFYyNUg4LjNWMy4zSDM2LjdWMTguM1pNMzAgNi43VjE1SDI1VjYuN0gzMFpNMTguMyA2LjdWMTVIMTMuM1Y2LjdIMTguM1oiLz48L3N2Zz4=",
             width: 100,
             height: 100,
           },
           {
-            // Mini Chat Bubble
+            // Mini Bolla Chat
             src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzkxNDZGRiI+PHBhdGggZD0iTTIwIDJINGMtMS4xIDAtMiAuOS0yIDJ2MThsNC00aDE0Yy4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnoiLz48L3N2Zz4=",
             width: 100,
             height: 100,
@@ -93,16 +94,16 @@ tsParticles.load("tsparticles", {
       options: {
         particles: {
           number: {
-            value: 30, // Reduced count
+            value: 30, // Conteggio ridotto
           },
           links: {
-            enable: false, // Cleaner on small screens
+            enable: false, // Più pulito su schermi piccoli
           },
         },
         interactivity: {
           events: {
             onHover: {
-              enable: false, // Avoid lag on mobile
+              enable: false, // Evita lag su mobile
             },
           },
         },
@@ -113,7 +114,7 @@ tsParticles.load("tsparticles", {
       options: {
         particles: {
           number: {
-            value: 15, // Bare minimum for mobile
+            value: 15, // Minimo indispensabile per mobile
           },
         },
         interactivity: {

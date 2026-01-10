@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live - Nexus Network</title>
+
+    <!-- Politica di Sicurezza del Contenuto (CSP) -->
+    <!-- Nota: Aggiunto player.twitch.tv e www.twitch.tv per l'embed -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://decapi.me https://cdn.jsdelivr.net https://api.github.com https://*.twitch.tv; frame-src 'self' https://player.twitch.tv https://www.twitch.tv https://embed.twitch.tv https://*.twitch.tv;"
+    />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script>
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+
+  <body>
+    <!-- NAVIGAZIONE -->
+    <nav
+      class="nav-container"
+      style="
+        transform: translateX(-50%) translateY(-20px);
+        animation: fadeInDown 0.8s forwards 0.5s;
+        opacity: 0;
+      "
+    >
+      <div class="nav-glass">
+        <a href="../../index.html" class="nav-item">Home</a>
+        <a href="../services/index.html" class="nav-item">Servizi</a>
+        <a href="../team/index.html" class="nav-item">Team</a>
+        <a href="../live/index.html" class="nav-item text-cyan-400">Live</a>
+        <a href="../contacts/index.html" class="nav-item">Contatti</a>
+        <button
+          id="theme-toggle"
+          class="text-gray-400 hover:text-cyan-400 transition-colors ml-4"
+        >
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- HERO LIVE -->
+    <section
+      class="min-h-[40vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden"
+    >
+      <div id="tsparticles" style="position: absolute; width: 100%; height: 100%; z-index: -1;"></div>
+      <div
+        class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_#22d3ee33,_transparent_70%)]"
+      ></div>
+      <h1
+        class="text-5xl md:text-7xl font-extrabold text-cyan-400 neon mb-6 scroll-animate visible"
+      >
+        DIRETTA LIVE
+      </h1>
+      <p class="max-w-2xl text-gray-400 text-lg scroll-animate visible uppercase tracking-widest font-bold">
+        Doppiavisione (TEST LIVE)
+      </p>
+    </section>
+
+    <!-- SEZIONE STREAMING -->
+    <section class="py-12 px-4 sm:px-6 max-w-7xl mx-auto">
+        <div class="glass glow rounded-3xl overflow-hidden border border-cyan-400/20 shadow-2xl bg-black/40">
+            <!-- Embed Twitch -->
+            <div id="twitch-embed" class="aspect-video w-full"></div>
+        </div>
+        
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 glass p-6 rounded-2xl border border-white/5">
+                <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+                    <i class="fab fa-twitch text-purple-500"></i>
+                    Informazioni Streaming
+                </h2>
+                <p class="text-gray-400 leading-relaxed">
+                    Benvenuto nella stazione Live ufficiale di Nexus Network. Supporta i nostri creator guardando la diretta qui sul sito, partecipando alla chat e iscrivendoti al canale per contenuti esclusivi.
+                </p>
+            </div>
+            <div class="glass p-6 rounded-2xl border border-white/5 flex flex-col justify-center items-center text-center">
+                <span class="text-gray-500 uppercase text-xs font-bold tracking-tighter mb-2">Stato Canale</span>
+                <div id="live-indicator" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-800 text-gray-400 font-bold uppercase text-sm border border-white/10">
+                    <span class="w-2 h-2 rounded-full bg-gray-600"></span>
+                    Verifica in corso...
+                </div>
+                <a href="https://twitch.tv/doppiavisione" target="_blank" class="mt-4 text-cyan-400 hover:text-white transition-colors text-sm font-bold border-b border-cyan-400/30 pb-1">
+                    Apri su Twitch.tv <i class="fas fa-external-link-alt ml-1 text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER PREMIUM -->
+    <footer class="py-16 px-6 mt-20">
+      <div class="max-w-7xl mx-auto glass glow rounded-3xl p-10 md:p-16">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+          <div class="space-y-6">
+            <h3 class="text-3xl font-extrabold text-cyan-400 neon">NEXUS NETWORK</h3>
+            <p class="text-gray-400 leading-relaxed">
+              L'eccellenza dell'intrattenimento digitale. Uniamo i migliori talenti per creare esperienze uniche e indimenticabili. 
+            </p>
+            <div class="flex justify-center md:justify-start gap-4">
+              <a href="https://instagram.com/nexus_network_twitch" target="_blank" class="social-icon instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://twitch.tv/therealsamtv" target="_blank" class="social-icon twitch">
+                <i class="fab fa-twitch"></i>
+              </a>
+              <a href="https://discord.gg/mG6qGfKeXp" target="_blank" class="social-icon discord">
+                <i class="fab fa-discord"></i>
+              </a>
+            </div>
+          </div>
+          <div class="space-y-6">
+            <h4 class="text-xl font-bold">Esplora</h4>
+            <ul class="space-y-4 text-gray-400">
+              <li><a href="../../index.html" class="hover:text-cyan-400 transition-colors">Home</a></li>
+              <li><a href="../services/index.html" class="hover:text-cyan-400 transition-colors">Servizi</a></li>
+              <li><a href="../team/index.html" class="hover:text-cyan-400 transition-colors">Team</a></li>
+              <li><a href="../live/index.html" class="hover:text-cyan-400 transition-colors">Live</a></li>
+              <li><a href="../contacts/index.html" class="hover:text-cyan-400 transition-colors">Contatti</a></li>
+            </ul>
+          </div>
+          <div class="space-y-6">
+            <h4 class="text-xl font-bold">Unisciti</h4>
+            <p class="text-gray-400">
+              Vuoi entrare a far parte del network più innovativo? Candidati ora e mostra il tuo talento.
+            </p>
+            <a href="../../index.html#join" class="inline-block px-8 py-3 bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 rounded-xl hover:bg-cyan-400 hover:text-black transition-all font-bold">
+              Candidati Ora
+            </a>
+          </div>
+        </div>
+        <div class="mt-16 pt-8 border-t border-white/5 text-center text-gray-500 text-sm">
+          © 2025 Nexus Network — Sviluppato con passione da <span class="text-cyan-400">ShadowStrike</span>
+        </div>
+      </div>
+    </footer>
+
+    <script type="text/javascript">
+      function initLive() {
+        const embedContainer = document.getElementById("twitch-embed");
+        if (!embedContainer) return;
+
+        // Ottieni l'hostname corrente
+        const currentHost = window.location.hostname || "localhost";
+        
+        // Se siamo su protocollo file://, Twitch non funzionerà comunque
+        if (window.location.protocol === "file:") {
+          embedContainer.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-full p-8 text-center bg-gray-900/80 backdrop-blur-md">
+              <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl mb-4"></i>
+              <h3 class="text-xl font-bold text-white mb-2">Protocollo non supportato</h3>
+              <p class="text-gray-400 max-w-md mb-6">
+                Twitch non permette lo streaming se il file viene aperto direttamente dal computer. 
+              </p>
+              <div class="bg-cyan-400/10 border border-cyan-400/20 p-4 rounded-xl text-left">
+                <p class="text-cyan-400 font-bold mb-2">Come risolvere:</p>
+                <ol class="text-sm text-gray-300 space-y-1 list-decimal ml-4">
+                  <li>Apri la cartella con VS Code</li>
+                  <li>Usa l'estensione <strong>Live Server</strong></li>
+                  <li>Clicca su <strong>Go Live</strong> in basso a destra</li>
+                </ol>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        // Usa Iframe standard per massima compatibilità (non viene bloccato dagli ad-blocker)
+        // Aggiungiamo parent localhost e 127.0.0.1 per i test locali
+        const parents = `&parent=${currentHost}&parent=127.0.0.1&parent=localhost`;
+        embedContainer.innerHTML = `
+          <iframe
+            src="https://player.twitch.tv/?channel=doppiavisione&autoplay=true&muted=false${parents}"
+            height="100%"
+            width="100%"
+            allowfullscreen="true"
+            frameborder="0"
+            scrolling="no"
+            class="w-full h-full">
+          </iframe>
+        `;
+      }
+
+      // Avvia inizializzazione
+      document.addEventListener('DOMContentLoaded', initLive);
+      
+      // Controllo stato live per l'indicatore
+      async function updateIndicator() {
+        const indicator = document.getElementById("live-indicator");
+        if (!indicator) return;
+        try {
+          const response = await fetch("https://decapi.me/twitch/uptime/doppiavisione");
+          const text = await response.text();
+          const isLive = !text.toLowerCase().includes("offline");
+          
+          if (isLive) {
+            indicator.className = "flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 text-red-500 font-bold uppercase text-sm border border-red-500/30 animate-pulse";
+            indicator.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_10px_#ef4444]"></span>LIVESTREAM ATTIVA';
+          } else {
+            indicator.className = "flex items-center gap-2 px-4 py-2 rounded-full bg-gray-800 text-gray-400 font-bold uppercase text-sm border border-white/10";
+            indicator.innerHTML = '<span class="w-2 h-2 rounded-full bg-gray-600"></span>OFFLINE';
+          }
+        } catch (e) {
+          indicator.innerText = "STATO NON DISPONIBILE";
+        }
+      }
+      updateIndicator();
+      setInterval(updateIndicator, 60000);
+    </script>
+
+    <script src="../../js/script.js"></script>
+    <script src="../../js/particles-config.js"></script>
+  </body>
+</html>

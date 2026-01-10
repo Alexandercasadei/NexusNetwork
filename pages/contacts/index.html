@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contatti - Nexus Network</title>
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://docs.google.com; connect-src 'self' https://decapi.me https://cdn.jsdelivr.net https://api.github.com; frame-src https://docs.google.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://embed.twitch.tv; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://docs.google.com; connect-src 'self' https://decapi.me https://cdn.jsdelivr.net https://api.github.com; frame-src 'self' https://player.twitch.tv https://www.twitch.tv https://embed.twitch.tv https://docs.google.com;">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script>
@@ -28,14 +28,14 @@
 </head>
 
 <body>
-    <div id="tsparticles"></div>
     
-    <!-- NAVIGATION -->
+    <!-- NAVIGAZIONE -->
     <nav class="nav-container" style="transform: translateX(-50%) translateY(-20px); animation: fadeInDown 0.8s forwards 0.5s; opacity: 0;">
         <div class="nav-glass">
             <a href="../../index.html" class="nav-item">Home</a>
             <a href="../services/index.html" class="nav-item">Servizi</a>
             <a href="../team/index.html" class="nav-item">Team</a>
+            <a href="../live/index.html" class="nav-item">Live</a>
             <a href="../contacts/index.html" class="nav-item text-cyan-400">Contatti</a>
             <button id="theme-toggle" class="text-gray-400 hover:text-cyan-400 transition-colors ml-4">
                 <i class="fas fa-moon"></i>
@@ -45,6 +45,7 @@
 
     <!-- HERO CONTATTI -->
     <section class="py-24 flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
+        <div id="tsparticles" style="position: absolute; width: 100%; height: 100%; z-index: -1;"></div>
         <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_#22d3ee33,_transparent_70%)]"></div>
         <h1 class="text-5xl md:text-7xl font-extrabold text-cyan-400 neon mb-6 scroll-animate visible">
             CONTATTACI
@@ -54,31 +55,71 @@
         </p>
     </section>
 
-    <!-- FORM SECTION -->
     <section class="py-12 px-4 sm:px-6">
-        <div class="max-w-4xl mx-auto glass glow rounded-2xl sm:rounded-3xl overflow-hidden border border-cyan-400/20 shadow-2xl">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeKVj-NgP5Oz3YAuXhUxAyOFsbFncNsrI6k6X_DzQFlCBqgjw/viewform?embedded=true"
-                    width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0" class="w-full" loading="lazy">Caricamento…</iframe>
+        <div class="max-w-4xl mx-auto glass glow rounded-3xl p-8 md:p-12 border border-cyan-400/20 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
+            
+            <form id="contactForm" class="space-y-6 relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="name" class="block text-sm font-semibold text-cyan-400 uppercase tracking-wider">Nome Completo</label>
+                        <input type="text" id="name" name="name" required placeholder="Inserisci il tuo nome"
+                            class="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-all placeholder:text-gray-600 text-white">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="email" class="block text-sm font-semibold text-cyan-400 uppercase tracking-wider">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="esempio@email.it"
+                            class="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-all placeholder:text-gray-600 text-white">
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="subject" class="block text-sm font-semibold text-cyan-400 uppercase tracking-wider">Oggetto</label>
+                    <select id="subject" name="subject" required
+                        class="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-all text-white appearance-none cursor-pointer">
+                        <option value="" disabled selected class="bg-slate-900">Seleziona un argomento</option>
+                        <option value="collaborazione" class="bg-slate-900">Collaborazione</option>
+                        <option value="entrare-network" class="bg-slate-900">Entrare nel Network</option>
+                        <option value="supporto" class="bg-slate-900">Supporto Tecnico</option>
+                        <option value="altro" class="bg-slate-900">Altro</option>
+                    </select>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="message" class="block text-sm font-semibold text-cyan-400 uppercase tracking-wider">Messaggio</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Come possiamo aiutarti?"
+                        class="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-all placeholder:text-gray-600 text-white resize-none"></textarea>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" 
+                        class="w-full py-5 bg-cyan-400 text-black font-extrabold text-lg rounded-2xl glow button-glow hover:scale-[1.02] flex items-center justify-center gap-3 transition-all">
+                        <span>Invia Messaggio</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                
+                <div id="formStatus" class="hidden text-center p-4 rounded-xl font-medium"></div>
+            </form>
         </div>
     </section>
 
-    <!-- SOCIALS SECTION -->
     <section class="py-24 text-center">
         <h2 class="text-3xl font-bold mb-10">Seguici sui Social</h2>
         <div class="flex justify-center gap-8">
-            <a href="https://discord.gg/mG6qGfKeXp" target="_blank" rel="noopener noreferrer" class="text-4xl text-gray-500 hover:text-cyan-400 transition transform hover:scale-110">
+            <a href="https://discord.gg/mG6qGfKeXp" target="_blank" rel="noopener noreferrer" class="social-btn-large discord text-4xl transition transform">
                 <i class="fab fa-discord"></i>
             </a>
-            <a href="https://www.instagram.com/nexus_network_twitch" target="_blank" rel="noopener noreferrer" class="text-4xl text-gray-500 hover:text-cyan-400 transition transform hover:scale-110">
+            <a href="https://www.instagram.com/nexus_network_twitch" target="_blank" rel="noopener noreferrer" class="social-btn-large instagram text-4xl transition transform">
                 <i class="fab fa-instagram"></i>
             </a>
-            <a href="https://twitch.tv/therealsamtv" target="_blank" rel="noopener noreferrer" class="text-4xl text-gray-500 hover:text-cyan-400 transition transform hover:scale-110">
+            <a href="https://twitch.tv/therealsamtv" target="_blank" rel="noopener noreferrer" class="social-btn-large twitch text-4xl transition transform">
                 <i class="fab fa-twitch"></i>
             </a>
         </div>
     </section>
 
-    <!-- PREMIUM FOOTER -->
+    <!-- FOOTER PREMIUM -->
     <footer class="py-16 px-6 mt-20">
         <div class="max-w-7xl mx-auto glass glow rounded-3xl p-10 md:p-16">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">

@@ -1,12 +1,12 @@
 const creatorModal = document.getElementById("creatorModal");
 
-// Definiamo mImg ecc. se il modal esiste, per evitare errori globali su alcune pagine
+// Definiamo mFollowers ecc. se il modal esiste, per evitare errori globali su alcune pagine
 const mImg = document.getElementById("mImg");
 const mName = document.getElementById("mName");
 const mRole = document.getElementById("mRole");
 const mDesc = document.getElementById("mDesc");
-const mFollowers = document.getElementById("mFollowers"); // Per Twitch
-const mGithubStats = document.getElementById("mGithubStats"); // Per GitHub
+const mFollowers = document.getElementById("mFollowers"); // Per i follower di Twitch
+const mGithubStats = document.getElementById("mGithubStats"); // Per le statistiche di GitHub
 
 function openCreator(data) {
   if (!creatorModal) return;
@@ -26,7 +26,7 @@ function openCreator(data) {
   if (modalRole) modalRole.innerText = data.role;
   if (modalDesc) modalDesc.innerText = data.desc;
 
-  // Reset stats placeholders
+  // Reset dei segnaposto per le statistiche
   if (modalFollowers) modalFollowers.innerHTML = "";
   if (modalGithubStats) modalGithubStats.innerHTML = "";
 
@@ -52,20 +52,20 @@ async function fetchGithubStars(githubUrl) {
   const modalGithubStats = document.getElementById("mGithubStats");
   try {
     const username = githubUrl.split("/").pop();
-    console.log("GitHub Username extracted:", username);
-    // Fetch all public repos to count total stars (limit 100 for simplicity)
+    console.log("Username GitHub estratto:", username);
+    // Recupera tutti i repository pubblici per contare le stelle totali (limite 100 per semplicità)
     const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
     const repos = await response.json();
     
     if (Array.isArray(repos)) {
       const totalStars = repos.reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0);
-      console.log("Total Stars calculated:", totalStars);
+      console.log("Stelle totali calcolate:", totalStars);
       
       if (modalGithubStats) {
         modalGithubStats.innerHTML = `<i class="fas fa-star mr-2 text-yellow-500"></i><span class="font-bold text-white">${totalStars}</span>&nbsp;stelle GitHub`;
       }
     } else {
-      console.warn("GitHub response is not an array:", repos);
+      console.warn("La risposta di GitHub non è un array:", repos);
       if (modalGithubStats) modalGithubStats.innerHTML = "";
     }
   } catch (err) {
@@ -121,7 +121,7 @@ document
   .querySelectorAll(".scroll-animate, .creator")
   .forEach((el) => observer.observe(el));
 
-// Twitch LIVE status integration
+// Integrazione dello stato LIVE di Twitch
 const STREAMERS = [
   { name: "TheRealSam", username: "therealsamtv" },
   { name: "Darius", username: "itsdariuus" },
@@ -172,7 +172,7 @@ function updateLiveStatus(name, isLive, username) {
 checkTwitchStatus();
 setInterval(checkTwitchStatus, 60000);
 
-// Smart Navbar Scroll Effect
+// Effetto di scorrimento Navbar intelligente
 const nav = document.querySelector(".nav-container");
 window.addEventListener("scroll", () => {
   if (nav) {
@@ -184,7 +184,7 @@ window.addEventListener("scroll", () => {
   }
 });
 
-// Theme Switching Logic (Simple & Reliable)
+// Logica di cambio tema (semplice e affidabile)
 const themeToggle = document.getElementById("theme-toggle");
 
 if (themeToggle) {
@@ -215,9 +215,52 @@ function updateToggleUI(theme) {
     themeToggle.style.color = ""; // Torna al default (grigio)
   }
 }
-// Chiudi modal cliccando fuori dalla card
+// Chiudi il modale cliccando fuori dalla card
 window.addEventListener("click", (e) => {
   if (e.target === creatorModal) {
     closeCreator();
   }
 });
+
+// Gestione Form Contatti
+const contactForm = document.getElementById("contactForm");
+const formStatus = document.getElementById("formStatus");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Stato caricamento
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i>Invio in corso...';
+    
+    try {
+      // Simuliamo un invio (mockup)
+      // Qui andrebbe la logica reale (fetch a un endpoint backend o servizio email)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Successo
+      formStatus.textContent = "Messaggio inviato con successo! Ti risponderemo al più presto.";
+      formStatus.className = "success p-4 rounded-xl font-medium mt-4";
+      formStatus.classList.remove("hidden");
+      contactForm.reset();
+      
+    } catch (err) {
+      // Errore
+      formStatus.textContent = "Si è verificato un errore. Riprova più tardi.";
+      formStatus.className = "error p-4 rounded-xl font-medium mt-4";
+      formStatus.classList.remove("hidden");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+      
+      // Nascondi lo stato dopo 5 secondi
+      setTimeout(() => {
+        formStatus.classList.add("hidden");
+      }, 5000);
+    }
+  });
+}
