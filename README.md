@@ -3,14 +3,6 @@
 ### Made by ShadowStrike & Kitoshira
 ---
 
-## 🚀 Funzionalità principali
-- 🌐 Pagine web responsive per Twitch  
-- 🎨 Interfaccia moderna e intuitiva  
-- 🖥️ Overlay e strumenti interattivi per gli spettatori  
-- 🔧 Facile da aggiornare per TheRealSamTV
-
----
-
 ## 🛠️ Tecnologie
 - **HTML5** – Struttura delle pagine  
 - **CSS3** – Stile e design  
