@@ -1,8 +1,6 @@
 # 🌌 Nexus Network - TheRealSamTV
----
-**Made by ShadowStrike & Kitoshira**
----
-**Nexus** è il network Twitch ufficiale di **TheRealSamTV**
+## **Nexus** è il network Twitch ufficiale di **TheRealSamTV**
+### Made by ShadowStrike & Kitoshira
 ---
 
 ## 🚀 Funzionalità principali
