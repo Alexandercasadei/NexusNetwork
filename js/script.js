@@ -5,20 +5,90 @@ const mImg = document.getElementById("mImg");
 const mName = document.getElementById("mName");
 const mRole = document.getElementById("mRole");
 const mDesc = document.getElementById("mDesc");
+const mFollowers = document.getElementById("mFollowers"); // Per Twitch
+const mGithubStats = document.getElementById("mGithubStats"); // Per GitHub
 
 function openCreator(data) {
   if (!creatorModal) return;
   creatorModal.classList.remove("hidden");
   creatorModal.classList.add("flex");
 
-  if (mImg) mImg.src = data.img;
-  if (mName) mName.innerText = data.name;
-  if (mRole) mRole.innerText = data.role;
-  if (mDesc) mDesc.innerText = data.desc;
+  // Selezioniamo gli elementi all'apertura in caso non siano stati trovati all'avvio
+  const modalImg = document.getElementById("mImg");
+  const modalName = document.getElementById("mName");
+  const modalRole = document.getElementById("mRole");
+  const modalDesc = document.getElementById("mDesc");
+  const modalFollowers = document.getElementById("mFollowers");
+  const modalGithubStats = document.getElementById("mGithubStats");
+
+  if (modalImg) modalImg.src = data.img;
+  if (modalName) modalName.innerText = data.name;
+  if (modalRole) modalRole.innerText = data.role;
+  if (modalDesc) modalDesc.innerText = data.desc;
+
+  // Reset stats placeholders
+  if (modalFollowers) modalFollowers.innerHTML = "";
+  if (modalGithubStats) modalGithubStats.innerHTML = "";
+
+  if (data.twitch && modalFollowers) {
+    modalFollowers.innerHTML =
+      '<i class="fas fa-circle-notch fa-spin mr-2"></i>Twitch...';
+    fetchTwitchFollowers(data.twitch);
+  }
+
+  if (data.github && modalGithubStats) {
+    console.log("Fetching stars for:", data.github);
+    modalGithubStats.innerHTML =
+      '<i class="fas fa-circle-notch fa-spin mr-2"></i>GitHub...';
+    fetchGithubStars(data.github);
+  }
 
   toggleLink("mTwitch", data.twitch);
   toggleLink("mGithub", data.github);
   toggleLink("mInstagram", data.instagram);
+}
+
+async function fetchGithubStars(githubUrl) {
+  const modalGithubStats = document.getElementById("mGithubStats");
+  try {
+    const username = githubUrl.split("/").pop();
+    console.log("GitHub Username extracted:", username);
+    // Fetch all public repos to count total stars (limit 100 for simplicity)
+    const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
+    const repos = await response.json();
+    
+    if (Array.isArray(repos)) {
+      const totalStars = repos.reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0);
+      console.log("Total Stars calculated:", totalStars);
+      
+      if (modalGithubStats) {
+        modalGithubStats.innerHTML = `<i class="fas fa-star mr-2 text-yellow-500"></i><span class="font-bold text-white">${totalStars}</span>&nbsp;stelle GitHub`;
+      }
+    } else {
+      console.warn("GitHub response is not an array:", repos);
+      if (modalGithubStats) modalGithubStats.innerHTML = "";
+    }
+  } catch (err) {
+    console.error("Errore GitHub Stars:", err);
+    if (modalGithubStats) modalGithubStats.innerText = "";
+  }
+}
+
+async function fetchTwitchFollowers(twitchUrl) {
+  const modalFollowers = document.getElementById("mFollowers");
+  try {
+    const username = twitchUrl.split("/").pop().toLowerCase();
+    const response = await fetch(
+      `https://decapi.me/twitch/followcount/${username}`
+    );
+    const count = await response.text();
+    if (modalFollowers) {
+      modalFollowers.innerHTML = `<i class="fas fa-users mr-2 text-cyan-400"></i><span class="font-bold text-white">${count}</span>&nbsp;follower`;
+    }
+  } catch (err) {
+    console.error("Errore follower:", err);
+    if (modalFollowers) modalFollowers.innerText = "Info non disponibile";
+  }
 }
 
 function toggleLink(id, link) {
@@ -47,49 +117,55 @@ const observer = new IntersectionObserver(
   { threshold: 0.2 }
 );
 
-document.querySelectorAll(".scroll-animate, .creator").forEach((el) => observer.observe(el));
+document
+  .querySelectorAll(".scroll-animate, .creator")
+  .forEach((el) => observer.observe(el));
 
 // Twitch LIVE status integration
 const STREAMERS = [
-    { name: 'TheRealSam', username: 'therealsamtv' },
-    { name: 'Darius', username: 'itsdariuus' }
+  { name: "TheRealSam", username: "therealsamtv" },
+  { name: "Darius", username: "itsdariuus" },
 ];
 
 async function checkTwitchStatus() {
-    for (const streamer of STREAMERS) {
-        try {
-            const response = await fetch(`https://decapi.me/twitch/uptime/${streamer.username}`);
-            const text = await response.text();
-            const isLive = !text.toLowerCase().includes('offline');
-            updateLiveStatus(streamer.name, isLive, streamer.username);
-        } catch (err) {
-            console.error(`Errore fetch Twitch per ${streamer.name}:`, err);
-        }
+  for (const streamer of STREAMERS) {
+    try {
+      const response = await fetch(
+        `https://decapi.me/twitch/uptime/${streamer.username}`
+      );
+      const text = await response.text();
+      const isLive = !text.toLowerCase().includes("offline");
+      updateLiveStatus(streamer.name, isLive, streamer.username);
+    } catch (err) {
+      console.error(`Errore fetch Twitch per ${streamer.name}:`, err);
     }
+  }
 }
 
 function updateLiveStatus(name, isLive, username) {
-    // Trova tutte le card che contengono il nome dello streamer nel parametro dell'onclick
-    const cards = document.querySelectorAll(`[onclick*="'${name}'"], [onclick*='"${name}"']`);
-    
-    cards.forEach(card => {
-        let badge = card.querySelector('.live-badge');
-        
-        if (isLive) {
-            if (!badge) {
-                badge = document.createElement('div');
-                badge.className = 'live-badge';
-                badge.innerHTML = 'LIVE';
-                badge.onclick = (e) => {
-                    e.stopPropagation();
-                    window.open(`https://twitch.tv/${username}`, '_blank');
-                };
-                card.appendChild(badge);
-            }
-        } else if (badge) {
-            badge.remove();
-        }
-    });
+  // Trova tutte le card che contengono il nome dello streamer nel parametro dell'onclick
+  const cards = document.querySelectorAll(
+    `[onclick*="'${name}'"], [onclick*='"${name}"']`
+  );
+
+  cards.forEach((card) => {
+    let badge = card.querySelector(".live-badge");
+
+    if (isLive) {
+      if (!badge) {
+        badge = document.createElement("div");
+        badge.className = "live-badge";
+        badge.innerHTML = "LIVE";
+        badge.onclick = (e) => {
+          e.stopPropagation();
+          window.open(`https://twitch.tv/${username}`, "_blank");
+        };
+        card.appendChild(badge);
+      }
+    } else if (badge) {
+      badge.remove();
+    }
+  });
 }
 
 // Controllo ogni minuto
@@ -97,45 +173,51 @@ checkTwitchStatus();
 setInterval(checkTwitchStatus, 60000);
 
 // Smart Navbar Scroll Effect
-const nav = document.querySelector('.nav-container');
-window.addEventListener('scroll', () => {
-    if (nav) {
-        if (window.scrollY > 50) {
-            nav.classList.add('nav-hidden');
-        } else {
-            nav.classList.remove('nav-hidden');
-        }
+const nav = document.querySelector(".nav-container");
+window.addEventListener("scroll", () => {
+  if (nav) {
+    if (window.scrollY > 50) {
+      nav.classList.add("nav-hidden");
+    } else {
+      nav.classList.remove("nav-hidden");
     }
+  }
 });
 
 // Theme Switching Logic (Simple & Reliable)
-const themeToggle = document.getElementById('theme-toggle');
+const themeToggle = document.getElementById("theme-toggle");
 
 if (themeToggle) {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    // Il tema viene già impostato in Head per evitare flash, 
-    // qui aggiorniamo solo l'icona e aggiungiamo il listener.
-    updateToggleUI(savedTheme);
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  // Il tema viene già impostato in Head per evitare flash,
+  // qui aggiorniamo solo l'icona e aggiungiamo il listener.
+  updateToggleUI(savedTheme);
 
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateToggleUI(newTheme);
-    });
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    updateToggleUI(newTheme);
+  });
 }
 
 function updateToggleUI(theme) {
-    const icon = themeToggle?.querySelector('i');
-    if (!icon) return;
-    
-    if (theme === 'light') {
-        icon.className = 'fas fa-sun';
-        themeToggle.style.color = '#eab308'; // Giallo sole
-    } else {
-        icon.className = 'fas fa-moon';
-        themeToggle.style.color = ''; // Torna al default (grigio)
-    }
+  const icon = themeToggle?.querySelector("i");
+  if (!icon) return;
+
+  if (theme === "light") {
+    icon.className = "fas fa-sun";
+    themeToggle.style.color = "#eab308"; // Giallo sole
+  } else {
+    icon.className = "fas fa-moon";
+    themeToggle.style.color = ""; // Torna al default (grigio)
+  }
 }
+// Chiudi modal cliccando fuori dalla card
+window.addEventListener("click", (e) => {
+  if (e.target === creatorModal) {
+    closeCreator();
+  }
+});

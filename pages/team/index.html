@@ -8,13 +8,13 @@
     <!-- Content Security Policy -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://decapi.me https://cdn.jsdelivr.net;"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://decapi.me https://cdn.jsdelivr.net https://api.github.com;"
     />
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script>
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -53,7 +53,10 @@
         <a href="../services/index.html" class="nav-item">Servizi</a>
         <a href="../team/index.html" class="nav-item text-cyan-400">Team</a>
         <a href="../contacts/index.html" class="nav-item">Contatti</a>
-        <button id="theme-toggle" class="text-gray-400 hover:text-cyan-400 transition-colors ml-4">
+        <button
+          id="theme-toggle"
+          class="text-gray-400 hover:text-cyan-400 transition-colors ml-4"
+        >
           <i class="fas fa-moon"></i>
         </button>
       </div>
@@ -153,7 +156,8 @@
                 ShadowStrike
               </h3>
               <p class="text-gray-300 text-sm">
-                Ciao a tutti! Mi presento: sono Shadow (mi potete chiamare Alessio) e sono il developer di Nexus Network.
+                Ciao a tutti! Mi presento: sono Shadow (mi potete chiamare
+                Alessio) e sono il developer di Nexus Network.
               </p>
             </div>
             <div class="creator-info absolute bottom-0 p-5 z-10">
@@ -186,11 +190,18 @@
                     instagram:'https://www.instagram.com/nexus_network_twitch'
                 })"
           >
-            <img src="../../assets/images/Streamer/Darius.png" alt="Darius" loading="lazy" decoding="async" />
+            <img
+              src="../../assets/images/Streamer/Darius.png"
+              alt="Darius"
+              loading="lazy"
+              decoding="async"
+            />
             <div class="creator-bio">
               <h3 class="text-2xl font-bold text-cyan-400 mb-2">Darius</h3>
               <p class="text-gray-300 text-sm">
-                Yo belli! Mi presento: sono ItsDariuus su Twitch. Nel progetto sarò sia streamer che, prima di tutto, membro dello staff del network.
+                Yo belli! Mi presento: sono ItsDariuus su Twitch. Nel progetto
+                sarò sia streamer che, prima di tutto, membro dello staff del
+                network.
               </p>
             </div>
             <div class="creator-info absolute bottom-0 p-5 z-10">
@@ -216,10 +227,22 @@
           &times;
         </button>
         <div class="flex gap-4 items-center mb-4">
-          <img id="mImg" class="w-24 h-24 rounded-xl object-cover" decoding="async" />
+          <img
+            id="mImg"
+            class="w-24 h-24 rounded-xl object-cover"
+            decoding="async"
+          />
           <div>
             <h3 id="mName" class="text-2xl font-bold text-white"></h3>
             <p id="mRole" class="text-cyan-400"></p>
+            <div
+              id="mFollowers"
+              class="text-xs text-gray-400 mt-1 flex items-center"
+            ></div>
+            <div
+              id="mGithubStats"
+              class="text-xs text-gray-400 mt-1 flex items-center"
+            ></div>
           </div>
         </div>
         <p id="mDesc" class="text-gray-400 mb-6"></p>
@@ -281,7 +304,7 @@
                 <i class="fab fa-twitch"></i>
               </a>
               <a
-                href="https://discord.gg/nexus"
+                href="https://discord.gg/mG6qGfKeXp"
                 target="_blank"
                 class="social-icon discord"
               >
