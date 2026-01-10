@@ -1,8 +1,8 @@
 # 🌌 Nexus Network - TheRealSamTV
-
-**Nexus** è il network Twitch ufficiale di **TheRealSamTV**, creato e mantenuto da **Alexandercasadei**.  
-⚠️ Questo progetto è **completamente privato**: **nessuno può usarlo o copiarlo**.
-
+---
+**Made by ShadowStrike & Kitoshira**
+---
+**Nexus** è il network Twitch ufficiale di **TheRealSamTV**
 ---
 
 ## 🚀 Funzionalità principali
