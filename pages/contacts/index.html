@@ -68,18 +68,18 @@
       "
     >
       <div class="nav-glass">
-        <a href="../../index.html" class="nav-item">Home</a>
-        <a href="../services/" class="nav-item">Servizi</a>
-        <a href="../team/" class="nav-item">Team</a>
-        <a href="../creators/" class="nav-item">Creator</a>
-        <a href="../live/" class="nav-item">Dirette</a>
-        <a href="." class="nav-item text-cyan-400">Candidati</a>
+        <a href="/" class="nav-item">Home</a>
+        <a href="/services" class="nav-item">Servizi</a>
+        <a href="/team" class="nav-item">Team</a>
+        <a href="/creators" class="nav-item">Creator</a>
+        <a href="/live" class="nav-item">Dirette</a>
+        <a href="/contacts" class="nav-item text-cyan-400">Candidati</a>
 
         <div id="admin-panel-link" class="hidden items-center gap-4">
           <div class="w-px h-4 bg-gray-700"></div>
-          <a href="../dashboard/" class="nav-item transform hover:scale-110">
+          <a href="/dashboard" class="nav-item transform hover:scale-110">
             <img
-              src="../../assets/images/Icons/Moderator.gif"
+              src="/assets/images/Icons/Moderator.gif"
               alt="Dashboard"
               class="w-6 h-6 object-contain"
             />
@@ -94,7 +94,7 @@
         </button>
       </div>
     </nav>
-    <script src="../../js/cookie-utils.js"></script>
+    <script src="/js/cookie-utils.js"></script>
 
     <!-- HERO CONTATTI -->
     <section
@@ -126,12 +126,7 @@
           class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
         ></div>
 
-        <form
-          id="contactForm"
-          action="https://formspree.io/f/xdaaozzl"
-          method="POST"
-          class="space-y-6 relative z-10"
-        >
+        <form id="contactForm" class="space-y-6 relative z-10">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
               <label
@@ -157,7 +152,7 @@
               <input
                 type="email"
                 id="email"
-                name="_replyto"
+                name="email"
                 required
                 placeholder="esempio@email.it"
                 class="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 outline-none transition-all placeholder:text-gray-600 text-white"
@@ -209,12 +204,9 @@
             ></textarea>
           </div>
 
-          <input type="text" name="_gotcha" style="display: none" />
-
           <div class="pt-4">
             <button
               type="submit"
-              id="submitBtn"
               class="w-full py-5 bg-cyan-400 text-black font-extrabold text-lg rounded-2xl glow button-glow hover:scale-[1.02] flex items-center justify-center gap-3 transition-all"
             >
               <span>Invia Messaggio</span>
@@ -224,7 +216,7 @@
 
           <div
             id="formStatus"
-            class="hidden text-center p-4 rounded-xl font-medium mt-4"
+            class="hidden text-center p-4 rounded-xl font-medium"
           ></div>
         </form>
       </div>

@@ -18,14 +18,20 @@ async function exportDatabase() {
         const streamersSnap = await getDocs(collection(db, 'streamers'));
         streamersSnap.forEach(doc => data.streamers.push(doc.data()));
 
-        // Download JSON
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+        // Download JSON (Use Blob for large data support)
+        const jsonString = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        
         const downloadAnchorNode = document.createElement('a');
-        downloadAnchorNode.setAttribute("href", dataStr);
-        downloadAnchorNode.setAttribute("download", "nexus_database_backup.json");
+        downloadAnchorNode.href = url;
+        downloadAnchorNode.download = "nexus_database_backup.json";
         document.body.appendChild(downloadAnchorNode);
         downloadAnchorNode.click();
-        downloadAnchorNode.remove();
+        
+        // Cleanup
+        document.body.removeChild(downloadAnchorNode);
+        URL.revokeObjectURL(url);
 
     } catch (e) {
         console.error("Errore export:", e);

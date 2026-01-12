@@ -1,12 +1,11 @@
 
 import { 
-    auth, db, storage, 
+    auth, db, 
     collection, getDocs, addDoc, deleteDoc, doc, updateDoc, 
-    ref, uploadBytes, getDownloadURL, 
     onAuthStateChanged, signOut,
     setPersistence, browserSessionPersistence
-} from '../../../js/firebase-init.js';
-import { INITIAL_STAFF, INITIAL_CREATORS, INITIAL_STREAMERS } from '../../../js/seeds-data.js';
+} from '/js/firebase-init.js';
+import { INITIAL_STAFF, INITIAL_CREATORS, INITIAL_STREAMERS } from '/js/seeds-data.js';
 
 // State locale
 let currentSection = 'staff';
@@ -258,9 +257,7 @@ function createRow(item, section) {
             </td>
             <td class="py-4 px-4">${statusCell}</td>
             <td class="py-4 px-4 text-right">
-                <button onclick='window.openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})' class="text-gray-500 hover:text-cyan-400 transition-colors p-2 mr-2">
-                    <i class="fas fa-edit"></i>
-                </button>
+                <!-- Edit button rimosso su richiesta -->
                 <button onclick="window.deleteItem('${item._id}')" class="text-gray-500 hover:text-red-400 transition-colors p-2">
                     <i class="fas fa-trash"></i>
                 </button>
@@ -320,8 +317,15 @@ function renderFormFields(item = null) {
     fieldsContainer.innerHTML = '';
     
     // Campo nascosto per ID (se edit mode)
-    if (item) {
-        fieldsContainer.innerHTML += `<input type="hidden" name="id" value="${item._id}">`;
+    // Campo nascosto per ID (se edit mode)
+    if (item && item._id) {
+        // Usa createElement per sicurezza
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'id';
+        hiddenInput.value = item._id;
+        fieldsContainer.appendChild(hiddenInput);
+        console.log("Edit Mode attivata per ID:", item._id); // Debug
     }
 
     const commonFields = `
@@ -415,10 +419,66 @@ function renderFormFields(item = null) {
     fieldsContainer.innerHTML = commonFields + specificFields;
 }
 
+// Helper Compression & Base64
+function compressImage(file, maxWidth, quality) {
+    console.log("Inizio compressione:", file.name);
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        
+        reader.onload = (event) => {
+            console.log("File letto, caricamento immagine...");
+            const img = new Image();
+            img.src = event.target.result;
+            
+            img.onload = () => {
+                console.log("Immagine caricata, ridimensionamento...");
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height *= maxWidth / width;
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                console.log("Compressione completata, lunghezza:", dataUrl.length);
+                resolve(dataUrl);
+            };
+            
+            img.onerror = (err) => {
+                console.error("Errore caricamento img:", err);
+                reject(err);
+            };
+        };
+        
+        reader.onerror = (err) => {
+            console.error("Errore FileReader:", err);
+            reject(err);
+        };
+
+        // Avvia lettura DOPO aver settato i listener
+        reader.readAsDataURL(file);
+    });
+}
+
+// Gestione Submit Form (Create & Update)
 // Gestione Submit Form (Create & Update)
 window.handleFormSubmit = async function(e) {
     e.preventDefault();
+    e.stopPropagation(); // Stop bubbling
+    
     const btn = e.target.querySelector('button[type="submit"]');
+    
+    // Prevent double check if already disabled
+    if (btn.disabled) return;
+
     const originalText = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio...';
     btn.disabled = true;
@@ -431,20 +491,32 @@ window.handleFormSubmit = async function(e) {
             data[key] = (typeof value === 'string') ? value.trim() : value;
         }
 
-        const editId = data.id; // Recupera ID se esiste
+        const editId = data.id ? data.id.trim() : null; // Recupera ID sicuro
 
         if (editId) delete data.id; // Non vogliamo salvare l'ID nei dati del documento
+        
+        console.log("Salvataggio in corso... Edit ID:", editId); // DEBUG LOG
 
-        // Gestione Immagine
+        // Gestione Immagine (Compressione Automatica)
         const imageFile = formData.get('image');
         if (imageFile && imageFile.size > 0) {
-            const storageRef = ref(storage, `${currentSection}/${Date.now()}_${imageFile.name}`);
-            await uploadBytes(storageRef, imageFile);
-            data.imageUrl = await getDownloadURL(storageRef);
-        } else {
-             delete data.image; // Rimuove campo vuoto se non caricata nuova imm
-             // Se update, mantiene quella vecchia (Firestore merge)
-        }
+            // Avviso utente (opzionale, per UX)
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<i class="fas fa-compress fa-spin"></i> Ottimizzazione...';
+            
+            try {
+                // Compressione (Max 800px, Qualità 0.7 JPEG)
+                // Questo permette di caricare anche foto da 10MB, riducendole a <100kb
+                data.imageUrl = await compressImage(imageFile, 800, 0.7);
+            } catch (err) {
+                console.error("Errore compressione:", err);
+                alert("Errore durante l'ottimizzazione dell'immagine.");
+                return; // Stop
+            }
+        } 
+        
+        // RIMUOVI SEMPRE IL CAMPO "image" (che contiene l'oggetto File) per evitare crash Firebase
+        delete data.image;
 
         // Checkbox handling (form data non include checkbox unchecked)
         if (currentSection === 'creators') {

@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+// import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAmbkPFPnxGa0oUDxLxK7lRHBUXTi1UN-E",
@@ -18,12 +18,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
+// const storage = getStorage(app);
 
 // Export services
 export { 
-    auth, db, storage, 
+    auth, db, // storage, 
     signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence,
     collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where, orderBy,
-    ref, uploadBytes, getDownloadURL, deleteObject
+    // ref, uploadBytes, getDownloadURL, deleteObject
 };

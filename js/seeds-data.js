@@ -73,5 +73,6 @@ export const INITIAL_CREATORS = [
 export const INITIAL_STREAMERS = [
     { name: "TheRealSam", username: "therealsamtv", active: true },
     { name: "Dolcenera_ghost", username: "Dolcenera_ghost", active: true },
+    { name: "IlChiry", username: "ilchiry", active: true },
     { name: "Darius", username: "itsdariuus", active: true }
 ];

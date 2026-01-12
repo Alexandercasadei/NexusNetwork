@@ -1,6 +1,6 @@
 
-import { db, collection, getDocs, addDoc } from '../../../js/firebase-init.js';
-import { INITIAL_CREATORS } from '../../../js/seeds-data.js';
+import { db, collection, getDocs, addDoc } from '/js/firebase-init.js';
+import { INITIAL_CREATORS } from '/js/seeds-data.js';
 
 async function initCreators() {
     try {

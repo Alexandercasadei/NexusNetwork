@@ -1,5 +1,5 @@
-import { db, collection, getDocs, addDoc, query, where } from '../../../js/firebase-init.js';
-import { INITIAL_STREAMERS } from '../../../js/seeds-data.js';
+import { db, collection, getDocs, addDoc, query, where } from '/js/firebase-init.js';
+import { INITIAL_STREAMERS } from '/js/seeds-data.js';
 
 let streamers = [];
 let streamerStates = {}; 
