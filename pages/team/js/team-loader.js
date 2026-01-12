@@ -1,6 +1,6 @@
 
-import { db, collection, getDocs, addDoc } from '/js/firebase-init.js';
-import { INITIAL_STAFF } from '/js/seeds-data.js';
+import { db, collection, getDocs, addDoc } from '../../../js/firebase-init.js';
+import { INITIAL_STAFF } from '../../../js/seeds-data.js';
 
 // Mapping Department -> ID Grid
 const GRID_MAP = {

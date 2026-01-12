@@ -5,8 +5,8 @@ import {
     ref, uploadBytes, getDownloadURL, 
     onAuthStateChanged, signOut,
     setPersistence, browserSessionPersistence
-} from '/js/firebase-init.js';
-import { INITIAL_STAFF, INITIAL_CREATORS, INITIAL_STREAMERS } from '/js/seeds-data.js';
+} from '../../../js/firebase-init.js';
+import { INITIAL_STAFF, INITIAL_CREATORS, INITIAL_STREAMERS } from '../../../js/seeds-data.js';
 
 // State locale
 let currentSection = 'staff';
