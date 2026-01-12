@@ -31,7 +31,7 @@ async function initDashboard() {
         if (!user) {
             // Vogliamo che il sito ricordi che siamo Dev (icona visibile), 
             // ma ci chieda il login per entrare (redirect).
-            window.location.href = '/login';
+            window.location.href = '../login';
         } else {
             // Conferma che siamo Dev con COOKIE (Scadenza 10 anni - "Per sempre")
             const d = new Date();
@@ -573,4 +573,5 @@ function capitalize(str) {
 
 // Avvio
 initDashboard();
+
 
