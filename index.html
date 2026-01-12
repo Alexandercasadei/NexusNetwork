@@ -1,71 +1,69 @@
 <!DOCTYPE html>
 <html lang="it">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus Network - TheRealSamTV</title>
 
     <script>
-      (function() {
-        // Tema immediato
+        // 1. GESTIONE TEMA IMMEDIATA
         const savedTheme = localStorage.getItem("theme") || "dark";
         document.documentElement.setAttribute("data-theme", savedTheme);
 
-        // Controllo Dominio e Percorso
-        const currentHost = window.location.hostname;
-        const currentPath = window.location.pathname;
-        const officialHost = 'nexus-network.it';
-        const officialPath = '/NexusNetwork/';
-
-        // Se non è localhost, forza il dominio e la cartella corretta
-        if (currentHost !== 'localhost' && currentHost !== '127.0.0.1') {
-            if (currentHost !== officialHost || !currentPath.includes('NexusNetwork')) {
-                window.location.replace('https://' + officialHost + officialPath);
+        // 2. FIX PERCORSI E REDIRECT (Evita la pagina bianca)
+        (function() {
+            const host = window.location.hostname;
+            const path = window.location.pathname;
+            
+            // Se l'utente entra da alexandercasadei.github.io, lo mandiamo sul dominio ufficiale
+            if (host.includes('github.io')) {
+                window.location.replace('https://nexus-network.it/NexusNetwork/');
+                return;
             }
-        }
-      })();
+
+            // Se siamo sul dominio ufficiale ma manca la sottocartella /NexusNetwork/
+            if (host === 'nexus-network.it' && !path.includes('/NexusNetwork/')) {
+                window.location.replace('https://nexus-network.it/NexusNetwork/');
+            }
+        })();
     </script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+</head>
+<body class="bg-[#121827] text-white">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="Favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="Favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="Favicon/favicon-16x16.png" />
-  </head>
-
-  <body>
-    <nav class="nav-container" style="transform: translateX(-50%) translateY(-20px); animation: fadeInDown 0.8s forwards 0.5s; opacity: 0;">
-      <div class="nav-glass">
-        <a href="index.html" class="nav-item text-cyan-400">Home</a>
-        <a href="pages/services/index.html" class="nav-item">Servizi</a>
-        <a href="pages/team/index.html" class="nav-item">Team</a>
-        <a href="pages/creators/index.html" class="nav-item">Creator</a>
-        <a href="pages/live/index.html" class="nav-item">Dirette</a>
-        <a href="pages/contacts/index.html" class="nav-item">Candidati</a>
-        
-        <button id="theme-toggle" class="text-gray-400 hover:text-cyan-400 transition-colors ml-2">
-          <i class="fas fa-moon"></i>
-        </button>
-      </div>
+    <nav class="nav-container" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 50;">
+        <div class="nav-glass px-6 py-3 rounded-full border border-white/10 bg-black/20 backdrop-blur-md flex gap-6 items-center">
+            <a href="index.html" class="text-cyan-400 font-bold">Home</a>
+            <a href="pages/services/index.html" class="hover:text-cyan-400 transition">Servizi</a>
+            <a href="pages/team/index.html" class="hover:text-cyan-400 transition">Team</a>
+            <a href="pages/creators/index.html" class="hover:text-cyan-400 transition">Creator</a>
+            <a href="pages/live/index.html" class="hover:text-cyan-400 transition">Dirette</a>
+            <a href="pages/contacts/index.html" class="hover:text-cyan-400 transition">Candidati</a>
+            <button id="theme-toggle" class="text-gray-400 hover:text-cyan-400"><i class="fas fa-moon"></i></button>
+        </div>
     </nav>
 
     <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
-      <div id="tsparticles" style="position: absolute; width: 100%; height: 100%; z-index: -1"></div>
-      <div class="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,_#22d3ee33,_transparent_70%)]"></div>
-
-      <h1 class="text-6xl md:text-7xl font-extrabold text-cyan-400 neon mb-6">NEXUS NETWORK</h1>
-      <p class="max-w-xl text-gray-300 text-lg mb-10">Network ufficiale di streamer, creator e sviluppatori.</p>
-
-      <div class="flex gap-4">
-        <a href="https://discord.gg/mG6qGfKeXp" target="_blank" class="px-8 py-4 rounded-xl bg-cyan-400 text-black font-bold glow">Discord</a>
-      </div>
+        <div id="tsparticles" class="absolute inset-0 -z-10"></div>
+        
+        <h1 class="text-5xl md:text-7xl font-extrabold text-cyan-400 mb-6 tracking-tighter" style="text-shadow: 0 0 20px rgba(34,211,238,0.5)">
+            NEXUS NETWORK
+        </h1>
+        <p class="max-w-xl text-gray-400 text-lg mb-10">
+            Network ufficiale di streamer, creator e sviluppatori.
+        </p>
+        
+        <a href="https://discord.gg/mG6qGfKeXp" target="_blank" class="px-8 py-4 bg-cyan-400 text-black font-bold rounded-xl hover:scale-105 transition shadow-lg shadow-cyan-400/20">
+            Entra nel Discord
+        </a>
     </section>
 
     <script src="js/script.js"></script>
     <script src="js/particles-config.js"></script>
-  </body>
+</body>
 </html>
