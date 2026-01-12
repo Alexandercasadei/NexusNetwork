@@ -1,0 +1,12 @@
+# Configurazioni sensibili
+.firebaserc
+firebase.json
+serve.json
+cors.json
+bs-config.js
+start_website.bat
+
+# Credenziali e chiavi
+.env
+*.pem
+service-account.json

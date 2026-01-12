@@ -1,13 +1,5 @@
 const creatorModal = document.getElementById("creatorModal");
 
-// Definiamo mFollowers ecc. se il modal esiste, per evitare errori globali su alcune pagine
-const mImg = document.getElementById("mImg");
-const mName = document.getElementById("mName");
-const mRole = document.getElementById("mRole");
-const mDesc = document.getElementById("mDesc");
-const mFollowers = document.getElementById("mFollowers"); // Per i follower di Twitch
-const mGithubStats = document.getElementById("mGithubStats"); // Per le statistiche di GitHub
-
 function openCreator(data) {
   if (!creatorModal) return;
   creatorModal.classList.remove("hidden");
@@ -19,6 +11,7 @@ function openCreator(data) {
   const modalRole = document.getElementById("mRole");
   const modalDesc = document.getElementById("mDesc");
   const modalFollowers = document.getElementById("mFollowers");
+  const modalInstagramStats = document.getElementById("mInstagramStats");
   const modalGithubStats = document.getElementById("mGithubStats");
 
   if (modalImg) modalImg.src = data.img;
@@ -28,6 +21,7 @@ function openCreator(data) {
 
   // Reset dei segnaposto per le statistiche
   if (modalFollowers) modalFollowers.innerHTML = "";
+  if (modalInstagramStats) modalInstagramStats.innerHTML = "";
   if (modalGithubStats) modalGithubStats.innerHTML = "";
 
   if (data.twitch && modalFollowers) {
@@ -36,8 +30,13 @@ function openCreator(data) {
     fetchTwitchFollowers(data.twitch);
   }
 
+  if (data.instagram && modalInstagramStats) {
+    modalInstagramStats.innerHTML =
+      '<i class="fas fa-circle-notch fa-spin mr-2"></i>Instagram...';
+    fetchInstagramFollowers(data.instagram);
+  }
+
   if (data.github && modalGithubStats) {
-    console.log("Fetching stars for:", data.github);
     modalGithubStats.innerHTML =
       '<i class="fas fa-circle-notch fa-spin mr-2"></i>GitHub...';
     fetchGithubStars(data.github);
@@ -52,15 +51,18 @@ async function fetchGithubStars(githubUrl) {
   const modalGithubStats = document.getElementById("mGithubStats");
   try {
     const username = githubUrl.split("/").pop();
-    console.log("Username GitHub estratto:", username);
     // Recupera tutti i repository pubblici per contare le stelle totali (limite 100 per semplicità)
-    const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
+    const response = await fetch(
+      `https://api.github.com/users/${username}/repos?per_page=100`
+    );
     const repos = await response.json();
-    
+
     if (Array.isArray(repos)) {
-      const totalStars = repos.reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0);
-      console.log("Stelle totali calcolate:", totalStars);
-      
+      const totalStars = repos.reduce(
+        (acc, repo) => acc + (repo.stargazers_count || 0),
+        0
+      );
+
       if (modalGithubStats) {
         modalGithubStats.innerHTML = `<i class="fas fa-star mr-2 text-yellow-500"></i><span class="font-bold text-white">${totalStars}</span>&nbsp;stelle GitHub`;
       }
@@ -71,6 +73,39 @@ async function fetchGithubStars(githubUrl) {
   } catch (err) {
     console.error("Errore GitHub Stars:", err);
     if (modalGithubStats) modalGithubStats.innerText = "";
+  }
+}
+
+async function fetchInstagramFollowers(instagramUrl) {
+  const modalInstagramStats = document.getElementById("mInstagramStats");
+  if (!modalInstagramStats) return;
+
+  try {
+    // Estrazione pulita dell'username (gestisce slash finali e query string)
+    const cleanUrl = instagramUrl.replace(/\/$/, "").split("?")[0];
+    const username = cleanUrl.split("/").pop().replace("@", "");
+    
+    const response = await fetch(`https://decapi.me/instagram/followcount/${username}`);
+    const count = await response.text();
+    
+    // Decapi.me restituisce spesso messaggi di errore come testo semplice
+    const isError = !count || count.toLowerCase().includes("error") || count.toLowerCase().includes("not found") || count.toLowerCase().includes("could not");
+
+    if (!isError && !isNaN(count.replace(/,/g, ""))) {
+      modalInstagramStats.innerHTML = `<i class="fab fa-instagram mr-2 text-pink-500"></i><span class="font-bold text-white">${count}</span>&nbsp;follower`;
+      modalInstagramStats.classList.remove("hidden");
+    } else {
+      console.warn("Instagram API Error or Private Account:", count);
+      // In caso di errore, nascondiamo la riga per non sporcare la UI
+      modalInstagramStats.innerHTML = "";
+      modalInstagramStats.classList.add("hidden");
+    }
+  } catch (err) {
+    console.error("Errore fetch Instagram:", err);
+    if (modalInstagramStats) {
+      modalInstagramStats.innerHTML = "";
+      modalInstagramStats.classList.add("hidden");
+    }
   }
 }
 
@@ -229,25 +264,26 @@ const formStatus = document.getElementById("formStatus");
 if (contactForm) {
   contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    
+
     // Stato caricamento
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i>Invio in corso...';
-    
+    submitBtn.innerHTML =
+      '<i class="fas fa-circle-notch fa-spin mr-2"></i>Invio in corso...';
+
     try {
       // Simuliamo un invio (mockup)
       // Qui andrebbe la logica reale (fetch a un endpoint backend o servizio email)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       // Successo
-      formStatus.textContent = "Messaggio inviato con successo! Ti risponderemo al più presto.";
+      formStatus.textContent =
+        "Messaggio inviato con successo! Ti risponderemo al più presto.";
       formStatus.className = "success p-4 rounded-xl font-medium mt-4";
       formStatus.classList.remove("hidden");
       contactForm.reset();
-      
     } catch (err) {
       // Errore
       formStatus.textContent = "Si è verificato un errore. Riprova più tardi.";
@@ -256,7 +292,7 @@ if (contactForm) {
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
-      
+
       // Nascondi lo stato dopo 5 secondi
       setTimeout(() => {
         formStatus.classList.add("hidden");

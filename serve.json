@@ -1,0 +1,15 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/team", "destination": "/pages/team/index.html" },
+    { "source": "/creators", "destination": "/pages/creators/index.html" },
+    { "source": "/live", "destination": "/pages/live/index.html" },
+    { "source": "/dashboard", "destination": "/pages/dashboard/index.html" },
+    { "source": "/contacts", "destination": "/pages/contacts/index.html" },
+    { "source": "/services", "destination": "/pages/services/index.html" },
+    { "source": "/login", "destination": "/pages/dashboard/login.html" },
+    { "source": "/admin", "destination": "/pages/dashboard/login.html" },
+    { "source": "/player", "destination": "/pages/live/player.html" },
+    { "source": "/favicon.ico", "destination": "/Favicon/favicon.ico" }
+  ]
+}

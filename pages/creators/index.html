@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Team - Nexus Network</title>
+    <title>Creator - Nexus Network</title>
 
     <!-- Favicon -->
     <link
@@ -71,8 +71,8 @@
       <div class="nav-glass">
         <a href="/" class="nav-item">Home</a>
         <a href="/services" class="nav-item">Servizi</a>
-        <a href="/team" class="nav-item text-cyan-400">Team</a>
-        <a href="/creators" class="nav-item">Creator</a>
+        <a href="/team" class="nav-item">Team</a>
+        <a href="/creators" class="nav-item text-cyan-400">Creator</a>
         <a href="/live" class="nav-item">Dirette</a>
         <a href="/contacts" class="nav-item">Candidati</a>
 
@@ -97,7 +97,7 @@
     </nav>
     <script src="/js/cookie-utils.js"></script>
 
-    <!-- HERO TEAM -->
+    <!-- HERO CREATORS -->
     <section
       class="min-h-[50vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden"
     >
@@ -111,93 +111,23 @@
       <h1
         class="text-5xl md:text-7xl font-extrabold text-cyan-400 neon mb-6 scroll-animate visible"
       >
-        IL NOSTRO TEAM
+        I CREATOR
       </h1>
       <p class="max-w-2xl text-gray-400 text-lg scroll-animate visible">
-        Incontra le menti e i talenti dietro il successo di Nexus Network.
+        Scopri i talenti che animano la nostra community ogni giorno.
       </p>
     </section>
 
     <!-- LISTA CREATOR (Dinamica) -->
-    <section class="py-24 px-6 max-w-7xl mx-auto space-y-24">
-      <!-- LEADERSHIP -->
+    <section class="py-24 px-6 max-w-7xl mx-auto min-h-[40vh]">
       <div class="scroll-animate visible">
         <h2
           class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
         >
-          Direzione e Fondatori
+          I Creator
         </h2>
         <div
-          id="founders-grid"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
-        >
-          <!-- JS Injected -->
-        </div>
-      </div>
-
-      <!-- MANAGER -->
-      <div class="scroll-animate visible">
-        <h2
-          class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
-        >
-          Manager
-        </h2>
-        <div
-          id="managers-grid"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
-        >
-          <!-- JS Injected -->
-        </div>
-      </div>
-
-      <div class="scroll-animate visible">
-        <h2
-          class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
-        >
-          Tecnico
-        </h2>
-        <div
-          id="dev-grid"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
-        ></div>
-      </div>
-
-      <div class="scroll-animate mt-20">
-        <h2
-          class="text-2xl font-bold text-cyan-500 mb-10 border-l-4 border-pink-500 pl-4 uppercase tracking-tighter"
-        >
-          Grafico
-        </h2>
-        <div
-          id="grafico-grid"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
-        ></div>
-      </div>
-
-      <!-- RISORSE UMANE -->
-      <div class="scroll-animate visible">
-        <h2
-          class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
-        >
-          Risorse Umane
-        </h2>
-        <div
-          id="hr-grid"
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
-        >
-          <!-- JS Injected -->
-        </div>
-      </div>
-
-      <!-- SOCIAL / MANAGEMENT -->
-      <div class="scroll-animate visible">
-        <h2
-          class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
-        >
-          Social Media Manager
-        </h2>
-        <div
-          id="social-grid"
+          id="creators-grid"
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
         >
           <!-- JS Injected -->
@@ -335,6 +265,13 @@
               </li>
               <li>
                 <a
+                  href="../creators/index.html"
+                  class="hover:text-cyan-400 transition-colors"
+                  >Creator</a
+                >
+              </li>
+              <li>
+                <a
                   href="../contacts/index.html"
                   class="hover:text-cyan-400 transition-colors"
                   >Contatti</a
@@ -369,6 +306,6 @@
     </footer>
 
     <script src="/js/script.js"></script>
-    <script type="module" src="/pages/team/js/team-loader.js"></script>
+    <script type="module" src="/pages/creators/js/creators-loader.js"></script>
   </body>
 </html>

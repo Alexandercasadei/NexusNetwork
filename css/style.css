@@ -64,6 +64,29 @@
   color: var(--text-secondary);
 }
 
+[data-theme="light"] input::placeholder {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="light"] footer h4 {
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.4) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] #streamerGrid .glass:hover {
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-theme="light"] #status-offline {
+  background: #e2e8f0 !important;
+  color: #64748b !important;
+}
+
 body {
   font-family: "Poppins", sans-serif;
   background-color: var(--bg-primary);
@@ -89,6 +112,19 @@ section {
   z-index: 1;
 }
 
+.creator img,
+.creator-placeholder {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.creator:hover img,
+.creator:hover .creator-placeholder {
+  transform: scale(1.1);
+}
+
 /* Navbar (Barra di Navigazione) */
 .nav-container {
   position: fixed;
@@ -111,9 +147,9 @@ section {
   backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border);
   border-radius: 100px;
-  padding: 12px 40px;
+  padding: 12px 35px;
   display: flex;
-  gap: 35px;
+  gap: 25px; /* Leggermente ridotto dall'originale 35px per far stare tutto */
   align-items: center;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
 }
@@ -301,7 +337,13 @@ section {
 
 .creator-info {
   transition: all 0.3s ease;
-  z-index: 30; /* Higher than bio */
+  z-index: 30; /* Più alto della bio per non essere sfocato */
+  pointer-events: none; /* Lascia i click alla bio sottostante */
+}
+
+.creator-info i {
+  pointer-events: auto; /* Riattiva i click sulle icone se necessario */
+  z-index: 40;
 }
 
 /* Nasconde nome e ruolo all'hover, ma mantiene le icone visibili */
@@ -454,9 +496,18 @@ section {
   color: white;
 }
 
-.social-icon.instagram { color: var(--color-instagram); border-color: rgba(225, 48, 108, 0.2); }
-.social-icon.twitch { color: var(--color-twitch); border-color: rgba(145, 70, 255, 0.2); }
-.social-icon.discord { color: var(--color-discord); border-color: rgba(88, 101, 242, 0.2); }
+.social-icon.instagram {
+  color: var(--color-instagram);
+  border-color: rgba(225, 48, 108, 0.2);
+}
+.social-icon.twitch {
+  color: var(--color-twitch);
+  border-color: rgba(145, 70, 255, 0.2);
+}
+.social-icon.discord {
+  color: var(--color-discord);
+  border-color: rgba(88, 101, 242, 0.2);
+}
 
 .social-icon.instagram:hover {
   background-color: var(--color-instagram);
@@ -481,66 +532,78 @@ section {
 
 /* Classi per icone grandi nella tab contatti */
 .social-btn-large {
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    filter: drop-shadow(0 0 5px rgba(0,0,0,0.2));
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
 }
-.social-btn-large.discord { color: var(--color-discord); }
-.social-btn-large.instagram { color: var(--color-instagram); }
-.social-btn-large.twitch { color: var(--color-twitch); }
+.social-btn-large.discord {
+  color: var(--color-discord);
+}
+.social-btn-large.instagram {
+  color: var(--color-instagram);
+}
+.social-btn-large.twitch {
+  color: var(--color-twitch);
+}
 
 .social-btn-large:hover {
-    transform: scale(1.2);
-    filter: drop-shadow(0 0 15px currentColor);
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 15px currentColor);
 }
 
 /* --- CONTACT FORM CUSTOM STYLES --- */
 #contactForm input,
 #contactForm textarea,
 #contactForm select {
-    transition: all 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.03);
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 #contactForm input:focus,
 #contactForm textarea:focus,
 #contactForm select:focus {
-    background-color: rgba(34, 211, 238, 0.05);
-    box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
+  background-color: rgba(34, 211, 238, 0.05);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
 }
 
 #contactForm label {
-    font-size: 0.75rem;
-    transition: color 0.3s ease;
+  font-size: 0.75rem;
+  transition: color 0.3s ease;
 }
 
 #contactForm div:focus-within label {
-    color: white;
-    text-shadow: 0 0 8px var(--accent-cyan);
+  color: white;
+  text-shadow: 0 0 8px var(--accent-cyan);
 }
 
 #formStatus.success {
-    display: block;
-    background: rgba(34, 211, 238, 0.1);
-    border: 1px solid var(--accent-cyan);
-    color: var(--accent-cyan);
-    animation: fadeInUp 0.5s ease forwards;
+  display: block;
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  animation: fadeInUp 0.5s ease forwards;
 }
 
 #formStatus.error {
-    display: block;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid #ef4444;
-    color: #ef4444;
-    animation: fadeInUp 0.5s ease forwards;
+  display: block;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  animation: fadeInUp 0.5s ease forwards;
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Divisori sezioni - margini verticali */
+.max-w-4xl.mx-auto.px-6 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }

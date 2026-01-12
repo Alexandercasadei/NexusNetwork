@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Dashboard - Nexus Network</title>
+    <!-- CSP for Local Development + Firebase + CDNs -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https://*.firebaseio.com https://*.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.firebaseio.com https://*.googleapis.com https://*.gstatic.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://decapi.me https://api.github.com https://www.gstatic.com ws://127.0.0.1:*; object-src 'none';"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/Favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/Favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/Favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/Favicon/site.webmanifest" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <script>
+      // Tema
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    </script>
+  </head>
+  <body
+    class="bg-[#050505] text-white overflow-hidden flex items-center justify-center h-screen"
+  >
+    <!-- Background -->
+    <div
+      class="fixed inset-0 z-[-1] opacity-30 bg-[radial-gradient(circle_at_center,_#22d3ee22,_transparent_70%)]"
+    ></div>
+    <div id="tsparticles" class="fixed inset-0 z-[-1]"></div>
+
+    <!-- Login Card -->
+    <div
+      class="glass glow rounded-3xl p-10 w-full max-w-md relative z-10 border border-cyan-400/20"
+    >
+      <div class="text-center mb-10">
+        <h1 class="text-3xl font-extrabold text-cyan-400 neon mb-2">
+          Dashboard
+        </h1>
+        <p class="text-gray-400 text-sm">Accedi per gestire il network</p>
+      </div>
+
+      <form id="loginForm" class="space-y-6">
+        <div
+          id="errorMessage"
+          class="hidden bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded-lg text-sm text-center"
+        >
+          Credenziali non valide
+        </div>
+
+        <div>
+          <label class="block text-gray-400 text-sm font-bold mb-2"
+            >Email</label
+          >
+          <div class="relative">
+            <span class="absolute left-4 top-3.5 text-gray-500">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <input
+              type="email"
+              id="username"
+              class="w-full bg-black/50 border border-gray-700 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)] transition-all"
+              placeholder="Inserisci email admin"
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-400 text-sm font-bold mb-2"
+            >Password</label
+          >
+          <div class="relative">
+            <span class="absolute left-4 top-3.5 text-gray-500">
+              <i class="fas fa-lock"></i>
+            </span>
+            <input
+              type="password"
+              id="password"
+              class="w-full bg-black/50 border border-gray-700 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)] transition-all"
+              placeholder="Inserisci password"
+              required
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-4 rounded-xl bg-cyan-400 text-black font-extrabold text-lg uppercase tracking-wide hover:bg-cyan-300 hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)]"
+        >
+          Accedi <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+      </form>
+
+      <div class="mt-8 text-center">
+        <a
+          href="../../index.html"
+          class="text-gray-500 hover:text-cyan-400 text-sm transition-colors"
+        >
+          <i class="fas fa-arrow-left mr-1"></i> Torna al sito
+        </a>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script src="../../js/particles-config.js"></script>
+
+    <script type="module">
+      import {
+        auth,
+        signInWithEmailAndPassword,
+      } from "../../js/firebase-init.js";
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("username").value; // Usiamo input username come email per firebase
+          const password = document.getElementById("password").value;
+          const errorMsg = document.getElementById("errorMessage");
+          const btn = e.target.querySelector("button");
+          const originalBtnText = btn.innerHTML;
+
+          // Loading state
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Accesso...';
+          btn.disabled = true;
+          errorMsg.classList.add("hidden");
+
+          try {
+            // Firebase Login (richiede email, quindi se username non é email, converrebbe gestirlo, ma per admin assumiamo email)
+            // Nota: In Firebase Auth si usa EMAIL, non username.
+            // Modificherò il placeholder in "Email".
+
+            await signInWithEmailAndPassword(auth, email, password);
+
+            // Successo -> Redirect gestito da onAuthStateChanged o diretto
+            // Salviamo Cookie per compatibilità (10 anni)
+            const d = new Date();
+            d.setTime(d.getTime() + 3650 * 24 * 60 * 60 * 1000);
+            document.cookie =
+              "adminToken=firebase-active; expires=" +
+              d.toUTCString() +
+              "; path=/";
+
+            window.location.href = "/dashboard";
+          } catch (error) {
+            console.error("Login Error:", error);
+            let msg = "Credenziali non valide";
+            if (error.code === "auth/invalid-email") msg = "Email non valida";
+            if (error.code === "auth/user-not-found")
+              msg = "Utente non trovato";
+            if (error.code === "auth/wrong-password") msg = "Password errata";
+            if (error.code === "auth/too-many-requests")
+              msg = "Troppi tentativi, riprova più tardi";
+
+            errorMsg.innerText = msg;
+            errorMsg.classList.remove("hidden");
+            btn.innerHTML = originalBtnText;
+            btn.disabled = false;
+          }
+        });
+    </script>
+  </body>
+</html>

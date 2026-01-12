@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "public": "./",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "cors.json",
+      "serve.json",
+      "bs-config.js",
+      "start_website.bat",
+      "LICENSE"
+    ],
+    "headers": [
+      {
+        "source": "/firebase.json",
+        "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+      }
+    ]
+  }
+}
