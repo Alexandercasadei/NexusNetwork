@@ -1,17 +1,18 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/team", "destination": "NexusNetwork/pages/team/index.html" },
-    { "source": "/creators", "destination": "NexusNetwork/pages/creators/index.html" },
-    { "source": "/live", "destination": "NexusNetwork/pages/live/index.html" },
-    { "source": "/dashboard", "destination": "NexusNetwork/pages/dashboard/index.html" },
-    { "source": "/contacts", "destination": "NexusNetwork/pages/contacts/index.html" },
-    { "source": "/services", "destination": "NexusNetwork/pages/services/index.html" },
-    { "source": "/login", "destination": "NexusNetwork/pages/dashboard/login.html" },
-    { "source": "/admin", "destination": "NexusNetwork/pages/dashboard/login.html" },
-    { "source": "/player", "destination": "NexusNetwork/pages/live/player.html" },
-    { "source": "/favicon.ico", "destination": "NexusNetwork/Favicon/favicon.ico" }
+    { "source": "/team", "destination": "/pages/team/index.html" },
+    { "source": "/creators", "destination": "/pages/creators/index.html" },
+    { "source": "/live", "destination": "/pages/live/index.html" },
+    { "source": "/dashboard", "destination": "/pages/dashboard/index.html" },
+    { "source": "/contacts", "destination": "/pages/contacts/index.html" },
+    { "source": "/services", "destination": "/pages/services/index.html" },
+    { "source": "/login", "destination": "/pages/dashboard/login.html" },
+    { "source": "/admin", "destination": "/pages/dashboard/login.html" },
+    { "source": "/player", "destination": "N/pages/live/player.html" },
+    { "source": "/favicon.ico", "destination": "/Favicon/favicon.ico" }
   ]
 }
+
 
 
