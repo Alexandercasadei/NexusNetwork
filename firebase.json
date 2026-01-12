@@ -9,13 +9,15 @@
       "serve.json",
       "bs-config.js",
       "start_website.bat",
-      "LICENSE"
+      "LICENSE",
+      ".firebaserc"
     ],
-    "headers": [
-      {
-        "source": "/firebase.json",
-        "headers": [{ "key": "Cache-Control", "value": "no-store" }]
-      }
+    "rewrites": [
+      { "source": "/team", "destination": "/pages/team/index.html" },
+      { "source": "/live", "destination": "/pages/live/index.html" },
+      { "source": "/creators", "destination": "/pages/creators/index.html" },
+      { "source": "/services", "destination": "/pages/services/index.html" },
+      { "source": "/contacts", "destination": "/pages/contacts/index.html" }
     ]
   }
 }
