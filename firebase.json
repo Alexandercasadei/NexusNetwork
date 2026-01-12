@@ -1,21 +1,21 @@
 {
   "hosting": {
-    "public": ".",
+    "public": "./",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "start_website.bat",
-      "bs-config.js",
+      "cors.json",
       "serve.json",
-      "cors.json"
+      "bs-config.js",
+      "start_website.bat",
+      "LICENSE"
     ],
-    "rewrites": [
-      { "source": "/team", "destination": "/pages/team/index.html" },
-      { "source": "/creators", "destination": "/pages/creators/index.html" },
-      { "source": "/live", "destination": "/pages/live/index.html" },
-      { "source": "/services", "destination": "/pages/services/index.html" },
-      { "source": "/contacts", "destination": "/pages/contacts/index.html" }
+    "headers": [
+      {
+        "source": "/firebase.json",
+        "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+      }
     ]
   }
 }
