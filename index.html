@@ -61,19 +61,6 @@
       const savedTheme = localStorage.getItem("theme") || "dark";
       document.documentElement.setAttribute("data-theme", savedTheme);
     </script>
-    <script>
-  // Controllo Dominio Ufficiale
-  const currentHost = window.location.hostname;
-  const officialHost = 'https://alexandercasadei.github.io/NexusNetwork/';
-
-  // Se non sono sul dominio ufficiale e non sono in locale (test), reindirizzo
-  if (currentHost !== officialHost && 
-      currentHost !== 'localhost' && 
-      currentHost !== '127.0.0.1') {
-      
-      window.location.replace('https://' + officialHost + window.location.pathname + window.location.search);
-  }
-</script>
   </head>
 
   <body>
