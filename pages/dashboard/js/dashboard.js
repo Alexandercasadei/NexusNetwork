@@ -89,7 +89,7 @@ async function initDashboard() {
         signOut(auth).then(() => {
             // Non rimuoviamo adminToken: l'utente vuole che l'icona resti visibile
             // localStorage.removeItem('adminToken'); 
-            window.location.href = '/login';
+            window.location.href = '../login.html';
         });
     });
 }
@@ -573,3 +573,4 @@ function capitalize(str) {
 
 // Avvio
 initDashboard();
+
