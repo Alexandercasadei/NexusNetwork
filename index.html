@@ -7,36 +7,34 @@
 
     <script>
       (function() {
-        // 1. Tema immediato
+        // Tema immediato
         const savedTheme = localStorage.getItem("theme") || "dark";
         document.documentElement.setAttribute("data-theme", savedTheme);
 
-        // 2. Controllo Dominio e Sottocartella
+        // Controllo Dominio e Percorso
         const currentHost = window.location.hostname;
         const currentPath = window.location.pathname;
         const officialHost = 'nexus-network.it';
         const officialPath = '/NexusNetwork/';
 
-        // Se non sono sul dominio corretto o non sono nella cartella corretta (e non sono in locale)
+        // Se non è localhost, forza il dominio e la cartella corretta
         if (currentHost !== 'localhost' && currentHost !== '127.0.0.1') {
-            if (currentHost !== officialHost || !currentPath.startsWith(officialPath)) {
+            if (currentHost !== officialHost || !currentPath.includes('NexusNetwork')) {
                 window.location.replace('https://' + officialHost + officialPath);
             }
         }
       })();
     </script>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="Favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="Favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="Favicon/favicon-16x16.png" />
-    <link rel="manifest" href="Favicon/site.webmanifest" />
-    <link rel="shortcut icon" href="Favicon/favicon.ico" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="Favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="Favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="Favicon/favicon-16x16.png" />
   </head>
 
   <body>
@@ -57,8 +55,11 @@
 
     <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
       <div id="tsparticles" style="position: absolute; width: 100%; height: 100%; z-index: -1"></div>
+      <div class="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,_#22d3ee33,_transparent_70%)]"></div>
+
       <h1 class="text-6xl md:text-7xl font-extrabold text-cyan-400 neon mb-6">NEXUS NETWORK</h1>
       <p class="max-w-xl text-gray-300 text-lg mb-10">Network ufficiale di streamer, creator e sviluppatori.</p>
+
       <div class="flex gap-4">
         <a href="https://discord.gg/mG6qGfKeXp" target="_blank" class="px-8 py-4 rounded-xl bg-cyan-400 text-black font-bold glow">Discord</a>
       </div>
