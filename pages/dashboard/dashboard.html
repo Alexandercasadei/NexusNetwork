@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Admin - Nexus Network</title>
+    <title>Dashboard</title>
     <!-- CSP for Local Development + Firebase + CDNs -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self' https://*.firebaseio.com https://*.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.firebaseio.com https://*.googleapis.com https://*.gstatic.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://decapi.me https://api.github.com https://www.gstatic.com ws://127.0.0.1:*; object-src 'none';"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https:; img-src 'self' data: https:; connect-src 'self' https: ws: wss:; frame-src 'self' https:; object-src 'none';"
     />
 
     <!-- Favicon -->
@@ -20,13 +20,13 @@
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="../../Favicon/favicon-32x32.png"
+      href="../../assets/images/Icons/Moderator.gif"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../../Favicon/favicon-16x16.png"
+      href="../../assets/images/Icons/Moderator.gif"
     />
     <link rel="manifest" href="../../Favicon/site.webmanifest" />
 
@@ -36,6 +36,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
     <link rel="stylesheet" href="../../css/style.css" />
+    <script src="../../js/heart-rain.js"></script>
 
     <script>
       const savedTheme = localStorage.getItem("theme") || "dark";
@@ -49,7 +50,7 @@
       }
 
       if (!getCookie("adminToken")) {
-        window.location.href = "/login";
+        window.location.href = "login.html";
       }
     </script>
     <style>
@@ -61,6 +62,9 @@
     </style>
   </head>
   <body class="bg-[#050505] text-white flex h-screen overflow-hidden">
+    <!-- Heart Rain Container -->
+    <div id="heart-rain-container"></div>
+
     <!-- Sidebar -->
     <aside class="w-64 glass border-r border-white/5 flex flex-col z-20">
       <div class="p-6 border-b border-white/5">
@@ -261,8 +265,6 @@
       </div>
     </main>
 
-    <!-- Modals (Semplificati per ora) -->
-    <!-- Staff Modal -->
     <!-- Generic Dynamic Modal -->
     <div
       id="modal"
@@ -276,7 +278,7 @@
           <i class="fas fa-times text-xl"></i>
         </button>
         <h3 class="text-2xl font-bold mb-6" id="modalTitle">
-          Aggiungi Elemento
+          Aggiungi
         </h3>
 
         <form
@@ -297,10 +299,32 @@
       </div>
     </div>
 
-    <!-- Creator Modal (simile) -->
-    <!-- Streamer Modal (simile) -->
+    <!-- Image Picker Modal -->
+    <div
+      id="imagePicker"
+      class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4"
+    >
+      <div class="glass p-8 rounded-2xl max-w-2xl w-full relative">
+        <button
+          onclick="closeImagePicker()"
+          class="absolute top-4 right-4 text-gray-400 hover:text-white"
+        >
+          <i class="fas fa-times text-xl"></i>
+        </button>
+        <h3 class="text-2xl font-bold mb-6">Seleziona Immagine Profilo</h3>
+        <div id="imageGrid" class="grid grid-cols-4 gap-4 max-h-96 overflow-y-auto">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
     <!-- Custom Dashboard Logic -->
     <script type="module" src="/pages/dashboard/js/dashboard.js"></script>
     <script type="module" src="/pages/dashboard/js/export-db.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const heartRain = new HeartRain('heart-rain-container', '/assets/images/Icons/heart.png');
+        heartRain.trigger(15);
+      });
+    </script>
   </body>
 </html>

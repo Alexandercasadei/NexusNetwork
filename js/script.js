@@ -1,3 +1,7 @@
+// ============================================================================
+// MODAL CREATOR - Apri modal con dati creator/staff
+// ============================================================================
+
 const creatorModal = document.getElementById("creatorModal");
 
 function openCreator(data) {
@@ -5,7 +9,6 @@ function openCreator(data) {
   creatorModal.classList.remove("hidden");
   creatorModal.classList.add("flex");
 
-  // Selezioniamo gli elementi all'apertura in caso non siano stati trovati all'avvio
   const modalImg = document.getElementById("mImg");
   const modalName = document.getElementById("mName");
   const modalRole = document.getElementById("mRole");
@@ -19,7 +22,6 @@ function openCreator(data) {
   if (modalRole) modalRole.innerText = data.role;
   if (modalDesc) modalDesc.innerText = data.desc;
 
-  // Reset dei segnaposto per le statistiche
   if (modalFollowers) modalFollowers.innerHTML = "";
   if (modalInstagramStats) modalInstagramStats.innerHTML = "";
   if (modalGithubStats) modalGithubStats.innerHTML = "";
@@ -47,11 +49,14 @@ function openCreator(data) {
   toggleLink("mInstagram", data.instagram);
 }
 
+// ============================================================================
+// SOCIAL STATS - Fetch followers/stats da Twitch, Instagram, GitHub
+// ============================================================================
+
 async function fetchGithubStars(githubUrl) {
   const modalGithubStats = document.getElementById("mGithubStats");
   try {
     const username = githubUrl.split("/").pop();
-    // Recupera tutti i repository pubblici per contare le stelle totali (limite 100 per semplicità)
     const response = await fetch(
       `https://api.github.com/users/${username}/repos?per_page=100`
     );
@@ -140,7 +145,17 @@ function closeCreator() {
   creatorModal.classList.add("hidden");
 }
 
-// Intersection Observer per animazioni scroll
+// Chiudi modale cliccando fuori
+window.addEventListener("click", (e) => {
+  if (e.target === creatorModal) {
+    closeCreator();
+  }
+});
+
+// ============================================================================
+// SCROLL ANIMATIONS - Intersection Observer per effetti al scroll
+// ============================================================================
+
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -156,7 +171,10 @@ document
   .querySelectorAll(".scroll-animate, .creator")
   .forEach((el) => observer.observe(el));
 
-// Integrazione dello stato LIVE di Twitch
+// ============================================================================
+// TWITCH LIVE STATUS - Verifica stato live dei streamer
+// ============================================================================
+
 const STREAMERS = [
   { name: "TheRealSam", username: "therealsamtv" },
   { name: "Darius", username: "itsdariuus" },
@@ -178,7 +196,6 @@ async function checkTwitchStatus() {
 }
 
 function updateLiveStatus(name, isLive, username) {
-  // Trova tutte le card che contengono il nome dello streamer nel parametro dell'onclick
   const cards = document.querySelectorAll(
     `[onclick*="'${name}'"], [onclick*='"${name}"']`
   );
@@ -203,11 +220,13 @@ function updateLiveStatus(name, isLive, username) {
   });
 }
 
-// Controllo ogni minuto
 checkTwitchStatus();
 setInterval(checkTwitchStatus, 60000);
 
-// Effetto di scorrimento Navbar intelligente
+// ============================================================================
+// NAVBAR & THEME - Scroll effects e toggle tema light/dark
+// ============================================================================
+
 const nav = document.querySelector(".nav-container");
 window.addEventListener("scroll", () => {
   if (nav) {
@@ -219,13 +238,10 @@ window.addEventListener("scroll", () => {
   }
 });
 
-// Logica di cambio tema (semplice e affidabile)
 const themeToggle = document.getElementById("theme-toggle");
 
 if (themeToggle) {
   const savedTheme = localStorage.getItem("theme") || "dark";
-  // Il tema viene già impostato in Head per evitare flash,
-  // qui aggiorniamo solo l'icona e aggiungiamo il listener.
   updateToggleUI(savedTheme);
 
   themeToggle.addEventListener("click", () => {
@@ -244,20 +260,17 @@ function updateToggleUI(theme) {
 
   if (theme === "light") {
     icon.className = "fas fa-sun";
-    themeToggle.style.color = "#eab308"; // Giallo sole
+    themeToggle.style.color = "#eab308";
   } else {
     icon.className = "fas fa-moon";
-    themeToggle.style.color = ""; // Torna al default (grigio)
+    themeToggle.style.color = "";
   }
 }
-// Chiudi il modale cliccando fuori dalla card
-window.addEventListener("click", (e) => {
-  if (e.target === creatorModal) {
-    closeCreator();
-  }
-});
 
-// Gestione Form Contatti
+// ============================================================================
+// CONTACT FORM - Gestione form contatti/candidature con Discord Webhook
+// ============================================================================
+
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
 
@@ -268,35 +281,111 @@ if (contactForm) {
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
 
-    // Stato caricamento
     submitBtn.disabled = true;
     submitBtn.innerHTML =
       '<i class="fas fa-circle-notch fa-spin mr-2"></i>Invio in corso...';
 
     try {
-      // Simuliamo un invio (mockup)
-      // Qui andrebbe la logica reale (fetch a un endpoint backend o servizio email)
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Raccogli dati dal form
+      const formData = new FormData(contactForm);
+      const data = {
+        name: formData.get("name"),
+        discord: formData.get("discord"),
+        subject: formData.get("subject"),
+        message: formData.get("message")
+      };
+
+      // Validazione base
+      if (!data.name || !data.discord || !data.subject || !data.message) {
+        throw new Error("Compila tutti i campi obbligatori");
+      }
+
+      // Manda a Discord Webhook
+      await sendToDiscord(data);
 
       // Successo
       formStatus.textContent =
-        "Messaggio inviato con successo! Ti risponderemo al più presto.";
-      formStatus.className = "success p-4 rounded-xl font-medium mt-4";
+        "✅ Messaggio inviato con successo! Ti risponderemo al più presto.";
+      formStatus.className = "success p-4 rounded-xl font-medium mt-4 bg-green-500/10 text-green-400 border border-green-500/30";
       formStatus.classList.remove("hidden");
       contactForm.reset();
     } catch (err) {
+      console.error("Errore invio:", err);
       // Errore
-      formStatus.textContent = "Si è verificato un errore. Riprova più tardi.";
-      formStatus.className = "error p-4 rounded-xl font-medium mt-4";
+      formStatus.textContent = `❌ Errore: ${err.message || "Riprova più tardi."}`;
+      formStatus.className = "error p-4 rounded-xl font-medium mt-4 bg-red-500/10 text-red-400 border border-red-500/30";
       formStatus.classList.remove("hidden");
     } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
 
-      // Nascondi lo stato dopo 5 secondi
+      // Nascondi lo stato dopo 8 secondi
       setTimeout(() => {
         formStatus.classList.add("hidden");
-      }, 5000);
+      }, 8000);
     }
   });
+}
+
+// Invia il messaggio a Discord tramite Webhook
+async function sendToDiscord(data) {
+  // Leggi il webhook da config (da aggiungere prima di questo script)
+  const webhookUrl = typeof CONFIG !== "undefined" ? CONFIG.DISCORD_WEBHOOK_URL : null;
+  
+  if (!webhookUrl || webhookUrl.includes("YOUR_WEBHOOK")) {
+    throw new Error("⚠️ Webhook Discord non configurato. Contatta l'amministratore del sito.");
+  }
+
+  // Crea l'embed per Discord (formato bello)
+  const embed = {
+    title: `📝 Nuovo Messaggio da ${data.name}`,
+    color: 0x22d3ee, // Cyan
+    fields: [
+      {
+        name: "🎮 Discord",
+        value: data.discord,
+        inline: true
+      },
+      {
+        name: "📌 Oggetto",
+        value: capitalizeSubject(data.subject),
+        inline: true
+      },
+      {
+        name: "💬 Messaggio",
+        value: data.message || "N/A",
+        inline: false
+      }
+    ],
+    timestamp: new Date().toISOString(),
+    footer: {
+      text: "Nexus Network - Contact Form"
+    }
+  };
+
+  // POST al webhook Discord
+  const response = await fetch(webhookUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username: "Nexus Candidature",
+      avatar_url: "https://nexus-network.it/Logo.png",
+      embeds: [embed]
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Discord API: ${response.statusText}`);
+  }
+}
+
+function capitalizeSubject(subject) {
+  const labels = {
+    "collaborazione": "🤝 Collaborazione",
+    "supporto": "🔧 Supporto Tecnico",
+    "altro": "📬 Altro"
+  };
+  return labels[subject] || subject;
 }

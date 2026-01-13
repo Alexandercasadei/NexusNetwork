@@ -3,65 +3,83 @@ tsParticles.load("tsparticles", {
   fpsLimit: 60,
   particles: {
     number: {
-      value: 60,
+      value: 80,
       density: {
         enable: true,
         area: 800,
       },
     },
     color: {
-      value: ["#9146FF", "#64748b", "#00d2ff"],
+      value: ["#22d3ee", "#9146FF", "#ff1493", "#ffd700", "#00ff00"],
     },
     shape: {
-      type: ["circle", "image", "polygon"],
-      options: {
-        polygon: {
-          sides: 5,
+      type: "character",
+      character: [
+        {
+          char: "♥",
+          weight: "400",
+          style: "normal",
+          fill: true,
+          font: "Verdana"
         },
-        image: [
-          {
-            // Mini Logo Twitch Glitch (equivalente SVG Path)
-            src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik00MCAwSDYuN0wwIDYuN1YzMy4zSDEwVjQwTDE2LjcgMzMuM0gyNi43TDQwIDIwVjBaTTM2LjcgMTguM0wzMCAyNUgyMEwxNSAzMFYyNUg4LjNWMy4zSDM2LjdWMTguM1pNMzAgNi43VjE1SDI1VjYuN0gzMFpNMTguMyA2LjdWMTVIMTMuM1Y2LjdIMTguM1oiLz48L3N2Zz4=",
-            width: 100,
-            height: 100,
-          },
-          {
-            // Mini Bolla Chat
-            src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzkxNDZGRiI+PHBhdGggZD0iTTIwIDJINGMtMS4xIDAtMiAuOS0yIDJ2MThsNC00aDE0Yy4xIDAgMi0uOSAyLTJWNGMwLTEuMS0uOS0yLTItMnoiLz48L3N2Zz4=",
-            width: 100,
-            height: 100,
-          }
-        ]
-      },
+        {
+          char: "★",
+          weight: "400",
+          style: "normal",
+          fill: true,
+          font: "Verdana"
+        },
+        {
+          char: "◆",
+          weight: "400",
+          style: "normal",
+          fill: true,
+          font: "Verdana"
+        },
+        {
+          char: "✦",
+          weight: "400",
+          style: "normal",
+          fill: true,
+          font: "Verdana"
+        }
+      ]
     },
     opacity: {
-      value: 0.4,
+      value: 0.6,
       random: true,
       animation: {
         enable: true,
         speed: 1,
-        minimumValue: 0.1,
+        minimumValue: 0.2,
         sync: false,
       },
     },
     size: {
-      value: { min: 2, max: 6 },
+      value: { min: 8, max: 20 },
       random: true,
+      animation: {
+        enable: true,
+        speed: 2,
+        minimumValue: 5,
+        sync: false,
+      }
     },
     links: {
-      enable: true,
-      distance: 150,
-      color: "#9146FF",
-      opacity: 0.3,
-      width: 1,
+      enable: false,
     },
     move: {
       enable: true,
-      speed: 1.2,
-      direction: "none",
+      speed: 2,
+      direction: "top",
       random: true,
       straight: false,
       outModes: "out",
+      gravity: {
+        enable: true,
+        acceleration: 5,
+        maxSpeed: 8,
+      }
     },
   },
   interactivity: {
@@ -77,13 +95,14 @@ tsParticles.load("tsparticles", {
     },
     modes: {
       bubble: {
-        distance: 200,
-        size: 10,
+        distance: 150,
+        size: 25,
         duration: 2,
-        opacity: 0.8,
+        opacity: 1,
+        speed: 3,
       },
       push: {
-        quantity: 4,
+        quantity: 6,
       },
     },
   },
@@ -94,16 +113,16 @@ tsParticles.load("tsparticles", {
       options: {
         particles: {
           number: {
-            value: 30, // Conteggio ridotto
+            value: 40,
           },
-          links: {
-            enable: false, // Più pulito su schermi piccoli
+          size: {
+            value: { min: 6, max: 14 },
           },
         },
         interactivity: {
           events: {
             onHover: {
-              enable: false, // Evita lag su mobile
+              enable: false,
             },
           },
         },
@@ -114,7 +133,10 @@ tsParticles.load("tsparticles", {
       options: {
         particles: {
           number: {
-            value: 15, // Minimo indispensabile per mobile
+            value: 20,
+          },
+          size: {
+            value: { min: 5, max: 10 },
           },
         },
         interactivity: {

@@ -1,11 +1,13 @@
 
 import { 
-    auth, db, 
+    auth, db, storage, 
     collection, getDocs, addDoc, deleteDoc, doc, updateDoc, 
+    ref, uploadBytes, getDownloadURL, 
     onAuthStateChanged, signOut,
     setPersistence, browserSessionPersistence
-} from '/js/firebase-init.js';
-import { INITIAL_STAFF, INITIAL_CREATORS, INITIAL_STREAMERS } from '/js/seeds-data.js';
+} from '../../../js/firebase-init.js';
+import { INITIAL_STAFF, INITIAL_CREATORS, INITIAL_STREAMERS } from '../../../js/seeds-data.js';
+import { openImagePicker, closeImagePicker } from './image-picker.js';
 
 // State locale
 let currentSection = 'staff';
@@ -31,7 +33,7 @@ async function initDashboard() {
         if (!user) {
             // Vogliamo che il sito ricordi che siamo Dev (icona visibile), 
             // ma ci chieda il login per entrare (redirect).
-            window.location.href = '../login';
+            window.location.href = '/login';
         } else {
             // Conferma che siamo Dev con COOKIE (Scadenza 10 anni - "Per sempre")
             const d = new Date();
@@ -89,7 +91,7 @@ async function initDashboard() {
         signOut(auth).then(() => {
             // Non rimuoviamo adminToken: l'utente vuole che l'icona resti visibile
             // localStorage.removeItem('adminToken'); 
-            window.location.href = '../login.html';
+            window.location.href = '../../index.html';
         });
     });
 }
@@ -257,7 +259,9 @@ function createRow(item, section) {
             </td>
             <td class="py-4 px-4">${statusCell}</td>
             <td class="py-4 px-4 text-right">
-                <!-- Edit button rimosso su richiesta -->
+                <button onclick='window.openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})' class="text-gray-500 hover:text-cyan-400 transition-colors p-2 mr-2">
+                    <i class="fas fa-edit"></i>
+                </button>
                 <button onclick="window.deleteItem('${item._id}')" class="text-gray-500 hover:text-red-400 transition-colors p-2">
                     <i class="fas fa-trash"></i>
                 </button>
@@ -293,6 +297,14 @@ async function fetchLiveStatus(username, elementId) {
 }
 
 // Gestione Modale e Form (Add & Edit)
+window.openImagePickerForSection = function() {
+    openImagePicker(currentSection, (imagePath) => {
+        document.getElementById('selectedImageUrl').value = imagePath;
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = `<img src="${imagePath}" class="w-16 h-16 rounded object-cover">`;
+    });
+};
+
 window.openModal = function(item = null) {
     document.getElementById('modal').classList.remove('hidden');
     document.getElementById('modal').classList.add('flex');
@@ -317,28 +329,28 @@ function renderFormFields(item = null) {
     fieldsContainer.innerHTML = '';
     
     // Campo nascosto per ID (se edit mode)
-    // Campo nascosto per ID (se edit mode)
-    if (item && item._id) {
-        // Usa createElement per sicurezza
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'id';
-        hiddenInput.value = item._id;
-        fieldsContainer.appendChild(hiddenInput);
-        console.log("Edit Mode attivata per ID:", item._id); // Debug
+    if (item) {
+        fieldsContainer.innerHTML += `<input type="hidden" name="id" value="${item._id}">`;
     }
 
-    const commonFields = `
-        <div>
-            <label class="block text-gray-400 text-sm mb-2">Nome</label>
-            <input type="text" name="name" value="${item ? item.name : ''}" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-purple-500 focus:outline-none placeholder-gray-600">
-        </div>
-        <div>
-            <label class="block text-gray-400 text-sm mb-2">Immagine Profilo ${item ? '(Lascia vuoto per non cambiare)' : ''}</label>
-            <input type="file" name="image" accept="image/*" class="w-full bg-gray-900 text-gray-400 text-sm border border-gray-700 rounded p-2">
-            ${item && item.imageUrl ? `<div class="mt-2 text-xs text-gray-500">Immagine attuale: <a href="${item.imageUrl}" target="_blank" class="text-cyan-400 hover:underline">Link</a></div>` : ''}
-        </div>
-    `;
+     const commonFields = `
+         <div>
+             <label class="block text-gray-400 text-sm mb-2">Nome</label>
+             <input type="text" name="name" value="${item ? item.name : ''}" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-purple-500 focus:outline-none placeholder-gray-600">
+         </div>
+         <div>
+             <label class="block text-gray-400 text-sm mb-2">Immagine Profilo</label>
+             <div class="flex gap-2">
+                 <button type="button" onclick="window.openImagePickerForSection()" class="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 text-black rounded-xl font-bold hover:from-cyan-400 hover:to-cyan-500 transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.5)]">
+                     <i class="fas fa-folder mr-2"></i>Seleziona Immagine
+                 </button>
+             </div>
+             <input type="hidden" name="imageUrl" id="selectedImageUrl" value="${item ? (item.imageUrl || '') : ''}">
+             <div id="imagePreview" class="mt-2 text-xs text-gray-500">
+                 ${item && item.imageUrl ? `<img src="${item.imageUrl}" class="w-16 h-16 rounded object-cover border border-cyan-400/30">` : ''}
+             </div>
+         </div>
+     `;
 
     let specificFields = '';
 
@@ -348,16 +360,11 @@ function renderFormFields(item = null) {
                 <label class="block text-gray-400 text-sm mb-2">Dipartimento (Cruciale per la visualizzazione)</label>
                 <select name="department" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white">
                     <option value="" disabled ${!item ? 'selected' : ''}>Seleziona Dipartimento</option>
-                    <option value="Direzione" ${item && item.department === 'Direzione' ? 'selected' : ''}>Direzione (Founder/Co-Founder)</option>
                     <option value="Manager" ${item && item.department === 'Manager' ? 'selected' : ''}>Manager</option>
-                    <option value="Tecnico" ${item && item.department === 'Tecnico' ? 'selected' : ''}>Tecnico (Dev/Grafica)</option>
-                    <option value="HR" ${item && item.department === 'HR' ? 'selected' : ''}>HR (Risorse Umane)</option>
-                    <option value="Moderazione" ${item && item.department === 'Moderazione' ? 'selected' : ''}>Moderazione</option>
+                    <option value="Developer" ${item && item.department === 'Developer' ? 'selected' : ''}>Developer</option>
+                    <option value="Grafico" ${item && item.department === 'Grafico' ? 'selected' : ''}>Grafico</option>
+                    <option value="HR" ${item && item.department === 'HR' ? 'selected' : ''}>HR</option>
                 </select>
-            </div>
-            <div>
-                <label class="block text-gray-400 text-sm mb-2">Ruolo (Testo Libero)</label>
-                <input type="text" name="role" value="${item ? item.role : ''}" placeholder="es. Founder, Developer, Mod..." required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white placeholder-gray-600">
             </div>
             <div>
                 <label class="block text-gray-400 text-sm mb-2">Descrizione</label>
@@ -372,7 +379,7 @@ function renderFormFields(item = null) {
                 </div>
             </div>
         `;
-    } else if (currentSection === 'creators') {
+    }else if (currentSection === 'creators') {
         specificFields = `
              <div>
                 <label class="block text-gray-400 text-sm mb-2">Piattaforma</label>
@@ -419,66 +426,10 @@ function renderFormFields(item = null) {
     fieldsContainer.innerHTML = commonFields + specificFields;
 }
 
-// Helper Compression & Base64
-function compressImage(file, maxWidth, quality) {
-    console.log("Inizio compressione:", file.name);
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        
-        reader.onload = (event) => {
-            console.log("File letto, caricamento immagine...");
-            const img = new Image();
-            img.src = event.target.result;
-            
-            img.onload = () => {
-                console.log("Immagine caricata, ridimensionamento...");
-                const canvas = document.createElement('canvas');
-                let width = img.width;
-                let height = img.height;
-
-                if (width > maxWidth) {
-                    height *= maxWidth / width;
-                    width = maxWidth;
-                }
-
-                canvas.width = width;
-                canvas.height = height;
-
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
-
-                const dataUrl = canvas.toDataURL('image/jpeg', quality);
-                console.log("Compressione completata, lunghezza:", dataUrl.length);
-                resolve(dataUrl);
-            };
-            
-            img.onerror = (err) => {
-                console.error("Errore caricamento img:", err);
-                reject(err);
-            };
-        };
-        
-        reader.onerror = (err) => {
-            console.error("Errore FileReader:", err);
-            reject(err);
-        };
-
-        // Avvia lettura DOPO aver settato i listener
-        reader.readAsDataURL(file);
-    });
-}
-
-// Gestione Submit Form (Create & Update)
 // Gestione Submit Form (Create & Update)
 window.handleFormSubmit = async function(e) {
     e.preventDefault();
-    e.stopPropagation(); // Stop bubbling
-    
     const btn = e.target.querySelector('button[type="submit"]');
-    
-    // Prevent double check if already disabled
-    if (btn.disabled) return;
-
     const originalText = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvataggio...';
     btn.disabled = true;
@@ -491,31 +442,20 @@ window.handleFormSubmit = async function(e) {
             data[key] = (typeof value === 'string') ? value.trim() : value;
         }
 
-        const editId = data.id ? data.id.trim() : null; // Recupera ID sicuro
+        const editId = data.id; // Recupera ID se esiste
 
         if (editId) delete data.id; // Non vogliamo salvare l'ID nei dati del documento
-        
-        console.log("Salvataggio in corso... Edit ID:", editId); // DEBUG LOG
 
-        // Gestione Immagine (Compressione Automatica)
-        const imageFile = formData.get('image');
-        if (imageFile && imageFile.size > 0) {
-            // Avviso utente (opzionale, per UX)
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.innerHTML = '<i class="fas fa-compress fa-spin"></i> Ottimizzazione...';
-            
-            try {
-                // Compressione (Max 800px, Qualità 0.7 JPEG)
-                // Questo permette di caricare anche foto da 10MB, riducendole a <100kb
-                data.imageUrl = await compressImage(imageFile, 800, 0.7);
-            } catch (err) {
-                console.error("Errore compressione:", err);
-                alert("Errore durante l'ottimizzazione dell'immagine.");
-                return; // Stop
-            }
-        } 
-        
-        // RIMUOVI SEMPRE IL CAMPO "image" (che contiene l'oggetto File) per evitare crash Firebase
+        // Se l'immagine è già selezionata dal picker (non caricata da file)
+        if (data.imageUrl && data.imageUrl.startsWith('../../assets/images/')) {
+            // È già una path locale, non fare nulla
+        } else if (data.imageUrl) {
+            // Se viene passato un URL (da edit), mantenilo
+        } else {
+            delete data.imageUrl; // Rimuovi se vuoto
+        }
+
+        // Rimuovi il campo 'image' se esiste (file input non caricato)
         delete data.image;
 
         // Checkbox handling (form data non include checkbox unchecked)
@@ -573,5 +513,3 @@ function capitalize(str) {
 
 // Avvio
 initDashboard();
-
-

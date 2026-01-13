@@ -52,9 +52,13 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="../../css/style.css" />
+    <script src="../../js/heart-rain.js"></script>
   </head>
 
   <body>
+    <!-- Heart Rain Container -->
+    <div id="heart-rain-container"></div>
+
     <!-- NAVIGAZIONE -->
     <nav
       class="nav-container"
@@ -65,18 +69,21 @@
       "
     >
       <div class="nav-glass">
-        <a href="/" class="nav-item">Home</a>
-        <a href="/services" class="nav-item">Servizi</a>
-        <a href="/team" class="nav-item">Team</a>
-        <a href="/creators" class="nav-item">Creator</a>
-        <a href="/live" class="nav-item text-cyan-400">Dirette</a>
-        <a href="/contacts" class="nav-item">Candidati</a>
+        <a href="../../index.html" class="nav-item">Home</a>
+        <a href="../services/services.html" class="nav-item">Servizi</a>
+        <a href="../team/team.html" class="nav-item">Team</a>
+        <a href="../creators/creators.html" class="nav-item">Creator</a>
+        <a href="../live/live.html" class="nav-item text-cyan-400">Dirette</a>
+        <a href="../contacts/contacts.html" class="nav-item">Candidati</a>
 
         <div id="admin-panel-link" class="hidden items-center gap-4">
           <div class="w-px h-4 bg-gray-700"></div>
-          <a href="/dashboard" class="nav-item transform hover:scale-110">
+          <a
+            href="/pages/dashboard/login.html"
+            class="nav-item transform hover:scale-110"
+          >
             <img
-              src="/assets/images/Icons/Moderator.gif"
+              src="../../assets/images/Icons/Moderator.gif"
               alt="Dashboard"
               class="w-6 h-6 object-contain"
             />
@@ -91,7 +98,7 @@
         </button>
       </div>
     </nav>
-    <script src="/js/cookie-utils.js"></script>
+    <script src="../../js/cookie-utils.js"></script>
 
     <!-- HERO LIVE -->
     <section
@@ -123,6 +130,7 @@
           class="fas fa-search absolute right-6 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-cyan-400 transition-colors"
         ></i>
       </div>
+      <script src="../../js/particles-config.js"></script>
     </section>
 
     <!-- GRIGLIA STREAMER (TRASFORMATA IN LISTA ROW) -->
@@ -168,14 +176,14 @@
               </li>
               <li>
                 <a
-                  href="../team/index.html"
+                  href="../team/team.html"
                   class="hover:text-cyan-400 transition-colors"
                   >Team</a
                 >
               </li>
               <li>
                 <a
-                  href="../contacts/index.html"
+                  href="../contacts/contacts.html"
                   class="hover:text-cyan-400 transition-colors"
                   >Contatti</a
                 >
@@ -206,7 +214,24 @@
       </div>
     </footer>
 
-    <script src="/js/script.js"></script>
+    <script src="../../js/script.js"></script>
     <script type="module" src="/pages/live/js/live-loader.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const heartRain = new HeartRain('heart-rain-container', '../../assets/images/Icons/heart.png');
+        heartRain.trigger(20);
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                heartRain.trigger(15);
+              }
+            });
+          }, { threshold: 0.3 });
+          observer.observe(section);
+        });
+      });
+    </script>
   </body>
 </html>

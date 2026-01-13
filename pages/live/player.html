@@ -6,11 +6,11 @@
     <title>Live Player - Nexus Network</title>
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/Favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/Favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/Favicon/favicon-16x16.png">
-    <link rel="manifest" href="/Favicon/site.webmanifest">
-    <link rel="shortcut icon" href="/Favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../Favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../Favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../Favicon/favicon-16x16.png">
+    <link rel="manifest" href="../../Favicon/site.webmanifest">
+    <link rel="shortcut icon" href="../../Favicon/favicon.ico">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script>
@@ -23,6 +23,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/heart-rain.js"></script>
     <style>
       .player-container {
         height: calc(100vh - 200px);
@@ -37,35 +38,38 @@
     </style>
   </head>
   <body class="bg-[#050505] text-white overflow-x-hidden">
+    <!-- Heart Rain Container -->
+    <div id="heart-rain-container"></div>
+
     <!-- BACKGROUND DINAMICO (STILE HOME) -->
     <div id="tsparticles" class="fixed inset-0 z-[-1]"></div>
     <div class="fixed inset-0 z-[-1] opacity-30 bg-[radial-gradient(circle_at_center,_#22d3ee22,_transparent_70%)]"></div>
 
     <nav class="nav-container">
       <div class="nav-glass">
-        <a href="/" class="nav-item">Home</a>
-        <a href="/services" class="nav-item">Servizi</a>
-        <a href="/team" class="nav-item">Team</a>
-        <a href="/creators" class="nav-item">Creator</a>
-        <a href="/live" class="nav-item text-cyan-400">Dirette</a>
-        <a href="/contacts" class="nav-item">Candidati</a>
+        <a href="../../index.html" class="nav-item">Home</a>
+        <a href="../../pages/services/services.html" class="nav-item">Servizi</a>
+        <a href="../../pages/team/team.html" class="nav-item">Team</a>
+        <a href="../../pages/creators/creators.html" class="nav-item">Creator</a>
+        <a href="../../pages/live/live.html" class="nav-item text-cyan-400">Dirette</a>
+        <a href="../../pages/contacts/contacts.html" class="nav-item">Candidati</a>
 
         <div id="admin-panel-link" class="hidden items-center gap-4">
             <div class="w-px h-4 bg-gray-700"></div>
-            <a href="/dashboard" class="nav-item transform hover:scale-110">
-               <img src="/assets/images/Icons/Moderator.gif" alt="Dashboard" class="w-6 h-6 object-contain">
+             <a href="/pages/dashboard/login.html" class="nav-item transform hover:scale-110">
+               <img src="../../assets/images/Icons/Moderator.gif" alt="Dashboard" class="w-6 h-6 object-contain">
             </a>
         </div>
       </div>
 
-     <script src="/js/cookie-utils.js"></script>
+     <script src="../../js/cookie-utils.js"></script>
     </nav>
 
     <main class="pt-32 px-4 max-w-7xl mx-auto pb-20">
       <!-- HEADER PLAYER -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
         <div class="space-y-2">
-          <a href="index.html" class="text-gray-500 hover:text-cyan-400 transition-colors flex items-center gap-2 font-bold text-sm uppercase tracking-widest">
+          <a href="../../pages/live/live.html" class="text-gray-500 hover:text-cyan-400 transition-colors flex items-center gap-2 font-bold text-sm uppercase tracking-widest">
             <i class="fas fa-arrow-left"></i> Torna alla directory
           </a>
           <div class="flex items-center gap-4">
@@ -317,7 +321,22 @@
       document.addEventListener('DOMContentLoaded', initPlayer);
     </script>
     <script src="../../js/script.js"></script>
-  </body>
-    <script src="../../js/script.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const heartRain = new HeartRain('heart-rain-container', '/assets/images/Icons/heart.png');
+        heartRain.trigger(20);
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                heartRain.trigger(15);
+              }
+            });
+          }, { threshold: 0.3 });
+          observer.observe(section);
+        });
+      });
+    </script>
   </body>
 </html>
