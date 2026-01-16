@@ -1,43 +1,62 @@
+import { auth, onAuthStateChanged, signOut } from './firebase-init.js';
 
-// Cookie Helpers
-function setCookie(cname, cvalue, exdays) {
-  const d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  let expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-  console.log("Cookie set:", cname);
-}
+const ALLOWED_EMAILS = [
+    'therealsam@nexusfounder.it',
+    'shadowstrike@nexusdev.it',
+    'lucifer@nexusdev.it'
+];
 
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
-// Check Admin Token on Load
 document.addEventListener('DOMContentLoaded', () => {
-    const adminLink = document.getElementById('admin-panel-link');
-    
-    // Backup: Se c'è in localStorage (vecchio metodo) ma non nei cookie, creiamo il cookie
-    if (localStorage.getItem('adminToken') && !getCookie('adminToken')) {
-        setCookie('adminToken', 'firebase-active', 3650);
-    }
+    const adminLinkContainer = document.getElementById('admin-panel-link');
+    const authLink = document.getElementById('auth-link');
 
-    const hasCookie = getCookie('adminToken');
-    console.log("Admin Check - Cookie:", hasCookie);
+    onAuthStateChanged(auth, (user) => {
+        // 0. Protezione Sito: Se non loggato, reindirizza al login
+        if (!user) {
+            // Calcola il percorso relativo per il login
+            const isInPages = window.location.pathname.includes('/pages/');
+            // Evita loop se siamo già nella pagina di login (anche se questo script non dovrebbe esserci lì)
+            if (!window.location.pathname.includes('login.html')) {
+                window.location.replace(isInPages ? '../dashboard/login.html' : 'pages/dashboard/login.html');
+            }
+            return;
+        }
 
-    if (adminLink && hasCookie) {
-        adminLink.classList.remove('hidden');
-        adminLink.classList.add('flex');
-    }
+        // 1. Gestione Icona Dashboard (Solo Admin)
+        if (adminLinkContainer) {
+            if (user && ALLOWED_EMAILS.includes(user.email.toLowerCase())) {
+                adminLinkContainer.classList.remove('hidden');
+                adminLinkContainer.classList.add('flex');
+                
+                // Aggiorna il link per puntare alla dashboard
+                const link = adminLinkContainer.querySelector('a');
+                if (link && link.getAttribute('href').includes('login.html')) {
+                    link.setAttribute('href', link.getAttribute('href').replace('login.html', 'dashboard.html'));
+                }
+            } else {
+                adminLinkContainer.classList.add('hidden');
+                adminLinkContainer.classList.remove('flex');
+            }
+        }
+
+        // 2. Gestione Tasto Logout (Sempre Logout perché il login è obbligatorio)
+        if (authLink) {
+            authLink.innerHTML = '<i class="fas fa-sign-out-alt mr-2"></i>Logout';
+            authLink.classList.add('text-red-400', 'hover:text-red-300', 'font-bold');
+            
+            if (!authLink.dataset.loginHref) {
+                authLink.dataset.loginHref = authLink.getAttribute('href');
+            }
+            authLink.removeAttribute('href');
+            authLink.style.cursor = 'pointer';
+
+            authLink.onclick = (e) => {
+                e.preventDefault();
+                signOut(auth).then(() => {
+                    // Il reload attiverà il redirect al login (punto 0)
+                    window.location.reload();
+                });
+            };
+        }
+    });
 });

@@ -1,7 +1,7 @@
 // Firebase Configuration v9 (Modular SDK)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, setDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 const firebaseConfig = {
@@ -23,7 +23,7 @@ const storage = getStorage(app);
 // Export services
 export { 
     auth, db, storage, 
-    signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence,
-    collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where, orderBy,
+    signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence, browserLocalPersistence,
+    collection, getDocs, addDoc, deleteDoc, doc, updateDoc, setDoc, query, where, orderBy,
     ref, uploadBytes, getDownloadURL, deleteObject
 };

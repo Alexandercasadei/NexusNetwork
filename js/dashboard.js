@@ -21,25 +21,13 @@ const COLLECTIONS = {
 // 1. Inizializza Dashboard
 async function initDashboard() {
     
-    // Imposta persistenza SESSION (Il login dura solo finché il browser è aperto)
-    try {
-        await setPersistence(auth, browserSessionPersistence);
-    } catch (error) {
-        console.error("Errore persistenza:", error);
-    }
-
     // Auth Check e Setup
     onAuthStateChanged(auth, (user) => {
         if (!user) {
             // Vogliamo che il sito ricordi che siamo Dev (icona visibile), 
             // ma ci chieda il login per entrare (redirect).
-            window.location.href = '/login';
+            window.location.href = 'login.html';
         } else {
-            // Conferma che siamo Dev con COOKIE (Scadenza 10 anni - "Per sempre")
-            const d = new Date();
-            d.setTime(d.getTime() + (3650*24*60*60*1000));
-            document.cookie = "adminToken=firebase-active; expires=" + d.toUTCString() + "; path=/";
-
             // Nomi custom
             let adminName = user.email.split('@')[0];
             let roleTitle = 'Amministratore';
@@ -47,10 +35,13 @@ async function initDashboard() {
 
             if (adminEmail === 'lucifer@nexusdev.it') {
                 adminName = 'Lucifer';
-                roleTitle = ''; 
+                roleTitle = 'Developer'; 
             } else if (adminEmail === 'shadowstrike@nexusdev.it') {
                 adminName = 'ShadowStrike';
-                roleTitle = 'Lead Developer';
+                roleTitle = 'Developer';
+            } else if (adminEmail === 'therealsam@nexusfounder.it') {
+                adminName = 'TheRealSam';
+                roleTitle = 'Founder';
             }
 
             const nameEl = document.getElementById('adminUsername');
@@ -89,8 +80,6 @@ async function initDashboard() {
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
         signOut(auth).then(() => {
-            // Non rimuoviamo adminToken: l'utente vuole che l'icona resti visibile
-            // localStorage.removeItem('adminToken'); 
             window.location.href = '../../index.html';
         });
     });
@@ -107,6 +96,8 @@ function switchView(section) {
 
     if (section === 'dashboard') {
         loadDashboardStats();
+    } else if (section === 'knowledge') {
+        loadKnowledgeBase();
     } else {
         loadData(section);
     }
@@ -126,6 +117,47 @@ async function loadDashboardStats() {
     }
 }
 
+// Carica Knowledge Base dal Backend Python
+async function loadKnowledgeBase() {
+    const tableBody = document.getElementById('knowledgeTableBody');
+    if (!tableBody) return;
+
+    tableBody.innerHTML = '<tr><td colspan="4" class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl"></i></td></tr>';
+    tableBody.innerHTML = '<tr><td colspan="3" class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl"></i></td></tr>';
+
+    try {
+        const response = await fetch('http://localhost:8000/knowledge');
+        if (!response.ok) throw new Error("Backend AI non raggiungibile");
+        
+        const data = await response.json();
+        
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="4" class="text-center py-8 text-gray-500">Nessuna domanda trovata.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="3" class="text-center py-8 text-gray-500">Nessuna domanda trovata.</td></tr>';
+            return;
+        }
+
+        data.forEach(item => {
+            tableBody.innerHTML += `
+                <tr class="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
+                    <td class="py-4 px-4 text-xs text-yellow-500 uppercase font-bold tracking-wider">${item.category || 'Generale'}</td>
+                    <td class="py-4 px-4 font-bold text-cyan-400">${item.question}</td>
+                    <td class="py-4 px-4 text-gray-300">${item.answer}</td>
+                    <td class="py-4 px-4 text-right">
+                        <button onclick='window.openModal(${JSON.stringify(item).replace(/'/g, "&#39;")})' class="text-gray-500 hover:text-cyan-400 transition-colors p-2 mr-2"><i class="fas fa-edit"></i></button>
+                        <button onclick="window.deleteItem('${item.id}')" class="text-gray-500 hover:text-red-400 transition-colors p-2"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+        });
+    } catch (error) {
+        console.error("Errore KB:", error);
+        tableBody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-red-500">Errore: Assicurati che <code>backend/main.py</code> sia in esecuzione.<br>${error.message}</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-red-500">Errore: Assicurati che <code>backend/main.py</code> sia in esecuzione.<br>${error.message}</td></tr>`;
+    }
+}
+
 // Funzione per caricare i dati nelle tabelle
 async function loadData(section) {
     // Determina il body tabella corretto
@@ -138,22 +170,8 @@ async function loadData(section) {
     try {
         const querySnapshot = await getDocs(collection(db, COLLECTIONS[section]));
         
-        // AUTO-SEEDING se vuoto
-        if (querySnapshot.empty) {
-            console.log(`Collezione ${section} vuota. Inizializzazione dati...`);
-            let seedData = [];
-            if (section === 'staff') seedData = INITIAL_STAFF;
-            if (section === 'creators') seedData = INITIAL_CREATORS;
-            if (section === 'streamers') seedData = INITIAL_STREAMERS;
-
-            if (seedData && seedData.length > 0) {
-                tableBody.innerHTML = '<tr><td colspan="4" class="text-center py-8 text-yellow-500">Inizializzazione database locale... (Refresh tra poco)</td></tr>';
-                const promises = seedData.map(item => addDoc(collection(db, COLLECTIONS[section]), item));
-                await Promise.all(promises);
-                // Ricarica ricorsiva
-                return loadData(section); 
-            }
-        }
+        // AUTO-SEEDING RIMOSSO: Ora se cancelli tutto, rimane vuoto.
+        // Nessuna rigenerazione automatica dei dati di esempio.
 
         // Render
         tableBody.innerHTML = '';
@@ -280,7 +298,8 @@ async function fetchLiveStatus(username, elementId) {
         if (!el) return;
 
         // Se offline, decapi restituisce "username is offline" oppure vuoto
-        const isOffline = text.toLowerCase().includes('offline') || !text;
+        // Aggiunto controllo per "not found" o errori generici per evitare falsi positivi LIVE
+        const isOffline = text.toLowerCase().includes('offline') || text.toLowerCase().includes('not found') || text.toLowerCase().includes('error') || !text;
 
         if (!isOffline) {
             // LIVE
@@ -333,24 +352,60 @@ function renderFormFields(item = null) {
         fieldsContainer.innerHTML += `<input type="hidden" name="id" value="${item._id}">`;
     }
 
-     const commonFields = `
+    // Costruzione campi comuni
+    let commonFields = `
          <div>
              <label class="block text-gray-400 text-sm mb-2">Nome</label>
              <input type="text" name="name" value="${item ? item.name : ''}" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-purple-500 focus:outline-none placeholder-gray-600">
          </div>
-         <div>
-             <label class="block text-gray-400 text-sm mb-2">Immagine Profilo</label>
-             <div class="flex gap-2">
-                 <button type="button" onclick="window.openImagePickerForSection()" class="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 text-black rounded-xl font-bold hover:from-cyan-400 hover:to-cyan-500 transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_25px_rgba(34,211,238,0.5)]">
-                     <i class="fas fa-folder mr-2"></i>Seleziona Immagine
-                 </button>
-             </div>
-             <input type="hidden" name="imageUrl" id="selectedImageUrl" value="${item ? (item.imageUrl || '') : ''}">
-             <div id="imagePreview" class="mt-2 text-xs text-gray-500">
-                 ${item && item.imageUrl ? `<img src="${item.imageUrl}" class="w-16 h-16 rounded object-cover border border-cyan-400/30">` : ''}
-             </div>
+    `;
+
+    // Campo Immagine Automatico per TUTTI (Staff, Creators, Streamers)
+    commonFields += `
+     <div>
+         <label class="block text-gray-400 text-sm mb-2">Immagine Profilo</label>
+         <p class="text-xs text-gray-500 mb-2"><i class="fas fa-magic mr-1"></i>Verrà rilevata automaticamente dai social (Twitch/GitHub).</p>
+         <div id="imagePreview" class="mt-2 text-xs text-gray-500">
+             ${item && item.imageUrl ? `<img src="${item.imageUrl}" class="w-16 h-16 rounded object-cover border border-cyan-400/30">` : ''}
          </div>
-     `;
+         <input type="hidden" name="imageUrl" value="${item ? (item.imageUrl || '') : ''}">
+     </div>
+    `;
+
+    if (currentSection === 'knowledge') {
+        // Se stiamo modificando, aggiungiamo l'ID nascosto
+        let hiddenId = item ? `<input type="hidden" name="id" value="${item.id}">` : '';
+        
+        fieldsContainer.innerHTML = `
+            ${hiddenId}
+            <div>
+                <label class="block text-gray-400 text-sm mb-2">Categoria</label>
+                <select name="category" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-yellow-500 focus:outline-none">
+                    <option value="Generale" ${item && item.category === 'Generale' ? 'selected' : ''}>Generale</option>
+                    <option value="Tecnico" ${item && item.category === 'Tecnico' ? 'selected' : ''}>Tecnico</option>
+                    <option value="Setup" ${item && item.category === 'Setup' ? 'selected' : ''}>Setup</option>
+                    <option value="Strategia" ${item && item.category === 'Strategia' ? 'selected' : ''}>Strategia</option>
+                    <option value="Moderazione" ${item && item.category === 'Moderazione' ? 'selected' : ''}>Moderazione</option>
+                    <option value="Economia" ${item && item.category === 'Economia' ? 'selected' : ''}>Economia</option>
+                    <option value="Legale" ${item && item.category === 'Legale' ? 'selected' : ''}>Legale</option>
+                    <option value="Salute" ${item && item.category === 'Salute' ? 'selected' : ''}>Salute</option>
+                    <option value="Grafica" ${item && item.category === 'Grafica' ? 'selected' : ''}>Grafica</option>
+                    <option value="Hardware" ${item && item.category === 'Hardware' ? 'selected' : ''}>Hardware</option>
+                    <option value="Troubleshooting" ${item && item.category === 'Troubleshooting' ? 'selected' : ''}>Troubleshooting</option>
+                    <option value="Configurazione" ${item && item.category === 'Configurazione' ? 'selected' : ''}>Configurazione</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-gray-400 text-sm mb-2">Domanda</label>
+                <input type="text" name="question" value="${item ? item.question : ''}" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-yellow-500 focus:outline-none placeholder-gray-600" placeholder="Es. Come configuro OBS?">
+            </div>
+            <div>
+                <label class="block text-gray-400 text-sm mb-2">Risposta</label>
+                <textarea name="answer" rows="4" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-yellow-500 focus:outline-none placeholder-gray-600" placeholder="La risposta dell'AI...">${item ? item.answer : ''}</textarea>
+            </div>
+        `;
+        return; // Esci, non servono i campi comuni
+    }
 
     let specificFields = '';
 
@@ -442,6 +497,28 @@ window.handleFormSubmit = async function(e) {
             data[key] = (typeof value === 'string') ? value.trim() : value;
         }
 
+        // Gestione Knowledge Base (API Python)
+        if (currentSection === 'knowledge') {
+            const id = data.id;
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `http://localhost:8000/knowledge/${id}` : 'http://localhost:8000/knowledge';
+
+            const response = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            if (!response.ok) throw new Error("Errore salvataggio su Backend AI");
+            
+            closeModal();
+            loadKnowledgeBase();
+            
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
+        }
+
         const editId = data.id; // Recupera ID se esiste
 
         if (editId) delete data.id; // Non vogliamo salvare l'ID nei dati del documento
@@ -458,12 +535,59 @@ window.handleFormSubmit = async function(e) {
         // Rimuovi il campo 'image' se esiste (file input non caricato)
         delete data.image;
 
-        // Checkbox handling (form data non include checkbox unchecked)
+        // --- AUTO-FETCH AVATAR LOGIC ---
+        
+        // 1. STAFF: Prova Twitch, poi GitHub
+        if (currentSection === 'staff') {
+            if (data.twitch) {
+                try {
+                    const username = data.twitch.split('/').pop();
+                    const res = await fetch(`https://decapi.me/twitch/avatar/${username}`);
+                    const url = await res.text();
+                    if (url && url.startsWith('http')) data.imageUrl = url;
+                } catch(e) { console.error("Err avatar staff twitch", e); }
+            }
+            // Se non ha trovato twitch o è fallito, prova GitHub
+            if (!data.imageUrl && data.github) {
+                const username = data.github.split('/').pop();
+                data.imageUrl = `https://github.com/${username}.png`;
+            }
+        }
+
+        // 2. CREATORS: Prova Twitch se il link è di Twitch
         if (currentSection === 'creators') {
             data.isFeatured = e.target.isFeatured.checked;
+            if (data.url && data.url.includes('twitch.tv')) {
+                try {
+                    const username = data.url.split('/').pop();
+                    const res = await fetch(`https://decapi.me/twitch/avatar/${username}`);
+                    const url = await res.text();
+                    if (url && url.startsWith('http')) data.imageUrl = url;
+                } catch(e) { console.error("Err avatar creator", e); }
+            }
         }
+
+        // Checkbox handling (form data non include checkbox unchecked)
         if (currentSection === 'streamers') {
             data.active = e.target.active.checked;
+            
+            // Pulizia Username: Rimuove eventuali URL incollati per sbaglio
+            if (data.username) {
+                data.username = data.username.replace('https://www.twitch.tv/', '').replace('https://twitch.tv/', '').replace('twitch.tv/', '').replace('/', '').trim();
+            }
+
+            // Auto-Fetch Avatar Twitch
+            if (data.username) {
+                try {
+                    const res = await fetch(`https://decapi.me/twitch/avatar/${data.username}`);
+                    const avatarUrl = await res.text();
+                    if (avatarUrl && !avatarUrl.includes("error") && !avatarUrl.includes("not found")) {
+                        data.imageUrl = avatarUrl;
+                    }
+                } catch (e) {
+                    console.error("Errore fetch avatar:", e);
+                }
+            }
         }
 
         if (editId) {
@@ -495,6 +619,15 @@ window.handleFormSubmit = async function(e) {
 
 window.deleteItem = async function(id) {
     // Conferma rimossa come richiesto
+    
+    if (currentSection === 'knowledge') {
+        if(!confirm("Sei sicuro di voler eliminare questa domanda?")) return;
+        try {
+            await fetch(`http://localhost:8000/knowledge/${id}`, { method: 'DELETE' });
+            loadKnowledgeBase();
+        } catch (e) { console.error(e); }
+        return;
+    }
     
     try {
         await deleteDoc(doc(db, COLLECTIONS[currentSection], id));

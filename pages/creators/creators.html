@@ -9,30 +9,29 @@
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="../../Favicon/apple-touch-icon.png"
+      href="../../assets/images/favicon/apple-touch-icon.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="../../Favicon/favicon-32x32.png"
+      href="../../assets/images/favicon/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../../Favicon/favicon-16x16.png"
+      href="../../assets/images/favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="../../Favicon/site.webmanifest" />
-    <link rel="shortcut icon" href="../../Favicon/favicon.ico" />
+    <link rel="manifest" href="../../assets/images/favicon/site.webmanifest" />
+    <link rel="shortcut icon" href="../../assets/images/favicon/favicon.ico" />
 
     <!-- Politica di Sicurezza del Contenuto (CSP) -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https:; img-src 'self' data: https:; connect-src 'self' https: ws: wss:; frame-src 'self' https:; object-src 'none';"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: http://localhost:8000; frame-src 'self' https:; object-src 'none';"
     />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script>
       const savedTheme = localStorage.getItem("theme") || "dark";
       document.documentElement.setAttribute("data-theme", savedTheme);
@@ -45,7 +44,7 @@
     />
 
     <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../css/output.css" />
 
     <!-- Font Awesome -->
     <link
@@ -60,9 +59,6 @@
   </head>
 
   <body>
-    <!-- Heart Rain Container -->
-    <div id="heart-rain-container"></div>
-
     <!-- NAVIGAZIONE -->
     <nav
       class="nav-container"
@@ -81,17 +77,19 @@
         >
         <a href="../live/live.html" class="nav-item">Dirette</a>
         <a href="../contacts/contacts.html" class="nav-item">Candidati</a>
+        <a id="auth-link" href="../dashboard/login.html" class="nav-item"
+          >Login</a
+        >
 
         <div id="admin-panel-link" class="hidden items-center gap-4">
           <div class="w-px h-4 bg-gray-700"></div>
           <a
-            href="/pages/dashboard/login.html"
+            href="../dashboard/login.html"
             class="nav-item transform hover:scale-110"
           >
             <img
               src="../../assets/images/Icons/Moderator.gif"
               alt="Dashboard"
-              class="w-6 h-6 object-contain"
             />
           </a>
         </div>
@@ -104,16 +102,13 @@
         </button>
       </div>
     </nav>
-    <script src="../../js/cookie-utils.js"></script>
+    <script type="module" src="../../js/cookie-utils.js"></script>
 
     <!-- HERO CREATORS -->
     <section
       class="min-h-[50vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden"
     >
-      <div
-        id="tsparticles"
-        style="position: absolute; width: 100%; height: 100%; z-index: -1"
-      ></div>
+      <div id="heart-rain-container"></div>
       <div
         class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_#22d3ee33,_transparent_70%)]"
       ></div>
@@ -316,10 +311,8 @@
     </footer>
 
     <script src="../../js/script.js"></script>
-    <script
-      type="module"
-      src="../../pages/creators/js/creators-loader.js"
-    ></script>
+    <script type="module" src="../../js/creators-loader.js"></script>
+    <script src="../../js/nexus-ai.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const heartRain = new HeartRain(

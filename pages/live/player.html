@@ -26,7 +26,6 @@
     <link rel="manifest" href="../../Favicon/site.webmanifest" />
     <link rel="shortcut icon" href="../../Favicon/favicon.ico" />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script>
       const savedTheme = localStorage.getItem("theme") || "dark";
       document.documentElement.setAttribute("data-theme", savedTheme);
@@ -62,7 +61,7 @@
     <div id="heart-rain-container"></div>
 
     <!-- BACKGROUND DINAMICO (STILE HOME) -->
-    <div id="tsparticles" class="fixed inset-0 z-[-1]"></div>
+
     <div
       class="fixed inset-0 z-[-1] opacity-30 bg-[radial-gradient(circle_at_center,_#22d3ee22,_transparent_70%)]"
     ></div>
@@ -142,7 +141,7 @@
       <!-- PLAYER CONTAINER -->
       <div
         id="main-player-wrapper"
-        class="glass glow rounded-3xl overflow-hidden bg-black/60 player-container border border-cyan-400/20 shadow-2xl relative"
+        class="glass glow rounded-3xl overflow-hidden bg-black player-container border border-cyan-400/20 shadow-2xl relative"
       >
         <div id="twitch-player" class="w-full h-full"></div>
       </div>
@@ -235,88 +234,6 @@
       </div>
     </footer>
 
-    <script>
-      // Configurazione particelle con logo Twitch pulito
-      tsParticles.load("tsparticles", {
-        fullScreen: { enable: false },
-        particles: {
-          number: {
-            value: 25,
-            density: {
-              enable: true,
-              area: 1000,
-            },
-          },
-          shape: {
-            type: "image",
-            image: {
-              src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0iIzkxNDZmZiI+PHBhdGggZD0iTTQwIDBoLTMzLjNsLTYuNyA2Ljd2MjYuNmgxMHY2LjdsNi43LTYuN2gxMGwxMy4zLTEzLjN2LTIwem0tMy4zIDE4LjMtNi43IDYuN2gtMTBsLTUgNXYtNWgtNi43di0yMS43aDI4LjR6bS02LjctMTEuNnY4LjNoLTMuM3YtOC4zem0tMTEuNyAwdjguM2gtMy4zdi04LjN6Ii8+PC9zdmc+",
-              width: 40,
-              height: 40,
-            },
-          },
-          opacity: {
-            value: 0.25,
-            random: true,
-            animation: {
-              enable: true,
-              speed: 0.3,
-              minimumValue: 0.05,
-              sync: false,
-            },
-          },
-          size: {
-            value: 25,
-            random: {
-              enable: true,
-              minimumValue: 15,
-            },
-            animation: {
-              enable: true,
-              speed: 1.5,
-              minimumValue: 15,
-              sync: false,
-            },
-          },
-          move: {
-            enable: true,
-            speed: 0.8,
-            direction: "none",
-            random: true,
-            straight: false,
-            outModes: "out",
-          },
-          rotate: {
-            value: 0,
-            random: false,
-            direction: "clockwise",
-            animation: {
-              enable: true,
-              speed: 1,
-              sync: false,
-            },
-          },
-        },
-        interactivity: {
-          events: {
-            onHover: {
-              enable: true,
-              mode: "bubble",
-            },
-            resize: true,
-          },
-          modes: {
-            bubble: {
-              distance: 150,
-              size: 35,
-              duration: 2,
-              opacity: 0.5,
-            },
-          },
-        },
-        detectRetina: true,
-      });
-    </script>
     <script>
       function initPlayer() {
         const urlParams = new URLSearchParams(window.location.search);

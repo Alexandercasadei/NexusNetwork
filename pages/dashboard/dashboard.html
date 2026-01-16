@@ -7,30 +7,30 @@
     <!-- CSP for Local Development + Firebase + CDNs -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https:; img-src 'self' data: https:; connect-src 'self' https: ws: wss:; frame-src 'self' https:; object-src 'none';"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: http://localhost:8000; frame-src 'self' https:; object-src 'none';"
     />
 
     <!-- Favicon -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="../../Favicon/apple-touch-icon.png"
+      href="../../assets/images/favicon/apple-touch-icon.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="../../assets/images/Icons/Moderator.gif"
+      href="../../assets/images/favicon/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../../assets/images/Icons/Moderator.gif"
+      href="../../assets/images/favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="../../Favicon/site.webmanifest" />
+    <link rel="manifest" href="../../assets/images/favicon/site.webmanifest" />
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../css/output.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -41,17 +41,6 @@
     <script>
       const savedTheme = localStorage.getItem("theme") || "dark";
       document.documentElement.setAttribute("data-theme", savedTheme);
-
-      // Auth Check
-      function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(";").shift();
-      }
-
-      if (!getCookie("adminToken")) {
-        window.location.href = "login.html";
-      }
     </script>
     <style>
       .sidebar-link.active {
@@ -98,6 +87,12 @@
           class="sidebar-link w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
         >
           <i class="fas fa-broadcast-tower w-6"></i> Gestione Dirette
+        </button>
+        <button
+          data-section="knowledge"
+          class="sidebar-link w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+        >
+          <i class="fas fa-brain w-6"></i> Knowledge Base AI
         </button>
       </nav>
 
@@ -263,6 +258,35 @@
           </table>
         </div>
       </div>
+
+      <!-- Knowledge Base View -->
+      <div id="view-knowledge" class="p-10 page-view hidden">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-bold">Knowledge Base AI</h2>
+          <button
+            onclick="openModal()"
+            class="px-6 py-2 bg-yellow-500 text-black rounded-xl font-bold hover:bg-yellow-400 transition-colors"
+          >
+            <i class="fas fa-plus mr-2"></i> Aggiungi Domanda
+          </button>
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl border border-white/10">
+          <table class="w-full text-left border-collapse">
+            <thead class="bg-white/5 text-gray-400 uppercase text-xs">
+              <tr>
+                <th class="p-4">Categoria</th>
+                <th class="p-4 w-1/3">Domanda</th>
+                <th class="p-4">Risposta</th>
+                <th class="p-4 text-right">Azioni</th>
+              </tr>
+            </thead>
+            <tbody id="knowledgeTableBody" class="divide-y divide-white/5 text-sm">
+              <!-- Popolato via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
     </main>
 
     <!-- Generic Dynamic Modal -->
@@ -318,12 +342,22 @@
       </div>
     </div>
     <!-- Custom Dashboard Logic -->
-    <script type="module" src="/pages/dashboard/js/dashboard.js"></script>
-    <script type="module" src="/pages/dashboard/js/export-db.js"></script>
+    <script type="module" src="../../js/dashboard.js"></script>
+    <script type="module" src="../../js/export-db.js"></script>
+    <script src="../../js/nexus-ai.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const heartRain = new HeartRain('heart-rain-container', '/assets/images/Icons/heart.png');
         heartRain.trigger(15);
+
+        // Logout Logic (Fallback sicuro)
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', () => {
+            // Reindirizza alla Home Page
+            window.location.href = "../../index.html";
+          });
+        }
       });
     </script>
   </body>

@@ -28,10 +28,9 @@
 
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https:; img-src 'self' data: https:; connect-src 'self' https: ws: wss:; frame-src 'self' https:; object-src 'none';"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: http://localhost:8000; frame-src 'self' https:; object-src 'none';"
     />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script>
       const savedTheme = localStorage.getItem("theme") || "dark";
       document.documentElement.setAttribute("data-theme", savedTheme);
@@ -44,7 +43,7 @@
     />
 
     <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../css/output.css" />
 
     <!-- Font Awesome -->
     <link
@@ -59,9 +58,6 @@
   </head>
 
   <body>
-    <!-- Heart Rain Container -->
-    <div id="heart-rain-container"></div>
-
     <!-- NAVIGAZIONE -->
     <nav
       class="nav-container"
@@ -80,6 +76,9 @@
         <a href="../creators/creators.html" class="nav-item">Creator</a>
         <a href="../live/live.html" class="nav-item">Dirette</a>
         <a href="../contacts/contacts.html" class="nav-item">Candidati</a>
+        <a id="auth-link" href="../dashboard/login.html" class="nav-item"
+          >Login</a
+        >
 
         <div id="admin-panel-link" class="hidden items-center gap-4">
           <div class="w-px h-4 bg-gray-700"></div>
@@ -90,7 +89,6 @@
             <img
               src="../../assets/images/Icons/Moderator.gif"
               alt="Dashboard"
-              class="w-6 h-6 object-contain"
             />
           </a>
         </div>
@@ -103,16 +101,14 @@
         </button>
       </div>
     </nav>
-    <script src="../../js/cookie-utils.js"></script>
+    <script type="module" src="../../js/cookie-utils.js"></script>
 
     <!-- HERO SERVIZI -->
     <section
       class="min-h-[60vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden"
     >
-      <div
-        id="tsparticles"
-        style="position: absolute; width: 100%; height: 100%; z-index: -1"
-      ></div>
+      <!-- Heart Rain Container -->
+      <div id="heart-rain-container"></div>
       <div
         class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_#22d3ee33,_transparent_70%)]"
       ></div>
@@ -293,13 +289,10 @@
     </footer>
 
     <script src="../../js/script.js"></script>
-    <script src="../../js/particles-config.js"></script>
+    <script src="../../js/nexus-ai.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const heartRain = new HeartRain(
-          "heart-rain-container",
-          "../../assets/images/Icons/heart.png"
-        );
+        const heartRain = new HeartRain("heart-rain-container");
         heartRain.trigger(20);
         const sections = document.querySelectorAll("section");
         sections.forEach((section) => {

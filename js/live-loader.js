@@ -5,7 +5,7 @@ let streamerStates = {};
 const avatarCache = {};
 
 // Sostituisci questo URL con quello fornito da Cloudflare dopo il deploy
-const WORKER_URL = "https://il-tuo-worker.tuonome.workers.dev";
+const WORKER_URL = (window.CONFIG && window.CONFIG.WORKER_URL) || "https://il-tuo-worker.tuonome.workers.dev";
 
 async function initLive() {
     const grid = document.getElementById('streamerGrid');
@@ -70,6 +70,23 @@ async function updateAllStates() {
     if (streamers.length === 0) return;
 
     const usernames = streamers.map(s => s.name).join(',');
+
+    // FALLBACK: Se il Worker non è configurato (URL placeholder), usa Decapi.me
+    if (WORKER_URL.includes("il-tuo-worker") || !WORKER_URL) {
+        // console.log("Worker non configurato, uso fallback Decapi...");
+        const promises = streamers.map(async (s) => {
+            try {
+                const response = await fetch(`https://decapi.me/twitch/uptime/${s.name}`);
+                const text = await response.text();
+                streamerStates[s.name] = !text.toLowerCase().includes('offline');
+            } catch (e) {
+                streamerStates[s.name] = false;
+            }
+        });
+        await Promise.all(promises);
+        return;
+    }
+
     try {
         // Chiamata al Worker Cloudflare
         const response = await fetch(`${WORKER_URL}?users=${usernames}`);
