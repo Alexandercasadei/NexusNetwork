@@ -1,0 +1,771 @@
+:root {
+  /* Tema Scuro (Predefinito) */
+  --bg-primary: #121827;
+  --bg-secondary: #0f172a;
+  --bg-footer: #0f172a;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-cyan: #22d3ee;
+  --accent-cyan-dark: #0891b2;
+  --accent-purple: #9146ff;
+  --glass-bg: rgba(30, 41, 59, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --nav-bg: rgba(15, 23, 42, 0.8);
+  --card-bg: #000;
+  --neon-shadow: rgba(34, 211, 238, 0.6);
+  --color-instagram: #e1306c;
+  --color-twitch: #9146ff;
+  --color-discord: #5865f2;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-footer: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --accent-cyan: #0891b2;
+  --accent-cyan-dark: #0e7490;
+  --accent-purple: #772ce8;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(15, 23, 42, 0.1);
+  --nav-bg: rgba(255, 255, 255, 0.8);
+  --card-bg: #f1f5f9;
+  --neon-shadow: rgba(8, 145, 178, 0.4);
+}
+
+/* Sovrascritture Tailwind per la Modalità Chiara */
+[data-theme="light"] .text-gray-400,
+[data-theme="light"] .text-slate-400,
+[data-theme="light"] p.text-gray-400 {
+  color: #475569 !important; /* Molto più leggibile su bianco */
+}
+
+[data-theme="light"] .text-cyan-400 {
+  color: var(--accent-cyan) !important;
+}
+
+[data-theme="light"] .bg-cyan-400\/10 {
+  background-color: rgba(8, 145, 178, 0.1) !important;
+}
+
+[data-theme="light"] .hero-banner {
+  background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .hero-banner h1 {
+  color: var(--accent-cyan-dark);
+}
+
+[data-theme="light"] .breadcrumb {
+  color: var(--text-secondary);
+}
+
+[data-theme="light"] input::placeholder {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="light"] footer h4 {
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.4) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] #streamerGrid .glass:hover {
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+
+[data-theme="light"] #status-offline {
+  background: #e2e8f0 !important;
+  color: #64748b !important;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  scroll-behavior: smooth;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Stile e confinamento per le sezioni */
+section {
+  position: relative; /* Ancora per elementi absolute interni come le particelle */
+  overflow: hidden;   /* Confina le particelle e altri effetti visivi */
+  z-index: 1;         /* Assicura che la sezione sia sopra eventuali sfondi globali */
+}
+
+/* Classe speciale per lo sfondo totale di live.html */
+.bg-total-live {
+  position: fixed !important;
+  z-index: -1 !important; /* Dietro a tutto il sito */
+}
+
+.creator img,
+.creator-placeholder {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.creator:hover img,
+.creator:hover .creator-placeholder {
+  transform: scale(1.1);
+}
+
+/* Navbar (Barra di Navigazione) */
+.nav-container {
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: auto;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+}
+
+.nav-container.nav-hidden {
+  transform: translateX(-50%) translateY(-100px) !important;
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+.nav-glass {
+  background: var(--nav-bg);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  padding: 12px 35px;
+  display: flex;
+  gap: 25px; /* Leggermente ridotto dall'originale 35px per far stare tutto */
+  align-items: center;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.nav-item {
+  color: var(--text-secondary);
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav-item:hover {
+  color: var(--accent-cyan);
+  transform: translateY(-2px);
+  text-shadow: 0 0 15px var(--neon-shadow);
+}
+
+/* Icona Dashboard */
+#admin-panel-link img {
+  width: 20px;
+  height: 20px;
+  min-width: 20px; /* Impedisce all'icona di rimpicciolirsi */
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    top: 15px;
+    width: 90%;
+  }
+  .nav-glass {
+    padding: 10px 20px;
+    gap: 20px;
+    justify-content: center;
+  }
+  .nav-item {
+    font-size: 0.8rem;
+  }
+}
+
+/* Hero Banner (Sezione Hero) */
+.hero-banner {
+  position: relative;
+  background: linear-gradient(135deg, #003366 0%, #004080 50%, #0059b3 100%);
+  padding: 100px 0;
+  text-align: center;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.hero-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.hero-banner h1 {
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+}
+
+.breadcrumb {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb-dot {
+  width: 6px;
+  height: 6px;
+  background: #00aaff;
+  border-radius: 50%;
+}
+
+/* Glass (Effetto Vetro) */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Glow (Bagliore) */
+.glow {
+  box-shadow: 0 0 30px var(--neon-shadow);
+}
+
+/* Neon text (Testo Neon) */
+.neon {
+  text-shadow: 0 0 20px var(--neon-shadow);
+}
+
+/* Creator card (Scheda Creator) */
+.creator {
+  position: relative;
+  overflow: hidden;
+  transition: 0.45s;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(40px);
+}
+.creator:hover {
+  transform: translateY(-12px) scale(1.05);
+}
+.creator img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Garantisce che l'intera immagine sia visibile per evitare di tagliare i testi */
+  background-color: var(
+    --card-bg
+  ); /* Riempimento per le immagini che non corrispondono al rapporto d'aspetto */
+  object-position: center;
+  transition: 0.45s;
+  display: block;
+}
+.creator:hover img {
+  transform: scale(1.1); /* Scala ridotta su mobile */
+}
+
+@media (min-width: 1024px) {
+  .creator:hover img {
+    transform: scale(1.18); /* Scala originale per desktop */
+  }
+}
+.creator::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.9));
+}
+
+/* Animazione scroll */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.7s ease-out;
+}
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover glow su bottoni */
+.button-glow:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--accent-cyan);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Creator bio overlay (Overlay biografia creator) */
+.creator-bio {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  backdrop-filter: blur(0px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  padding-bottom: 80px; /* Spazio per le icone */
+  opacity: 0;
+  transition: all 0.4s ease;
+  transform: translateY(20px);
+  z-index: 20;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.creator:hover .creator-bio {
+  opacity: 1;
+  background: var(--nav-bg);
+  backdrop-filter: blur(8px);
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.creator-info {
+  transition: all 0.3s ease;
+  z-index: 30; /* Più alto della bio per non essere sfocato */
+  pointer-events: none; /* Lascia i click alla bio sottostante */
+}
+
+.creator-info i {
+  pointer-events: auto; /* Riattiva i click sulle icone se necessario */
+  z-index: 40;
+}
+
+/* Nasconde nome e ruolo all'hover, ma mantiene le icone visibili */
+.creator:hover .creator-info h3,
+.creator:hover .creator-info p {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.creator:hover .creator-info {
+  opacity: 1; /* Il contenitore rimane visibile */
+}
+
+.creator-info h3,
+.creator-info p,
+.creator-info i {
+  transition: all 0.3s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* --- LIVE BADGE SPECTACULAR (Badge Live Spettacolare) --- */
+.live-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff3e3e;
+  padding: 6px 16px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  z-index: 100;
+  border: 1px solid rgba(255, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4), inset 0 0 10px rgba(255, 0, 0, 0.2);
+  animation: pulse-live 2s infinite;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.live-badge:hover {
+  background: rgba(255, 0, 0, 0.4);
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+  transform: scale(1.15);
+  color: #ffffff;
+}
+
+.live-badge::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: #ff0000;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 15px #ff0000;
+}
+
+@keyframes pulse-live {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.3);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+/* Correzioni specifiche per Mobile */
+@media (max-width: 640px) {
+  section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .nav-glass {
+    padding: 8px 15px;
+    gap: 12px;
+  }
+
+  .nav-item {
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+  }
+
+  .creator-bio {
+    padding: 1rem;
+    padding-bottom: 70px;
+  }
+
+  .creator-bio h3 {
+    font-size: 1.2rem !important;
+  }
+
+  .creator-bio p {
+    font-size: 0.75rem !important;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .live-badge {
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    font-size: 0.6rem;
+  }
+
+  .hero-banner {
+    padding: 60px 0;
+  }
+}
+/* ICONE SOCIAL FOOTER */
+.social-icon {
+  width: 45px;
+  height: 45px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.social-icon:hover {
+  transform: translateY(-5px) scale(1.1);
+  color: white;
+}
+
+.social-icon.instagram {
+  color: var(--color-instagram);
+  border-color: rgba(225, 48, 108, 0.2);
+}
+.social-icon.twitch {
+  color: var(--color-twitch);
+  border-color: rgba(145, 70, 255, 0.2);
+}
+.social-icon.discord {
+  color: var(--color-discord);
+  border-color: rgba(88, 101, 242, 0.2);
+}
+
+.social-icon.instagram:hover {
+  background-color: var(--color-instagram);
+  box-shadow: 0 0 20px rgba(225, 48, 108, 0.5);
+  border-color: var(--color-instagram);
+  color: white;
+}
+
+.social-icon.twitch:hover {
+  background-color: var(--color-twitch);
+  box-shadow: 0 0 20px rgba(145, 70, 255, 0.5);
+  border-color: var(--color-twitch);
+  color: white;
+}
+
+.social-icon.discord:hover {
+  background-color: var(--color-discord);
+  box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+  border-color: var(--color-discord);
+  color: white;
+}
+
+/* Classi per icone grandi nella tab contatti */
+.social-btn-large {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+}
+.social-btn-large.discord {
+  color: var(--color-discord);
+}
+.social-btn-large.instagram {
+  color: var(--color-instagram);
+}
+.social-btn-large.twitch {
+  color: var(--color-twitch);
+}
+
+.social-btn-large:hover {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 15px currentColor);
+}
+
+/* --- CONTACT FORM CUSTOM STYLES --- */
+#contactForm input,
+#contactForm textarea,
+#contactForm select {
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+#contactForm input:focus,
+#contactForm textarea:focus,
+#contactForm select:focus {
+  background-color: rgba(34, 211, 238, 0.05);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
+}
+
+#contactForm label {
+  font-size: 0.75rem;
+  transition: color 0.3s ease;
+}
+
+#contactForm div:focus-within label {
+  color: white;
+  text-shadow: 0 0 8px var(--accent-cyan);
+}
+
+#formStatus.success {
+  display: block;
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+#formStatus.error {
+  display: block;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Contenitore universale per le particelle */
+#heart-rain-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Dietro al contenuto della sezione, ma sopra lo sfondo della sezione */
+    pointer-events: none;
+    overflow: hidden; /* Sicurezza extra per confinare */
+}
+
+/* Caso speciale: Sfondo totale per il Player */
+.player-page #heart-rain-container {
+    position: fixed !important;
+    z-index: -1 !important;
+}
+
+/* =========================================
+   NEXUS AI WIDGET (LOCAL)
+   ========================================= */
+#nexus-ai-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    font-family: 'Poppins', sans-serif;
+}
+
+#nexus-ai-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    color: #000;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#nexus-ai-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.6);
+}
+
+#nexus-ai-window {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 340px;
+    height: 480px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--accent-cyan);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transform-origin: bottom right;
+    transition: all 0.3s ease;
+}
+
+.nexus-ai-closed #nexus-ai-window {
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+    pointer-events: none;
+}
+
+.nexus-ai-open #nexus-ai-window {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: all;
+}
+
+.ai-header {
+    padding: 15px;
+    background: rgba(34, 211, 238, 0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    max-width: 85%;
+    word-wrap: break-word;
+}
+
+.message.ai {
+    background: rgba(255,255,255,0.1);
+    color: #e2e8f0;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.message.user {
+    background: var(--accent-cyan);
+    color: #000;
+    font-weight: 600;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.2);
+}
+
+.ai-input-area {
+    padding: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    gap: 10px;
+    background: rgba(0,0,0,0.2);
+}
+
+#nexus-ai-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#nexus-ai-input:focus {
+    border-color: var(--accent-cyan);
+}
+
+#nexus-ai-send {
+    background: var(--accent-cyan);
+    color: black;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#nexus-ai-send:hover {
+    background: #67e8f9;
+}

@@ -1,0 +1,7 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Twitch Logo Viola -->
+  <path d="M25 10L25 60L35 60L35 70L45 60L60 60L75 45L75 10Z" fill="#9146FF" />
+  <!-- Highlights per effetto 3D -->
+  <rect x="35" y="25" width="10" height="15" fill="white" opacity="0.3" />
+  <rect x="50" y="35" width="8" height="12" fill="white" opacity="0.3" />
+</svg>

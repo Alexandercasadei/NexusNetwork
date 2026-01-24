@@ -1,0 +1,33 @@
+# Configurazioni sensibili
+.vscode/
+.idea/
+.firebaserc
+firebase.json
+serve.json
+cors.json
+bs-config.js
+start_website.bat
+js/config.js
+
+# Credenziali e chiavi
+.env
+*.pem
+service-account.json
+
+# Dipendenze e Log
+logs/
+node_modules/
+npm-debug.log*
+*.log
+yarn-debug.log*
+
+# Python (Backend AI)
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+
+# Sistema Operativo
+.DS_Store
+Thumbs.db

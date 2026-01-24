@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team - Nexus Network</title>
+
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../../assets/images/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../../assets/images/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../../assets/images/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="../../assets/images/favicon/site.webmanifest" />
+    <link rel="shortcut icon" href="../../assets/images/favicon/favicon.ico" />
+
+    <!-- Politica di Sicurezza del Contenuto (CSP) -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: http://localhost:8000; frame-src 'self' https:; object-src 'none';"
+    />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <script>
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind -->
+    <link rel="stylesheet" href="../../css/output.css" />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <script src="../../js/heart-rain.js"></script>
+  </head>
+
+  <body>
+    <div
+      class="fixed inset-0 z-[-1] opacity-20 bg-[radial-gradient(circle_at_center,_#22d3ee33,_transparent_70%)]"
+    ></div>
+
+    <!-- NAVIGAZIONE -->
+    <nav
+      class="nav-container"
+      style="
+        transform: translateX(-50%) translateY(-20px);
+        animation: fadeInDown 0.8s forwards 0.5s;
+        opacity: 0;
+      "
+    >
+      <div class="nav-glass">
+        <a href="../../index.html" class="nav-item">Home</a>
+        <a href="../services/services.html" class="nav-item">Servizi</a>
+        <a href="../team/team.html" class="nav-item text-cyan-400">Team</a>
+        <a href="../creators/creators.html" class="nav-item">Creator</a>
+        <a href="../live/live.html" class="nav-item">Dirette</a>
+        <a href="../contacts/contacts.html" class="nav-item">Candidati</a>
+        <a id="auth-link" href="../dashboard/login.html" class="nav-item"
+          >Login</a
+        >
+
+        <div id="admin-panel-link" class="hidden items-center gap-4">
+          <div class="w-px h-4 bg-gray-700"></div>
+          <a
+            href="../dashboard/login.html"
+            class="nav-item transform hover:scale-110"
+          >
+            <img
+              src="../../assets/images/Icons/Moderator.gif"
+              alt="Dashboard"
+            />
+          </a>
+        </div>
+
+        <button
+          id="theme-toggle"
+          class="text-gray-400 hover:text-cyan-400 transition-colors ml-2"
+        >
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </nav>
+    <script type="module" src="../../js/cookie-utils.js"></script>
+
+    <!-- HERO TEAM -->
+    <section
+      class="min-h-[50vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden"
+    >
+      <!-- Heart Rain Container -->
+      <div id="heart-rain-container"></div>
+      <h1
+        class="text-5xl md:text-7xl font-extrabold text-cyan-400 neon mb-6 scroll-animate visible"
+      >
+        IL NOSTRO TEAM
+      </h1>
+      <p class="max-w-2xl text-gray-400 text-lg scroll-animate visible">
+        Incontra le menti e i talenti dietro il successo di Nexus Network.
+      </p>
+    </section>
+
+    <!-- LISTA CREATOR (Dinamica) -->
+    <section class="py-24 px-6 max-w-7xl mx-auto space-y-24">
+      <!-- LEADERSHIP -->
+      <div class="scroll-animate visible">
+        <h2
+          class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
+        >
+          Direzione e Fondatori
+        </h2>
+        <div
+          id="founders-grid"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
+        >
+          <!-- JS Injected -->
+        </div>
+      </div>
+
+      <!-- MANAGER -->
+      <div class="scroll-animate visible">
+        <h2
+          class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
+        >
+          Manager
+        </h2>
+        <div
+          id="managers-grid"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
+        >
+          <!-- JS Injected -->
+        </div>
+      </div>
+
+      <div class="scroll-animate visible">
+        <h2
+          class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
+        >
+          Tecnico
+        </h2>
+        <div
+          id="dev-grid"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
+        ></div>
+      </div>
+
+      <div class="scroll-animate mt-20">
+        <h2
+          class="text-2xl font-bold text-cyan-500 mb-10 border-l-4 border-cyan-500 pl-4 uppercase tracking-tighter"
+        >
+          Grafico
+        </h2>
+        <div
+          id="grafico-grid"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
+        ></div>
+      </div>
+
+      <!-- RISORSE UMANE -->
+      <div class="scroll-animate visible">
+        <h2
+          class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
+        >
+          Risorse Umane
+        </h2>
+        <div
+          id="hr-grid"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
+        >
+          <!-- JS Injected -->
+        </div>
+      </div>
+
+      <!-- SOCIAL / MANAGEMENT -->
+      <div class="scroll-animate visible">
+        <h2
+          class="text-2xl font-bold text-cyan-400 mb-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-tighter"
+        >
+          Social Media Manager
+        </h2>
+        <div
+          id="social-grid"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"
+        >
+          <!-- JS Injected -->
+        </div>
+      </div>
+    </section>
+
+    <!-- MODALE -->
+    <div
+      id="creatorModal"
+      class="fixed inset-0 hidden items-center justify-center bg-black/75 z-50"
+    >
+      <div class="glass glow rounded-2xl max-w-lg w-full p-6 relative mx-4">
+        <button
+          onclick="closeCreator()"
+          class="absolute top-4 right-4 text-2xl text-white"
+        >
+          &times;
+        </button>
+        <div class="flex gap-4 items-center mb-4">
+          <img
+            id="mImg"
+            class="w-24 h-24 rounded-xl object-cover"
+            decoding="async"
+          />
+          <div>
+            <h3 id="mName" class="text-2xl font-bold text-white"></h3>
+            <p id="mRole" class="text-cyan-400"></p>
+            <div
+              id="mFollowers"
+              class="text-xs text-gray-400 mt-1 flex items-center"
+            ></div>
+            <div
+              id="mInstagramStats"
+              class="text-xs text-gray-400 mt-1 flex items-center"
+            ></div>
+            <div
+              id="mGithubStats"
+              class="text-xs text-gray-400 mt-1 flex items-center"
+            ></div>
+          </div>
+        </div>
+        <p id="mDesc" class="text-gray-400 mb-6"></p>
+        <div class="flex gap-4">
+          <a
+            id="mTwitch"
+            target="_blank"
+            class="hidden px-4 py-2 bg-purple-600 rounded-lg font-semibold text-white"
+          >
+            <i class="fab fa-twitch mr-2"></i>Twitch
+          </a>
+          <a
+            id="mGithub"
+            target="_blank"
+            class="hidden px-4 py-2 bg-gray-700 rounded-lg font-semibold text-white"
+          >
+            <i class="fab fa-github mr-2"></i>GitHub
+          </a>
+
+          <a
+            id="mInstagram"
+            target="_blank"
+            class="hidden px-4 py-2 bg-pink-600 rounded-lg font-semibold text-white"
+          >
+            <i class="fab fa-instagram mr-2"></i>Instagram
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER PREMIUM -->
+    <footer class="py-16 px-6 mt-20">
+      <div class="max-w-7xl mx-auto glass glow rounded-3xl p-10 md:p-16">
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left"
+        >
+          <!-- Brand -->
+          <div class="space-y-6">
+            <h3 class="text-3xl font-extrabold text-cyan-400 neon">
+              NEXUS NETWORK
+            </h3>
+            <p class="text-gray-400 leading-relaxed">
+              L'eccellenza dell'intrattenimento digitale. Uniamo i migliori
+              talenti per creare esperienze uniche e indimenticabili.
+            </p>
+            <div class="flex justify-center md:justify-start gap-4">
+              <a
+                href="https://instagram.com/nexus_network_twitch"
+                target="_blank"
+                class="social-icon instagram"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a
+                href="https://twitch.tv/therealsamtv"
+                target="_blank"
+                class="social-icon twitch"
+              >
+                <i class="fab fa-twitch"></i>
+              </a>
+              <a
+                href="https://discord.gg/mG6qGfKeXp"
+                target="_blank"
+                class="social-icon discord"
+              >
+                <i class="fab fa-discord"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Links -->
+          <div class="space-y-6">
+            <h4 class="text-xl font-bold">Esplora</h4>
+            <ul class="space-y-4 text-gray-400">
+              <li>
+                <a
+                  href="../../index.html"
+                  class="hover:text-cyan-400 transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="../services/services.html"
+                  class="hover:text-cyan-400 transition-colors"
+                  >Servizi</a
+                >
+              </li>
+              <li>
+                <a
+                  href="../team/team.html"
+                  class="hover:text-cyan-400 transition-colors"
+                  >Team</a
+                >
+              </li>
+              <li>
+                <a
+                  href="../contacts/contacts.html"
+                  class="hover:text-cyan-400 transition-colors"
+                  >Contatti</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Info -->
+          <div class="space-y-6">
+            <h4 class="text-xl font-bold">Unisciti</h4>
+            <p class="text-gray-400">
+              Vuoi entrare a far parte del network più innovativo? Candidati ora
+              e mostra il tuo talento.
+            </p>
+            <a
+              href="../../index.html#join"
+              class="inline-block px-8 py-3 bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 rounded-xl hover:bg-cyan-400 hover:text-black transition-all font-bold"
+            >
+              Candidati Ora
+            </a>
+          </div>
+        </div>
+
+        <div
+          class="mt-16 pt-8 border-t border-white/5 text-center text-gray-500 text-sm"
+        >
+          © 2025 Nexus Network — Sviluppato con passione da
+          <span class="text-cyan-400">ShadowStrike</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../../js/script.js"></script>
+    <script src="../../js/particles-config.js"></script>
+    <script type="module" src="../../js/team-loader.js"></script>
+    <script src="../../js/nexus-ai.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const heartRain = new HeartRain(
+          "heart-rain-container",
+          "../../assets/images/Icons/heart.png"
+        );
+        heartRain.trigger(20);
+        const sections = document.querySelectorAll("section");
+        sections.forEach((section) => {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  heartRain.trigger(15);
+                }
+              });
+            },
+            { threshold: 0.3 }
+          );
+          observer.observe(section);
+        });
+      });
+    </script>
+  </body>
+</html>
