@@ -10,7 +10,7 @@ class NexusAI {
     constructor() {
         this.isOpen = false;
         this.apiUrl = "https://openrouter.ai/api/v1/chat/completions";
-        this.apiKey = "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";
+        this.apiKey = "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";
         this.model = "deepseek/deepseek-r1-0528:free";
         this.knowledgeBase = [];
         this.messages = []; // Memoria conversazione

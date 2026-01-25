@@ -1,294 +1,292 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
- <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accedi - Nexus Network</title>
-  <!-- CSP for Local Development + Firebase + CDNs -->
-  <meta
-   http-equiv="Content-Security-Policy"
-   content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: ; frame-src 'self' https:; object-src 'none';"
-  />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accedi - Nexus Network</title>
+    <!-- CSP for Local Development + Firebase + CDNs -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: ; frame-src 'self' https:; object-src 'none';"
+    />
 
-  <!-- Favicon -->
-  <link
-   rel="apple-touch-icon"
-   sizes="180x180"
-   href="../../assets/images/favicon/apple-touch-icon.png"
-  />
-  <link
-   rel="icon"
-   type="image/png"
-   sizes="32x32"
-   href="../../assets/images/favicon/favicon-32x32.png"
-  />
-  <link
-   rel="icon"
-   type="image/png"
-   sizes="16x16"
-   href="../../assets/images/favicon/favicon-16x16.png"
-  />
-  <link rel="manifest" href="../../assets/images/favicon/site.webmanifest" />
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../../assets/images/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../../assets/images/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../../assets/images/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="../../assets/images/favicon/site.webmanifest" />
 
-  <link rel="stylesheet" href="../../css/output.css" />
-  <link
-   rel="stylesheet"
-   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  />
-  <link rel="stylesheet" href="../../css/style.css" />
-  <script src="../../js/heart-rain.js"></script>
+    <link rel="stylesheet" href="../../css/output.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <script src="../../js/heart-rain.js"></script>
 
-  <script>
-   // Tema
-   const savedTheme = localStorage.getItem("theme") || "dark";
-   document.documentElement.setAttribute("data-theme", savedTheme);
-  </script>
- </head>
- <body
-  class="bg-[#050505] text-white overflow-hidden flex items-center justify-center h-screen"
- >
-  <!-- Heart Rain Container -->
-  <div id="heart-rain-container"></div>
+    <script>
+      // Tema
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    </script>
+  </head>
+  <body class="overflow-hidden flex items-center justify-center h-screen">
+    <!-- Heart Rain Container -->
+    <div id="heart-rain-container"></div>
 
-  <!-- Background -->
-  <div
-   class="fixed inset-0 z-[-1] opacity-30 bg-[radial-gradient(circle_at_center,_#22d3ee22,_transparent_70%)]"
-  ></div>
-
-  <!-- Login Card -->
-  <div
-   class="glass glow rounded-3xl p-10 w-full max-w-md relative z-10 border border-cyan-400/20"
-  >
-   <div class="text-center mb-10">
-    <h1 class="text-3xl font-extrabold text-cyan-400 neon mb-2">
-     Area Utenti
-    </h1>
-    <p class="text-gray-400 text-sm mb-6">Accedi o crea un account Nexus</p>
-
-    <div class="flex justify-center gap-8 border-b border-white/10 pb-2">
-     <button
-      id="tabLogin"
-      class="text-cyan-400 font-bold border-b-2 border-cyan-400 pb-2 transition-all"
-     >
-      Login
-     </button>
-     <button
-      id="tabRegister"
-      class="text-gray-500 font-bold pb-2 hover:text-white transition-all"
-     >
-      Registrati
-     </button>
-    </div>
-   </div>
-
-   <form id="authForm" class="space-y-6">
+    <!-- Background -->
     <div
-     id="errorMessage"
-     class="hidden bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded-lg text-sm text-center"
+      class="fixed inset-0 z-[-1] opacity-30 bg-[radial-gradient(circle_at_center,_#22d3ee22,_transparent_70%)]"
+    ></div>
+
+    <!-- Login Card -->
+    <div
+      class="glass glow rounded-3xl p-10 w-full max-w-md relative z-10 border border-cyan-400/20"
     >
-     Credenziali non valide
+      <div class="text-center mb-10">
+        <h1 class="text-3xl font-extrabold text-cyan-400 neon mb-2">
+          Area Utenti
+        </h1>
+        <p class="text-gray-400 text-sm mb-6">Accedi o crea un account Nexus</p>
+
+        <div class="flex justify-center gap-8 border-b border-white/10 pb-2">
+          <button
+            id="tabLogin"
+            class="text-cyan-400 font-bold border-b-2 border-cyan-400 pb-2 transition-all"
+          >
+            Login
+          </button>
+          <button
+            id="tabRegister"
+            class="text-gray-500 font-bold pb-2 hover:text-white transition-all"
+          >
+            Registrati
+          </button>
+        </div>
+      </div>
+
+      <form id="authForm" class="space-y-6">
+        <div
+          id="errorMessage"
+          class="hidden bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded-lg text-sm text-center"
+        >
+          Credenziali non valide
+        </div>
+
+        <div>
+          <label class="block text-gray-400 text-sm font-bold mb-2"
+            >Email</label
+          >
+          <div class="relative">
+            <span class="absolute left-4 top-3.5 text-gray-500">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <input
+              type="email"
+              id="username"
+              class="w-full bg-black/50 border border-gray-700 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)] transition-all"
+              placeholder="Email"
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-400 text-sm font-bold mb-2"
+            >Password</label
+          >
+          <div class="relative">
+            <span class="absolute left-4 top-3.5 text-gray-500">
+              <i class="fas fa-lock"></i>
+            </span>
+            <input
+              type="password"
+              id="password"
+              class="w-full bg-black/50 border border-gray-700 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)] transition-all"
+              placeholder="Inserisci password"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <label class="flex items-center gap-2 cursor-pointer group">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              class="w-4 h-4 rounded bg-black/50 border-gray-700 text-cyan-400 focus:ring-cyan-400 focus:ring-offset-0 transition-all cursor-pointer"
+              checked
+            />
+            <span
+              class="text-sm text-gray-400 group-hover:text-white transition-colors"
+              >Ricorda Accesso</span
+            >
+          </label>
+          <!-- <a href="#" class="text-sm text-cyan-400 hover:text-cyan-300">Password dimenticata?</a> -->
+        </div>
+
+        <button
+          type="submit"
+          id="submitBtn"
+          class="w-full py-4 rounded-xl bg-cyan-400 text-black font-extrabold text-lg uppercase tracking-wide hover:bg-cyan-300 hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)]"
+        >
+          Accedi <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+      </form>
+
+      <div class="mt-8 text-center">
+        <a
+          href="../../index.html"
+          class="text-gray-500 hover:text-cyan-400 text-sm transition-colors"
+        >
+          <i class="fas fa-arrow-left mr-1"></i> Torna al sito
+        </a>
+      </div>
     </div>
-
-    <div>
-     <label class="block text-gray-400 text-sm font-bold mb-2"
-      >Email</label
-     >
-     <div class="relative">
-      <span class="absolute left-4 top-3.5 text-gray-500">
-       <i class="fas fa-envelope"></i>
-      </span>
-      <input
-       type="email"
-       id="username"
-       class="w-full bg-black/50 border border-gray-700 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)] transition-all"
-       placeholder="Email"
-       required
-      />
-     </div>
-    </div>
-
-    <div>
-     <label class="block text-gray-400 text-sm font-bold mb-2"
-      >Password</label
-     >
-     <div class="relative">
-      <span class="absolute left-4 top-3.5 text-gray-500">
-       <i class="fas fa-lock"></i>
-      </span>
-      <input
-       type="password"
-       id="password"
-       class="w-full bg-black/50 border border-gray-700 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)] transition-all"
-       placeholder="Inserisci password"
-       required
-      />
-     </div>
-    </div>
-
-    <div class="flex items-center justify-between">
-     <label class="flex items-center gap-2 cursor-pointer group">
-      <input
-       type="checkbox"
-       id="rememberMe"
-       class="w-4 h-4 rounded bg-black/50 border-gray-700 text-cyan-400 focus:ring-cyan-400 focus:ring-offset-0 transition-all cursor-pointer"
-       checked
-      />
-      <span
-       class="text-sm text-gray-400 group-hover:text-white transition-colors"
-       >Ricorda Accesso</span
-      >
-     </label>
-     <!-- <a href="#" class="text-sm text-cyan-400 hover:text-cyan-300">Password dimenticata?</a> -->
-    </div>
-
-    <button
-     type="submit"
-     id="submitBtn"
-     class="w-full py-4 rounded-xl bg-cyan-400 text-black font-extrabold text-lg uppercase tracking-wide hover:bg-cyan-300 hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)]"
-    >
-     Accedi <i class="fas fa-arrow-right ml-2"></i>
-    </button>
-   </form>
-
-   <div class="mt-8 text-center">
-    <a
-     href="../../index.html"
-     class="text-gray-500 hover:text-cyan-400 text-sm transition-colors"
-    >
-     <i class="fas fa-arrow-left mr-1"></i> Torna al sito
-    </a>
-   </div>
-  </div>
-  <script type="module">
-   import {
-    auth,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    setPersistence,
-    browserSessionPersistence,
-    browserLocalPersistence,
-    db,
-    doc,
-    setDoc,
-   } from "../../js/firebase-init.js";
-
-   let isLoginMode = true;
-   const tabLogin = document.getElementById("tabLogin");
-   const tabRegister = document.getElementById("tabRegister");
-   const submitBtn = document.getElementById("submitBtn");
-   const form = document.getElementById("authForm");
-
-   // Toggle Tabs
-   function switchTab(login) {
-    isLoginMode = login;
-    if (login) {
-     tabLogin.className =
-      "text-cyan-400 font-bold border-b-2 border-cyan-400 pb-2 transition-all";
-     tabRegister.className =
-      "text-gray-500 font-bold pb-2 hover:text-white transition-all";
-     submitBtn.innerHTML =
-      'Accedi <i class="fas fa-arrow-right ml-2"></i>';
-    } else {
-     tabRegister.className =
-      "text-cyan-400 font-bold border-b-2 border-cyan-400 pb-2 transition-all";
-     tabLogin.className =
-      "text-gray-500 font-bold pb-2 hover:text-white transition-all";
-     submitBtn.innerHTML =
-      'Crea Account <i class="fas fa-user-plus ml-2"></i>';
-    }
-   }
-
-   tabLogin.addEventListener("click", () => switchTab(true));
-   tabRegister.addEventListener("click", () => switchTab(false));
-
-   document
-    .getElementById("authForm")
-    .addEventListener("submit", async (e) => {
-     e.preventDefault();
-     const email = document.getElementById("username").value;
-     const password = document.getElementById("password").value;
-     const errorMsg = document.getElementById("errorMessage");
-     const rememberMe = document.getElementById("rememberMe").checked;
-     const btn = e.target.querySelector("button");
-     const originalBtnText = btn.innerHTML;
-
-     // Loading state
-     btn.innerHTML =
-      '<i class="fas fa-spinner fa-spin"></i> Elaborazione...';
-     btn.disabled = true;
-     errorMsg.classList.add("hidden");
-
-     try {
-      // Imposta la persistenza in base alla checkbox
-      const persistence = rememberMe
-       ? browserLocalPersistence
-       : browserSessionPersistence;
-      await setPersistence(auth, persistence);
-
-      let userCredential;
-      if (isLoginMode) {
-       userCredential = await signInWithEmailAndPassword(
+    <script type="module">
+      import {
         auth,
-        email,
-        password
-       );
-      } else {
-       userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-       );
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+        setPersistence,
+        browserSessionPersistence,
+        browserLocalPersistence,
+        db,
+        doc,
+        setDoc,
+      } from "../../js/firebase-init.js";
 
-       // Salva l'utente su Firestore
-       const newUser = userCredential.user;
-       await setDoc(doc(db, "users", newUser.uid), {
-        email: newUser.email,
-        createdAt: new Date(),
-        role: "user", // Ruolo di default
-       });
+      let isLoginMode = true;
+      const tabLogin = document.getElementById("tabLogin");
+      const tabRegister = document.getElementById("tabRegister");
+      const submitBtn = document.getElementById("submitBtn");
+      const form = document.getElementById("authForm");
+
+      // Toggle Tabs
+      function switchTab(login) {
+        isLoginMode = login;
+        if (login) {
+          tabLogin.className =
+            "text-cyan-400 font-bold border-b-2 border-cyan-400 pb-2 transition-all";
+          tabRegister.className =
+            "text-gray-500 font-bold pb-2 hover:text-white transition-all";
+          submitBtn.innerHTML =
+            'Accedi <i class="fas fa-arrow-right ml-2"></i>';
+        } else {
+          tabRegister.className =
+            "text-cyan-400 font-bold border-b-2 border-cyan-400 pb-2 transition-all";
+          tabLogin.className =
+            "text-gray-500 font-bold pb-2 hover:text-white transition-all";
+          submitBtn.innerHTML =
+            'Crea Account <i class="fas fa-user-plus ml-2"></i>';
+        }
       }
 
-      // Redirect Intelligente
-      const user = userCredential.user;
+      tabLogin.addEventListener("click", () => switchTab(true));
+      tabRegister.addEventListener("click", () => switchTab(false));
 
-      // Tutti vengono reindirizzati alla Home Page.
-      // Se l'utente è un admin (email specifica), lo script cookie-utils.js
-      // nella Home Page farà apparire l'icona della Dashboard.
-      window.location.href = "../../index.html";
-     } catch (error) {
-      console.error("Login Error:", error);
-      let msg = "Credenziali non valide";
-      if (error.code === "auth/invalid-email") msg = "Email non valida";
-      if (error.code === "auth/user-not-found")
-       msg = "Utente non trovato";
-      if (error.code === "auth/wrong-password") msg = "Password errata";
-      if (error.code === "auth/too-many-requests")
-       msg = "Troppi tentativi, riprova più tardi";
-      if (error.code === "auth/email-already-in-use")
-       msg = "Email già registrata";
-      if (error.code === "auth/weak-password")
-       msg = "Password troppo debole (min 6 caratteri)";
+      document
+        .getElementById("authForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          const errorMsg = document.getElementById("errorMessage");
+          const rememberMe = document.getElementById("rememberMe").checked;
+          const btn = e.target.querySelector("button");
+          const originalBtnText = btn.innerHTML;
 
-      // Fallback per errori generici non catturati sopra
-      if (msg === "Credenziali non valide" && error.message)
-       console.log("Errore originale:", error.message);
+          // Loading state
+          btn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Elaborazione...';
+          btn.disabled = true;
+          errorMsg.classList.add("hidden");
 
-      errorMsg.innerText = msg;
-      errorMsg.classList.remove("hidden");
-      btn.innerHTML = originalBtnText;
-      btn.disabled = false;
-     }
-    });
-  </script>
-  <script src="../../js/nexus-ai.js"></script>
-  <script>
-   document.addEventListener("DOMContentLoaded", () => {
-    const heartRain = new HeartRain(
-     "heart-rain-container",
-     "../../assets/images/Icons/heart.png"
-    );
-    heartRain.trigger(20);
-   });
-  </script>
- </body>
+          try {
+            // Imposta la persistenza in base alla checkbox
+            const persistence = rememberMe
+              ? browserLocalPersistence
+              : browserSessionPersistence;
+            await setPersistence(auth, persistence);
+
+            let userCredential;
+            if (isLoginMode) {
+              userCredential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password,
+              );
+            } else {
+              userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password,
+              );
+
+              // Salva l'utente su Firestore
+              const newUser = userCredential.user;
+              await setDoc(doc(db, "users", newUser.uid), {
+                email: newUser.email,
+                createdAt: new Date(),
+                role: "user", // Ruolo di default
+              });
+            }
+
+            // Redirect Intelligente
+            const user = userCredential.user;
+
+            // Tutti vengono reindirizzati alla Home Page.
+            // Se l'utente è un admin (email specifica), lo script cookie-utils.js
+            // nella Home Page farà apparire l'icona della Dashboard.
+            window.location.href = "../../index.html";
+          } catch (error) {
+            console.error("Login Error:", error);
+            let msg = "Credenziali non valide";
+            if (error.code === "auth/invalid-email") msg = "Email non valida";
+            if (error.code === "auth/user-not-found")
+              msg = "Utente non trovato";
+            if (error.code === "auth/wrong-password") msg = "Password errata";
+            if (error.code === "auth/too-many-requests")
+              msg = "Troppi tentativi, riprova più tardi";
+            if (error.code === "auth/email-already-in-use")
+              msg = "Email già registrata";
+            if (error.code === "auth/weak-password")
+              msg = "Password troppo debole (min 6 caratteri)";
+
+            // Fallback per errori generici non catturati sopra
+            if (msg === "Credenziali non valide" && error.message)
+              console.log("Errore originale:", error.message);
+
+            errorMsg.innerText = msg;
+            errorMsg.classList.remove("hidden");
+            btn.innerHTML = originalBtnText;
+            btn.disabled = false;
+          }
+        });
+    </script>
+    <script src="../../js/nexus-ai.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const heartRain = new HeartRain(
+          "heart-rain-container",
+          "../../assets/images/Icons/heart.png",
+        );
+        heartRain.trigger(20);
+      });
+    </script>
+  </body>
 </html>
