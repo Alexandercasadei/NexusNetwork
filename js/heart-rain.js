@@ -43,14 +43,15 @@ class HeartRain {
     img.onload = () => {
       this.twitchLogo = img;
     };
-    // Determina il percorso relativo in base alla profondita della pagina
-    let basePath = '';
-    const pathParts = window.location.pathname.split('/').filter(p => p && p !== 'index.html');
-    const pageDepth = pathParts.length - 1;
-    for (let i = 0; i < pageDepth; i++) {
-      basePath += '../';
+    
+    // Soluzione robusta per i percorsi: cerca di risalire alla root
+    const path = window.location.pathname;
+    let prefix = "";
+    if (path.includes("/pages/")) {
+       // Se siamo in una sottocartella dentro /pages/ (es. /pages/live/...)
+       prefix = "../../";
     }
-    img.src = basePath + 'assets/images/twitch-logo.svg';
+    img.src = prefix + 'assets/images/twitch-logo.svg';
   }
 
   resizeCanvas() {

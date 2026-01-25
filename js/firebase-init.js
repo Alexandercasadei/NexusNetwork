@@ -21,9 +21,7 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 // Export services
-export { 
-    auth, db, storage, 
-    signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence, browserLocalPersistence,
-    collection, getDocs, addDoc, deleteDoc, doc, updateDoc, setDoc, query, where, orderBy, onSnapshot,
-    ref, uploadBytes, getDownloadURL, deleteObject
-};
+export { auth, db, storage };
+export { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserSessionPersistence, browserLocalPersistence };
+export { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, setDoc, query, where, orderBy, onSnapshot };
+export { ref, uploadBytes, getDownloadURL, deleteObject };

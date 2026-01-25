@@ -1,17 +1,19 @@
 /**
- * NEXUS AI - Nyra Alt Widget
+ * NEXUS AI Widget
  * Integrato con Firebase Firestore e OpenRouter.
  */
 
-import { db, collection, getDocs, onSnapshot } from './firebase-init.js';
+import * as fb from './firebase-init.js';
+const { db, collection, getDocs, onSnapshot } = fb;
 
 class NexusAI {
     constructor() {
         this.isOpen = false;
         this.apiUrl = "https://openrouter.ai/api/v1/chat/completions";
-        this.apiKey = "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";
+        this.apiKey = "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";
         this.model = "deepseek/deepseek-r1-0528:free";
         this.knowledgeBase = [];
+        this.messages = []; // Memoria conversazione
         this.isThinking = false;
         this.init();
     }
@@ -123,9 +125,10 @@ class NexusAI {
         this.sendBtn.style.cursor = "not-allowed";
 
         this.addMessage(text, 'user');
+        this.messages.push({ role: 'user', content: text });
         this.input.value = '';
 
-        // Mostra sempre il caricamento per almeno 1.5 secondi per un feedback naturale
+        // Mostra il caricamento (delay minimo ridotto per massima reattività)
         const loadingId = this.addMessage('<i class="fas fa-circle-notch fa-spin"></i> Nexus AI sta ragionando...', 'ai', true);
         const startTime = Date.now();
 
@@ -134,11 +137,12 @@ class NexusAI {
 
         if (localAnswer) {
             const elapsedTime = Date.now() - startTime;
-            const remainingTime = Math.max(0, 1500 - elapsedTime);
+            const remainingTime = Math.max(0, 300 - elapsedTime); // Ridotto a 300ms
             
             setTimeout(() => {
                 this.removeMessage(loadingId);
                 this.addMessage(localAnswer, 'ai');
+                this.messages.push({ role: 'ai', content: localAnswer });
                 this.finalizeThinking();
             }, remainingTime);
             return;
@@ -148,11 +152,12 @@ class NexusAI {
         try {
             const response = await this.fetchAnswer(text);
             const elapsedTime = Date.now() - startTime;
-            const remainingTime = Math.max(0, 1500 - elapsedTime);
+            const remainingTime = Math.max(0, 300 - elapsedTime); // Ridotto a 300ms
 
             setTimeout(() => {
                 this.removeMessage(loadingId);
                 this.addMessage(response, 'ai');
+                this.messages.push({ role: 'ai', content: response });
                 this.finalizeThinking();
             }, remainingTime);
         } catch (err) {
@@ -223,23 +228,33 @@ class NexusAI {
 
     async fetchAnswer(query) {
         try {
-            const res = await fetch(this.apiUrl, {
+            const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                 method: "POST",
                 headers: {
+                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${this.apiKey}`,
-                    "Content-Type": "application/json"
+                    "HTTP-Referer": "https://alt.nyra.ai/", // Obbligatorio per alcuni modelli OpenRouter
+                    "X-Title": "NexusAI"
                 },
                 body: JSON.stringify({
                     "model": this.model,
                     "messages": [
-                        { "role": "system", "content": "Sei Nexus AI, assistente di Nexus Network. Rispondi in modo conciso in Italiano. Massima priorità a OBS, Twitch e crescita streamer. Se un utente ha problemi tecnici o domande complesse non presenti nel network, digli di APRIRE UN TICKET sul server Discord ufficiale: https://discord.gg/mG6qGfKeXp. Non menzionare email di supporto." },
+                        { "role": "system", "content": "Sei Nexus AI. Rispondi in modo conciso in Italiano. Se un utente ti saluta o chiede chi sei, presentati così: 'Ciao! Sono Nexus AI. 🟩 Posso aiutarti con info su OBS, crescita Twitch e hardware. Chiedimi pure!'. REGOLA RIGIDA: Puoi rispondere SOLO a domande riguardanti lo streaming (Twitch, OBS, crescita streamer) e il setup tecnico/hardware. Se l'utente fa una domanda su altri argomenti, rispondi gentilmente che puoi rispondere solo ad argomenti riguardanti lo streaming e il setup." },
+                        ...this.messages.map(m => ({
+                            role: m.role === "ai" ? "assistant" : "user",
+                            content: m.content
+                        })),
                         { "role": "user", "content": query }
                     ],
-                    "temperature": 0.4
+                    "temperature": 0.5
                 })
             });
             const data = await res.json();
-            return data.choices[0].message.content.trim();
+            if (data && data.choices && data.choices[0]) {
+                return data.choices[0].message.content.trim();
+            } else {
+                throw new Error("Risposta API non valida o credito esaurito");
+            }
         } catch (e) { throw e; }
     }
 

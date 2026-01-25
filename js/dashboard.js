@@ -76,29 +76,19 @@ async function initDashboard() {
     });
 }
 
-function switchView(section) {
-    document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
-    
-    const viewId = `view-${section}`;
-    const viewEl = document.getElementById(viewId);
-    if(viewEl) viewEl.classList.remove('hidden');
-
-    if (section === 'dashboard') {
-        loadDashboardStats();
-    } else {
-        loadData(section);
-    }
-}
-
 async function loadDashboardStats() {
     try {
         const staffSnap = await getDocs(collection(db, 'staff'));
         const creatorsSnap = await getDocs(collection(db, 'creators'));
         const knowledgeSnap = await getDocs(collection(db, 'knowledge'));
 
-        document.getElementById('statsStaff').innerText = staffSnap.size;
-        document.getElementById('statsCreators').innerText = creatorsSnap.size;
-        document.getElementById('statsKnowledge').innerText = knowledgeSnap.size;
+        const sStaff = document.getElementById('statsStaff');
+        const sCreators = document.getElementById('statsCreators');
+        const sKnowledge = document.getElementById('statsKnowledge');
+
+        if (sStaff) sStaff.innerText = staffSnap.size;
+        if (sCreators) sCreators.innerText = creatorsSnap.size;
+        if (sKnowledge) sKnowledge.innerText = knowledgeSnap.size;
     } catch (e) {
         console.error("Errore stats:", e);
     }
@@ -134,35 +124,19 @@ async function loadData(section) {
     }
 }
 
-// Funzione Speciale: Importa Knowledge Base da JSON locale a Firebase
-window.importKnowledgeBase = async function(e) {
-    if (!confirm("Vuoi importare tutte le domande dal file JSON locale su Firebase?")) return;
+function switchView(section) {
+    document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
     
-    try {
-        const response = await fetch('../../js/knowledge_base.json');
-        const data = await response.json();
-        
-        const btn = e ? e.target : null;
-        if (btn) {
-            btn.disabled = true;
-            btn.innerText = "Importazione in corso...";
-        }
+    const viewId = `view-${section}`;
+    const viewEl = document.getElementById(viewId);
+    if(viewEl) viewEl.classList.remove('hidden');
 
-        for (const item of data) {
-            await addDoc(collection(db, 'knowledge'), {
-                question: item.question,
-                answer: item.answer,
-                createdAt: new Date()
-            });
-        }
-
-        alert("Importazione completata con successo!");
-        loadData('knowledge');
-    } catch (e) {
-        console.error("Errore importazione:", e);
-        alert("Errore durante l'importazione.");
+    if (section === 'dashboard') {
+        loadDashboardStats();
+    } else {
+        loadData(section);
     }
-};
+}
 
 // Helper per creare righe tabella
 function createRow(item, section) {
@@ -316,7 +290,7 @@ function renderFormFields(item = null) {
                             <i class="fas fa-trash-alt"></i>
                         </button>
                      </div>
-                     <p class="text-[10px] text-gray-500 mt-2">Se vuoto, verrà usata la foto di Twitch</p>
+                     <p class="text-[10px] text-gray-500 mt-2">Se vuoto, verrà usata la foto dai social</p>
                  </div>
              </div>
              <input type="hidden" name="imageUrl" value="${item ? (item.imageUrl || '') : ''}">

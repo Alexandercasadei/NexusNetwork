@@ -1,344 +1,344 @@
 <!DOCTYPE html>
 <html lang="it">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <!-- CSP for Local Development + Firebase + CDNs -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: http://localhost:8000; frame-src 'self' https:; object-src 'none';"
-    />
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <!-- CSP for Local Development + Firebase + CDNs -->
+  <meta
+   http-equiv="Content-Security-Policy"
+   content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: ; frame-src 'self' https:; object-src 'none';"
+  />
 
-    <!-- Favicon -->
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="../../assets/images/favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="../../assets/images/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="../../assets/images/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="../../assets/images/favicon/site.webmanifest" />
+  <!-- Favicon -->
+  <link
+   rel="apple-touch-icon"
+   sizes="180x180"
+   href="../../assets/images/favicon/apple-touch-icon.png"
+  />
+  <link
+   rel="icon"
+   type="image/png"
+   sizes="32x32"
+   href="../../assets/images/favicon/favicon-32x32.png"
+  />
+  <link
+   rel="icon"
+   type="image/png"
+   sizes="16x16"
+   href="../../assets/images/favicon/favicon-16x16.png"
+  />
+  <link rel="manifest" href="../../assets/images/favicon/site.webmanifest" />
 
-    <link rel="stylesheet" href="../../css/output.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <link rel="stylesheet" href="../../css/style.css" />
-    <script src="../../js/heart-rain.js"></script>
+  <link rel="stylesheet" href="../../css/output.css" />
+  <link
+   rel="stylesheet"
+   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+  <link rel="stylesheet" href="../../css/style.css" />
+  <script src="../../js/heart-rain.js"></script>
 
-    <script>
-      const savedTheme = localStorage.getItem("theme") || "dark";
-      document.documentElement.setAttribute("data-theme", savedTheme);
-    </script>
-    <style>
-      .sidebar-link.active {
-        background-color: rgba(34, 211, 238, 0.1);
-        border-right: 3px solid #22d3ee;
-        color: #22d3ee;
-      }
-    </style>
-  </head>
-  <body class="bg-[#050505] text-white flex h-screen overflow-hidden">
-    <!-- Heart Rain Container -->
-    <div id="heart-rain-container"></div>
+  <script>
+   const savedTheme = localStorage.getItem("theme") || "dark";
+   document.documentElement.setAttribute("data-theme", savedTheme);
+  </script>
+  <style>
+   .sidebar-link.active {
+    background-color: rgba(34, 211, 238, 0.1);
+    border-right: 3px solid #22d3ee;
+    color: #22d3ee;
+   }
+  </style>
+ </head>
+ <body class="bg-[#050505] text-white flex h-screen overflow-hidden">
+  <!-- Heart Rain Container -->
+  <div id="heart-rain-container"></div>
 
-    <!-- Sidebar -->
-    <aside class="w-64 glass border-r border-white/5 flex flex-col z-20">
-      <div class="p-6 border-b border-white/5">
-        <h1 class="text-2xl font-extrabold text-cyan-400 neon cursor-pointer hover:opacity-80 transition-opacity" onclick="window.location.href='../../index.html'">
-          NEXUS</span
-          >
-        </h1>
-      </div>
+  <!-- Sidebar -->
+  <aside class="w-64 glass border-r border-white/5 flex flex-col z-20">
+   <div class="p-6 border-b border-white/5">
+    <h1 class="text-2xl font-extrabold text-cyan-400 neon cursor-pointer hover:opacity-80 transition-opacity" onclick="window.location.href='../../index.html'">
+     NEXUS</span
+     >
+    </h1>
+   </div>
 
-      <nav class="flex-1 py-6 space-y-1">
-        <button
-          data-section="dashboard"
-          class="sidebar-link active w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
-        >
-          <i class="fas fa-home w-6"></i> Dashboard
-        </button>
-        <button
-          data-section="staff"
-          class="sidebar-link w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
-        >
-          <i class="fas fa-users w-6"></i> Gestione Staff
-        </button>
-        <button
-          data-section="creators"
-          class="sidebar-link w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
-        >
-          <i class="fas fa-video w-6"></i> Gestione Creator
-        </button>
-        <button
-          data-section="knowledge"
-          class="sidebar-link w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
-        >
-          <i class="fas fa-brain w-6"></i> Knowledge Base AI
-        </button>
-      </nav>
-
-      <div class="p-6 border-t border-white/5">
-        <div class="flex items-center gap-3 mb-4">
-          <div
-            class="w-10 h-10 rounded-full bg-cyan-400/20 text-cyan-400 flex items-center justify-center font-bold text-lg"
-            id="avatarLetter"
-          >
-            A
-          </div>
-          <div>
-            <h4 class="font-bold text-sm" id="adminUsername">Admin</h4>
-            <p class="text-xs text-gray-500" id="adminRole">Amministratore</p>
-          </div>
-        </div>
-        <button
-          id="logoutBtn"
-          class="w-full py-2 rounded-lg bg-red-500/10 text-red-500 text-sm hover:bg-red-500 hover:text-white transition-all"
-        >
-          <i class="fas fa-sign-out-alt mr-2"></i> Logout
-        </button>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto relative bg-[#050505]">
-      <div
-        class="fixed inset-0 z-[-1] opacity-30 bg-[radial-gradient(circle_at_top_right,_#22d3ee11,_transparent_50%)]"
-      ></div>
-
-      <!-- Dashboard View -->
-      <div id="view-dashboard" class="p-10 page-view">
-        <h2 class="text-3xl font-bold mb-8">Panoramica</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div class="glass p-6 rounded-2xl border border-white/5">
-            <div class="text-gray-400 text-sm mb-1 uppercase tracking-wider">
-              Staff Totale
-            </div>
-            <div class="text-4xl font-bold text-cyan-400" id="statsStaff">
-              0
-            </div>
-          </div>
-          <div class="glass p-6 rounded-2xl border border-white/5">
-            <div class="text-gray-400 text-sm mb-1 uppercase tracking-wider">
-              Creator Totali
-            </div>
-            <div class="text-4xl font-bold text-purple-400" id="statsCreators">
-              0
-            </div>
-          </div>
-          <div class="glass p-6 rounded-2xl border border-white/5">
-            <div class="text-gray-400 text-sm mb-1 uppercase tracking-wider">
-              Domande Ai
-            </div>
-            <div class="text-4xl font-bold text-yellow-400" id="statsKnowledge">
-              0
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="glass p-8 rounded-2xl border border-white/5 text-center py-20"
-        >
-          <i class="fas fa-tools text-5xl text-gray-700 mb-4"></i>
-          <h3 class="text-xl font-bold text-gray-400">
-            Seleziona una categoria dalla sidebar per iniziare a gestire i
-            contenuti.
-          </h3>
-        </div>
-      </div>
-
-      <!-- Staff View -->
-      <div id="view-staff" class="p-10 page-view hidden">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <h2 class="text-3xl font-bold">Gestione Staff</h2>
-          <div class="flex flex-1 max-w-md w-full gap-4">
-            <div class="relative flex-1">
-              <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
-              <input type="text" placeholder="Cerca nello staff..." class="w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-12 pr-4 text-sm focus:border-cyan-400 outline-none transition-all" oninput="window.filterTable(this, 'staffTableBody')">
-            </div>
-            <button
-              onclick="openModal()"
-              class="px-6 py-2 bg-cyan-400 text-black rounded-xl font-bold hover:bg-cyan-300 transition-colors whitespace-nowrap"
-            >
-              <i class="fas fa-plus mr-2"></i> Aggiungi
-            </button>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto rounded-2xl border border-white/10">
-          <table class="w-full text-left border-collapse">
-            <thead class="bg-white/5 text-gray-400 uppercase text-xs">
-              <tr>
-                <th class="p-4">Membro</th>
-                <th class="p-4">Ruolo</th>
-                <th class="p-4">Social</th>
-                <th class="p-4 text-right">Azioni</th>
-              </tr>
-            </thead>
-            <tbody id="staffTableBody" class="divide-y divide-white/5 text-sm">
-              <!-- Popolato via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Creators View -->
-      <div id="view-creators" class="p-10 page-view hidden">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <h2 class="text-3xl font-bold">Gestione Creator</h2>
-          <div class="flex flex-1 max-w-md w-full gap-4">
-            <div class="relative flex-1">
-              <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
-              <input type="text" placeholder="Cerca creator..." class="w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-12 pr-4 text-sm focus:border-purple-500 outline-none transition-all" oninput="window.filterTable(this, 'creatorsTableBody')">
-            </div>
-            <button
-              onclick="openModal()"
-              class="px-6 py-2 bg-purple-500 text-white rounded-xl font-bold hover:bg-purple-600 transition-colors whitespace-nowrap"
-            >
-              <i class="fas fa-plus mr-2"></i> Aggiungi
-            </button>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto rounded-2xl border border-white/10">
-          <table class="w-full text-left border-collapse">
-            <thead class="bg-white/5 text-gray-400 uppercase text-xs">
-              <tr>
-                <th class="p-4">Creator</th>
-                <th class="p-4">Twitch ID</th>
-                <th class="p-4">Stato</th>
-                <th class="p-4 text-right">Azioni</th>
-              </tr>
-            </thead>
-            <tbody
-              id="creatorsTableBody"
-              class="divide-y divide-white/5 text-sm"
-            >
-              <!-- Popolato via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-
-      <!-- Knowledge Base View -->
-      <div id="view-knowledge" class="p-10 page-view hidden">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <h2 class="text-3xl font-bold">Knowledge Base AI</h2>
-          <div class="flex flex-1 max-w-md w-full gap-4">
-            <div class="relative flex-1">
-              <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
-              <input type="text" placeholder="Cerca nelle domande..." class="w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-12 pr-4 text-sm focus:border-yellow-500 outline-none transition-all" oninput="window.filterTable(this, 'knowledgeTableBody')">
-            </div>
-            <button
-              onclick="openModal()"
-              class="px-6 py-2 bg-yellow-500 text-black rounded-xl font-bold hover:bg-yellow-400 transition-colors whitespace-nowrap"
-            >
-              <i class="fas fa-plus mr-2"></i> Aggiungi
-            </button>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto rounded-2xl border border-white/10">
-          <table class="w-full text-left border-collapse">
-            <thead class="bg-white/5 text-gray-400 uppercase text-xs">
-              <tr>
-                <th class="p-4 w-1/3">Domanda</th>
-                <th class="p-4">Risposta</th>
-                <th class="p-4 text-right">Azioni</th>
-              </tr>
-            </thead>
-            <tbody id="knowledgeTableBody" class="divide-y divide-white/5 text-sm">
-              <!-- Popolato via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </main>
-
-    <!-- Generic Dynamic Modal -->
-    <div
-      id="modal"
-      class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4"
+   <nav class="flex-1 py-6 space-y-1">
+    <button
+     data-section="dashboard"
+     class="sidebar-link active w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
     >
-      <div class="glass p-8 rounded-2xl max-w-lg w-full relative">
-        <button
-          onclick="closeModal()"
-          class="absolute top-4 right-4 text-gray-400 hover:text-white"
-        >
-          <i class="fas fa-times text-xl"></i>
-        </button>
-        <h3 class="text-2xl font-bold mb-6" id="modalTitle">
-          Aggiungi
-        </h3>
+     <i class="fas fa-home w-6"></i> Dashboard
+    </button>
+    <button
+     data-section="staff"
+     class="sidebar-link w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+    >
+     <i class="fas fa-users w-6"></i> Gestione Staff
+    </button>
+    <button
+     data-section="creators"
+     class="sidebar-link w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+    >
+     <i class="fas fa-video w-6"></i> Gestione Creator
+    </button>
+    <button
+     data-section="knowledge"
+     class="sidebar-link w-full text-left px-6 py-3 text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+    >
+     <i class="fas fa-brain w-6"></i> Knowledge Base AI
+    </button>
+   </nav>
 
-        <form
-          id="crudForm"
-          onsubmit="handleFormSubmit(event)"
-          class="space-y-4"
-        >
-          <div id="formFields" class="space-y-4">
-            <!-- Fields injected by JS -->
-          </div>
-          <button
-            type="submit"
-            class="w-full py-3 bg-cyan-400 text-black font-bold rounded-lg hover:bg-cyan-300"
-          >
-            Salva
-          </button>
-        </form>
+   <div class="p-6 border-t border-white/5">
+    <div class="flex items-center gap-3 mb-4">
+     <div
+      class="w-10 h-10 rounded-full bg-cyan-400/20 text-cyan-400 flex items-center justify-center font-bold text-lg"
+      id="avatarLetter"
+     >
+      A
+     </div>
+     <div>
+      <h4 class="font-bold text-sm" id="adminUsername">Admin</h4>
+      <p class="text-xs text-gray-500" id="adminRole">Amministratore</p>
+     </div>
+    </div>
+    <button
+     id="logoutBtn"
+     class="w-full py-2 rounded-lg bg-red-500/10 text-red-500 text-sm hover:bg-red-500 hover:text-white transition-all"
+    >
+     <i class="fas fa-sign-out-alt mr-2"></i> Logout
+    </button>
+   </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 overflow-y-auto relative bg-[#050505]">
+   <div
+    class="fixed inset-0 z-[-1] opacity-30 bg-[radial-gradient(circle_at_top_right,_#22d3ee11,_transparent_50%)]"
+   ></div>
+
+   <!-- Dashboard View -->
+   <div id="view-dashboard" class="p-10 page-view">
+    <h2 class="text-3xl font-bold mb-8">Panoramica</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+     <div class="glass p-6 rounded-2xl border border-white/5">
+      <div class="text-gray-400 text-sm mb-1 uppercase tracking-wider">
+       Staff Totale
       </div>
+      <div class="text-4xl font-bold text-cyan-400" id="statsStaff">
+       0
+      </div>
+     </div>
+     <div class="glass p-6 rounded-2xl border border-white/5">
+      <div class="text-gray-400 text-sm mb-1 uppercase tracking-wider">
+       Creator Totali
+      </div>
+      <div class="text-4xl font-bold text-purple-400" id="statsCreators">
+       0
+      </div>
+     </div>
+     <div class="glass p-6 rounded-2xl border border-white/5">
+      <div class="text-gray-400 text-sm mb-1 uppercase tracking-wider">
+       Domande Ai
+      </div>
+      <div class="text-4xl font-bold text-yellow-400" id="statsKnowledge">
+       0
+      </div>
+     </div>
     </div>
 
-    <!-- Image Picker Modal -->
     <div
-      id="imagePicker"
-      class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4"
+     class="glass p-8 rounded-2xl border border-white/5 text-center py-20"
     >
-      <div class="glass p-8 rounded-2xl max-w-2xl w-full relative">
-        <button
-          onclick="closeImagePicker()"
-          class="absolute top-4 right-4 text-gray-400 hover:text-white"
-        >
-          <i class="fas fa-times text-xl"></i>
-        </button>
-        <h3 class="text-2xl font-bold mb-6">Seleziona Immagine Profilo</h3>
-        <div id="imageGrid" class="grid grid-cols-4 gap-4 max-h-96 overflow-y-auto">
-          <!-- Populated by JS -->
-        </div>
-      </div>
+     <i class="fas fa-tools text-5xl text-gray-700 mb-4"></i>
+     <h3 class="text-xl font-bold text-gray-400">
+      Seleziona una categoria dalla sidebar per iniziare a gestire i
+      contenuti.
+     </h3>
     </div>
-    <!-- Custom Dashboard Logic -->
-    <script type="module" src="../../js/dashboard.js"></script>
-    <script type="module" src="../../js/export-db.js"></script>
-    <script type="module" src="../../js/nexus-ai.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const heartRain = new HeartRain('heart-rain-container', '/assets/images/Icons/heart.png');
-        heartRain.trigger(15);
+   </div>
 
-        // Logout Logic (Fallback sicuro)
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-          logoutBtn.addEventListener('click', () => {
-            // Reindirizza alla Home Page
-            window.location.href = "../../index.html";
-          });
-        }
-      });
-    </script>
-  </body>
+   <!-- Staff View -->
+   <div id="view-staff" class="p-10 page-view hidden">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+     <h2 class="text-3xl font-bold">Gestione Staff</h2>
+     <div class="flex flex-1 max-w-md w-full gap-4">
+      <div class="relative flex-1">
+       <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+       <input type="text" placeholder="Cerca nello staff..." class="w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-12 pr-4 text-sm focus:border-cyan-400 outline-none transition-all" oninput="window.filterTable(this, 'staffTableBody')">
+      </div>
+      <button
+       onclick="openModal()"
+       class="px-6 py-2 bg-cyan-400 text-black rounded-xl font-bold hover:bg-cyan-300 transition-colors whitespace-nowrap"
+      >
+       <i class="fas fa-plus mr-2"></i> Aggiungi
+      </button>
+     </div>
+    </div>
+
+    <div class="overflow-x-auto rounded-2xl border border-white/10">
+     <table class="w-full text-left border-collapse">
+      <thead class="bg-white/5 text-gray-400 uppercase text-xs">
+       <tr>
+        <th class="p-4">Membro</th>
+        <th class="p-4">Ruolo</th>
+        <th class="p-4">Social</th>
+        <th class="p-4 text-right">Azioni</th>
+       </tr>
+      </thead>
+      <tbody id="staffTableBody" class="divide-y divide-white/5 text-sm">
+       <!-- Popolato via JS -->
+      </tbody>
+     </table>
+    </div>
+   </div>
+
+   <!-- Creators View -->
+   <div id="view-creators" class="p-10 page-view hidden">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+     <h2 class="text-3xl font-bold">Gestione Creator</h2>
+     <div class="flex flex-1 max-w-md w-full gap-4">
+      <div class="relative flex-1">
+       <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+       <input type="text" placeholder="Cerca creator..." class="w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-12 pr-4 text-sm focus:border-purple-500 outline-none transition-all" oninput="window.filterTable(this, 'creatorsTableBody')">
+      </div>
+      <button
+       onclick="openModal()"
+       class="px-6 py-2 bg-purple-500 text-white rounded-xl font-bold hover:bg-purple-600 transition-colors whitespace-nowrap"
+      >
+       <i class="fas fa-plus mr-2"></i> Aggiungi
+      </button>
+     </div>
+    </div>
+
+    <div class="overflow-x-auto rounded-2xl border border-white/10">
+     <table class="w-full text-left border-collapse">
+      <thead class="bg-white/5 text-gray-400 uppercase text-xs">
+       <tr>
+        <th class="p-4">Creator</th>
+        <th class="p-4">Twitch ID</th>
+        <th class="p-4">Stato</th>
+        <th class="p-4 text-right">Azioni</th>
+       </tr>
+      </thead>
+      <tbody
+       id="creatorsTableBody"
+       class="divide-y divide-white/5 text-sm"
+      >
+       <!-- Popolato via JS -->
+      </tbody>
+     </table>
+    </div>
+   </div>
+
+
+   <!-- Knowledge Base View -->
+   <div id="view-knowledge" class="p-10 page-view hidden">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+     <h2 class="text-3xl font-bold">Knowledge Base AI</h2>
+     <div class="flex flex-1 max-w-md w-full gap-4">
+      <div class="relative flex-1">
+       <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+       <input type="text" placeholder="Cerca nelle domande..." class="w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-12 pr-4 text-sm focus:border-yellow-500 outline-none transition-all" oninput="window.filterTable(this, 'knowledgeTableBody')">
+      </div>
+      <button
+       onclick="openModal()"
+       class="px-6 py-2 bg-yellow-500 text-black rounded-xl font-bold hover:bg-yellow-400 transition-colors whitespace-nowrap"
+      >
+       <i class="fas fa-plus mr-2"></i> Aggiungi
+      </button>
+     </div>
+    </div>
+
+    <div class="overflow-x-auto rounded-2xl border border-white/10">
+     <table class="w-full text-left border-collapse">
+      <thead class="bg-white/5 text-gray-400 uppercase text-xs">
+       <tr>
+        <th class="p-4 w-1/3">Domanda</th>
+        <th class="p-4">Risposta</th>
+        <th class="p-4 text-right">Azioni</th>
+       </tr>
+      </thead>
+      <tbody id="knowledgeTableBody" class="divide-y divide-white/5 text-sm">
+       <!-- Popolato via JS -->
+      </tbody>
+     </table>
+    </div>
+   </div>
+  </main>
+
+  <!-- Generic Dynamic Modal -->
+  <div
+   id="modal"
+   class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4"
+  >
+   <div class="glass p-8 rounded-2xl max-w-lg w-full relative">
+    <button
+     onclick="closeModal()"
+     class="absolute top-4 right-4 text-gray-400 hover:text-white"
+    >
+     <i class="fas fa-times text-xl"></i>
+    </button>
+    <h3 class="text-2xl font-bold mb-6" id="modalTitle">
+     Aggiungi
+    </h3>
+
+    <form
+     id="crudForm"
+     onsubmit="handleFormSubmit(event)"
+     class="space-y-4"
+    >
+     <div id="formFields" class="space-y-4">
+      <!-- Fields injected by JS -->
+     </div>
+     <button
+      type="submit"
+      class="w-full py-3 bg-cyan-400 text-black font-bold rounded-lg hover:bg-cyan-300"
+     >
+      Salva
+     </button>
+    </form>
+   </div>
+  </div>
+
+  <!-- Image Picker Modal -->
+  <div
+   id="imagePicker"
+   class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4"
+  >
+   <div class="glass p-8 rounded-2xl max-w-2xl w-full relative">
+    <button
+     onclick="closeImagePicker()"
+     class="absolute top-4 right-4 text-gray-400 hover:text-white"
+    >
+     <i class="fas fa-times text-xl"></i>
+    </button>
+    <h3 class="text-2xl font-bold mb-6">Seleziona Immagine Profilo</h3>
+    <div id="imageGrid" class="grid grid-cols-4 gap-4 max-h-96 overflow-y-auto">
+     <!-- Populated by JS -->
+    </div>
+   </div>
+  </div>
+  <!-- Custom Dashboard Logic -->
+  <script type="module" src="../../js/dashboard.js"></script>
+  <script type="module" src="../../js/export-db.js"></script>
+  <script type="module" src="../../js/nexus-ai.js"></script>
+  <script>
+   document.addEventListener('DOMContentLoaded', () => {
+    const heartRain = new HeartRain('heart-rain-container', '/assets/images/Icons/heart.png');
+    heartRain.trigger(15);
+
+    // Logout Logic (Fallback sicuro)
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+     logoutBtn.addEventListener('click', () => {
+      // Reindirizza alla Home Page
+      window.location.href = "../../index.html";
+     });
+    }
+   });
+  </script>
+ </body>
 </html>
