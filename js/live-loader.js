@@ -16,25 +16,28 @@ async function initLive() {
     }
 
     try {
-        const streamersRef = collection(db, 'streamers');
-        const q = query(streamersRef, where("active", "==", true));
-        const snapshot = await getDocs(q);
+        const creatorsRef = collection(db, 'creators');
+        const snapshot = await getDocs(creatorsRef);
 
         if (snapshot.empty) {
-             const allSnap = await getDocs(streamersRef);
-             if (allSnap.empty) {
-                 grid.innerHTML = '<div class="text-center text-gray-500 py-20">Nessuno streamer trovato.</div>';
-                 return;
-             }
+            grid.innerHTML = '<div class="text-center text-gray-500 py-20">Nessun creator trovato.</div>';
+            return;
         }
 
         streamers = [];
         snapshot.forEach(doc => {
             const data = doc.data();
-            streamers.push({
-                name: data.username.toLowerCase(), // Twitch usa nomi minuscoli per le API
-                label: data.name || data.username 
-            });
+            // Solo creator Twitch possono andare in live
+            if (data.platform === 'Twitch' || (data.url && data.url.includes('twitch.tv'))) {
+                const username = (data.url || '').split('/').pop().toLowerCase();
+                if (username) {
+                    streamers.push({
+                        name: username,
+                        label: data.name || username,
+                        imageUrl: data.imageUrl // Usiamo l'immagine caricata se presente
+                    });
+                }
+            }
         });
 
         await updateAndRender();
@@ -233,14 +236,26 @@ async function loadAvatar(username) {
     const loader = document.getElementById(`loader-${username}`);
     if (!img) return;
 
+    const streamerData = streamers.find(s => s.name === username);
+
     try {
-        let url = avatarCache[username];
-        if(!url) {
-            // Se il worker non ha passato l'avatar, usiamo decapi come backup solo per l'immagine
+        let url = "";
+
+        // 1. Priorità all'immagine caricata nel database
+        if (streamerData && streamerData.imageUrl) {
+            url = streamerData.imageUrl;
+        } 
+        // 2. Cache worker
+        else if (avatarCache[username]) {
+            url = avatarCache[username];
+        } 
+        // 3. Fallback Decapi/Twitch
+        else {
             const res = await fetch(`https://decapi.me/twitch/avatar/${username}`);
             url = await res.text();
             avatarCache[username] = url;
         }
+
         img.onload = () => {
             img.classList.remove('opacity-0');
             if (loader) loader.remove();

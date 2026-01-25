@@ -77,7 +77,26 @@ async def get_knowledge():
 @app.post("/knowledge")
 async def add_knowledge(item: KnowledgeItem):
     knowledge_base.append(item.dict())
-    
+    save_kb()
+    return {"message": "Added successfully", "count": len(knowledge_base)}
+
+@app.put("/knowledge/{idx}")
+async def update_knowledge(idx: int, item: KnowledgeItem):
+    if idx < 0 or idx >= len(knowledge_base):
+        raise HTTPException(status_code=404, detail="Item not found")
+    knowledge_base[idx] = item.dict()
+    save_kb()
+    return {"message": "Updated successfully"}
+
+@app.delete("/knowledge/{idx}")
+async def delete_knowledge(idx: int):
+    if idx < 0 or idx >= len(knowledge_base):
+        raise HTTPException(status_code=404, detail="Item not found")
+    knowledge_base.pop(idx)
+    save_kb()
+    return {"message": "Deleted successfully"}
+
+def save_kb():
     # Save to file
     with open(KB_PATH, "w", encoding="utf-8") as f:
         json.dump(knowledge_base, f, indent=2, ensure_ascii=False)
@@ -86,8 +105,6 @@ async def add_knowledge(item: KnowledgeItem):
     global kb_embeddings
     kb_questions = [k["question"] for k in knowledge_base]
     kb_embeddings = model.encode(kb_questions, convert_to_tensor=True)
-    
-    return {"message": "Added successfully", "count": len(knowledge_base)}
 
 if __name__ == "__main__":
     import uvicorn

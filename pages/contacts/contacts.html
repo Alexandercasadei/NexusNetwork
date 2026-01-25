@@ -28,7 +28,7 @@
 
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: http://localhost:8000; frame-src 'self' https:; object-src 'none';"
+      content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' data: https:; connect-src 'self' https: ws: wss: http://localhost:8000 https://openrouter.ai; frame-src 'self' https:; object-src 'none';"
     />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     <script>
@@ -73,9 +73,7 @@
         <a href="../team/team.html" class="nav-item">Team</a>
         <a href="../creators/creators.html" class="nav-item">Creator</a>
         <a href="../live/live.html" class="nav-item">Dirette</a>
-        <a href="../contacts/contacts.html" class="nav-item text-cyan-400"
-          >Candidati</a
-        >
+        <a href="../contacts/contacts.html" class="nav-item text-cyan-400">Candidati</a>
         <a id="auth-link" href="../dashboard/login.html" class="nav-item"
           >Login</a
         >
@@ -389,7 +387,7 @@
 
     <script src="../../js/config.js"></script>
     <script src="../../js/script.js"></script>
-    <script src="../../js/nexus-ai.js"></script>
+    <script type="module" src="../../js/nexus-ai.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
