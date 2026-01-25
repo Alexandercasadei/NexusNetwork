@@ -314,7 +314,11 @@ function renderFormFields(item = null) {
                 <label class="block text-gray-400 text-sm mb-2">Link Social</label>
                 <input type="url" name="instagram" value="${item ? (item.instagram || '') : ''}" placeholder="Instagram URL" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white mb-2">
                 <input type="url" name="twitch" value="${item ? (item.twitch || '') : ''}" placeholder="Twitch URL" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white mb-2">
-                <input type="url" name="github" value="${item ? (item.github || '') : ''}" placeholder="Github URL" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white">
+                <input type="url" name="github" value="${item ? (item.github || '') : ''}" placeholder="Github URL" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white mb-2">
+            </div>
+            <div>
+                <label class="block text-gray-400 text-sm mb-2">Descrizione Personale</label>
+                <textarea name="desc" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-purple-500 focus:outline-none" placeholder="Breve biografia...">${item ? (item.desc || '') : ''}</textarea>
             </div>
         `;
     } else if (currentSection === 'creators') {
