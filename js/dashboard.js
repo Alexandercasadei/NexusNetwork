@@ -353,6 +353,13 @@ window.previewImage = function(input) {
     if (input.files && input.files[0]) {
         const file = input.files[0];
         
+        // Controllo dimensione (Firestore ha un limite di 1MB per documento, meglio stare bassi)
+        if (file.size > 500000) { // 500KB
+            alert("L'immagine è troppo grande! Carica un file inferiore a 500KB per salvarlo nel database.");
+            input.value = "";
+            return;
+        }
+
         const reader = new FileReader();
         reader.onload = function(e) {
             const base64String = e.target.result;
